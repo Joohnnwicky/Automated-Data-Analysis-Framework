@@ -20,10 +20,23 @@ def test_encoding_detection():
     pass
 
 
-@pytest.mark.skip(reason="src/data/loader.py not implemented")
 def test_error_unsupported_format():
     """UX-04: Verify DataLoadError raised for unsupported file formats."""
-    pass
+    from src.data.loader import DataLoadError
+
+    # Test DataLoadError can be instantiated with message
+    error = DataLoadError(message='不支持的文件格式')
+    assert error.user_message == '不支持的文件格式'
+    assert error.technical_detail is None
+    assert str(error) == '不支持的文件格式'
+
+    # Test DataLoadError with technical detail
+    error_with_detail = DataLoadError(
+        message='文件加载失败',
+        technical_detail='File format .xyz not supported'
+    )
+    assert error_with_detail.user_message == '文件加载失败'
+    assert error_with_detail.technical_detail == 'File format .xyz not supported'
 
 
 @pytest.mark.skip(reason="src/data/loader.py not implemented")
