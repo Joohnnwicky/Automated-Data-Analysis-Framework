@@ -3,6 +3,9 @@
 *.csv
 *.json
 !data_info.json
+!tests/fixtures/**/*.xlsx
+!tests/fixtures/**/*.csv
+!tests/fixtures/**/*.json
 
 # Python cache
 __pycache__/
@@ -30,3 +33,11 @@ huashu-data-pro-*.zip
 
 # Claude local settings (keep project settings)
 .claude/settings.local.json
+
+# GSD planning artifacts (Phase 1)
+.planning/
+
+# Test artifacts
+.pytest_cache/
+.coverage
+htmlcov/
