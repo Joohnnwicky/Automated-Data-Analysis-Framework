@@ -14,10 +14,19 @@ def test_load_excel():
     pass
 
 
-@pytest.mark.skip(reason="src/data/loader.py not implemented")
 def test_encoding_detection():
     """DATA-01: Verify charset-normalizer encoding detection for CSV files."""
-    pass
+    from src.data.loader import detect_encoding
+
+    # Test UTF-8 file detection
+    fixtures_dir = Path(__file__).parent / 'fixtures' / 'sample_data'
+    utf8_file = fixtures_dir / 'test_utf8.csv'
+
+    encoding = detect_encoding(utf8_file)
+    assert encoding is not None
+    assert isinstance(encoding, str)
+    # charset-normalizer should detect utf-8 (may normalize to utf_8)
+    assert 'utf' in encoding.lower()
 
 
 def test_error_unsupported_format():
