@@ -73,7 +73,35 @@ Plans:
 5. Large datasets (>100K rows) are processed without memory exhaustion via chunking/ sampling
 6. User sees clear error messages for unsupported formats or corrupted files
 
-**Plans:** TBD
+**Plans:** 9 plans in 6 waves
+
+Plans:
+**Wave 0** *(test infrastructure - enables Nyquist validation)*
+
+- [x] 02-01a-PLAN.md — Wave 0: Dependencies and test fixtures (charset-normalizer, sample data files)
+- [ ] 02-01b-PLAN.md — Wave 0: Test scaffold files (pytest stubs for DATA-01 through DATA-07)
+
+**Wave 1** *(blocked on Wave 0 completion)*
+
+- [ ] 02-02a-PLAN.md — Wave 1: Package structure and encoding detection (DataLoadError, detect_encoding)
+- [ ] 02-03a-PLAN.md — Wave 1: Profiling helper functions (profile_dimensions, profile_fields, profile_statistics)
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
+- [ ] 02-02b-PLAN.md — Wave 2: Complete DataLoader (load_file, format loaders, security validation)
+- [ ] 02-03b-PLAN.md — Wave 2: Complete DataProfiler (memory optimization, missing strategies, profile method)
+
+**Wave 3** *(blocked on Wave 2 completion)*
+
+- [ ] 02-04-PLAN.md — Wave 3: Type classifier (TypeClassifier, advertising/time-series/table detection)
+
+**Wave 4** *(blocked on Wave 3 completion)*
+
+- [ ] 02-05-PLAN.md — Wave 4: Insight generator (InsightGenerator, trend/anomaly detection)
+
+**Wave 5** *(blocked on Wave 4 completion)*
+
+- [ ] 02-06-PLAN.md — Wave 5: Memory utilities (chunked loading, sampling, memory estimation)
 **Pitfalls Addressed:** PITFALL-05 (memory exhaustion), PITFALL-10 (missing value handling), PITFALL-04 (data hallucination)
 
 ### Phase 3: Analysis Engine
@@ -203,11 +231,11 @@ Plans:
 | Phase | Plans Complete | Status | Completed |
 |-------|---------------|--------|-----------|
 | 1. Infrastructure Foundation | 0/6 | Planning complete | - |
-| 2. Data Processing Engine | 0/1 | Not started | - |
+| 2. Data Processing Engine | 1/9 | In progress | 02-01a |
 | 3. Analysis Engine | 0/1 | Not started | - |
 | 4. Report Generation | 0/1 | Not started | - |
 | 5. Integration & UX Polish | 0/1 | Not started | - |
 
 ---
 
-*Last updated: 2026-06-03 after Phase 1 planning*
+*Last updated: 2026-06-03 after Plan 02-01a completion*
