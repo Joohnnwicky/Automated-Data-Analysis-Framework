@@ -77,6 +77,54 @@ def test_profile_fields():
     assert null_profile['null_rate'] == 20.0  # 1/5 = 20%
 
 
+def test_profile_statistics():
+    """DATA-04: Verify statistical summaries via pandas describe()."""
+    from src.data.profiler import profile_statistics
+
+    # Create test DataFrame with numeric and categorical columns
+    df = pd.DataFrame({
+        'numeric1': [1, 2, 3, 4, 5],
+        'numeric2': [10.0, 20.0, 30.0, 40.0, 50.0],
+        'category_col': ['a', 'b', 'a', 'b', 'c']
+    })
+
+    result = profile_statistics(df)
+
+    # Verify numeric summary exists
+    assert 'numeric_summary' in result
+    assert 'numeric1' in result['numeric_summary']
+    assert 'numeric2' in result['numeric_summary']
+
+    # Verify numeric summary contains standard statistics
+    assert 'mean' in result['numeric_summary']['numeric1']
+    assert 'std' in result['numeric_summary']['numeric1']
+    assert 'min' in result['numeric_summary']['numeric1']
+    assert 'max' in result['numeric_summary']['numeric1']
+
+    # Verify categorical summary exists
+    assert 'categorical_summary' in result
+    assert 'category_col' in result['categorical_summary']
+
+    # Test DataFrame with only numeric columns
+    df_numeric_only = pd.DataFrame({
+        'col1': [1, 2, 3],
+        'col2': [4, 5, 6]
+    })
+    result_numeric = profile_statistics(df_numeric_only)
+    assert 'numeric_summary' in result_numeric
+    assert 'categorical_summary' not in result_numeric  # No categorical columns
+
+    # Test DataFrame with only categorical columns
+    df_categorical_only = pd.DataFrame({
+        'col1': ['a', 'b', 'c'],
+        'col2': ['x', 'y', 'z']
+    })
+    result_categorical = profile_statistics(df_categorical_only)
+    assert 'categorical_summary' in result_categorical
+    # No numeric columns
+    assert 'numeric_summary' not in result_categorical or result_categorical['numeric_summary'] == {}
+
+
 @pytest.mark.skip(reason="src/data/profiler.py not implemented")
 def test_numeric_stats():
     """DATA-02: Verify statistical summaries via pandas describe()."""

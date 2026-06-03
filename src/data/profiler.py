@@ -106,3 +106,38 @@ def profile_fields(df: pd.DataFrame) -> Dict[str, Dict]:
     logger.info(f'Profiled {len(fields)} fields')
 
     return fields
+
+
+def profile_statistics(df: pd.DataFrame) -> Dict[str, Any]:
+    """
+    Generate statistical summaries using pandas describe().
+
+    Args:
+        df: DataFrame to profile
+
+    Returns:
+        Dict with:
+        - numeric_summary: describe() output for numeric columns
+        - categorical_summary: describe() output for categorical columns
+
+    Note:
+        Uses pandas describe() for comprehensive statistics.
+        Only includes keys if corresponding column types exist.
+    """
+    stats = {}
+
+    # Numeric columns summary
+    numeric_cols = df.select_dtypes(include=[np.number]).columns.tolist()
+    if numeric_cols:
+        stats['numeric_summary'] = df[numeric_cols].describe().to_dict()
+
+    # Categorical columns summary (handle pandas 2.x 'str' dtype explicitly)
+    # Include 'object', 'category', and 'str' dtypes to support both pandas 1.x and 2.x
+    categorical_cols = df.select_dtypes(include=['object', 'category', 'str']).columns.tolist()
+
+    if categorical_cols:
+        stats['categorical_summary'] = df[categorical_cols].describe(include='all').to_dict()
+
+    logger.info(f'Generated statistics summary for {len(numeric_cols)} numeric, {len(categorical_cols)} categorical columns')
+
+    return stats
