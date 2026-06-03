@@ -1,0 +1,32 @@
+# Data files (keep analysis outputs, ignore raw data)
+*.xlsx
+*.csv
+*.json
+!data_info.json
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Node.js
+node_modules/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+__MACOSX/
+.DS_Store
+
+# Temporary
+*.tmp
+*.log
+
+# Extracted skill (will be integrated)
+huashu-data-pro-extracted/
+huashu-data-pro-*.zip
+
+# Claude local settings (keep project settings)
+.claude/settings.local.json
