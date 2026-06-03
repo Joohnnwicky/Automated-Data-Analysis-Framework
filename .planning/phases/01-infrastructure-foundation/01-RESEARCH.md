@@ -14,11 +14,11 @@ Phase 1 establishes the foundation for a data analysis skill project that curren
 
 | Capability | Primary Tier | Secondary Tier | Rationale |
 |------------|-------------|----------------|-----------|
-| Path construction | Application Code | — | All scripts use pathlib for file I/O |
-| Dependency management | Build System | — | requirements.txt at project root |
+| Path construction | Application Code | - | All scripts use pathlib for file I/O |
+| Dependency management | Build System | - | requirements.txt at project root |
 | Logging output | Application Code | stdout/file | Structured logging for all modules |
-| Git ignore rules | Version Control | — | .gitignore at project root |
-| Skill metadata | Configuration | — | SKILL.md YAML frontmatter |
+| Git ignore rules | Version Control | - | .gitignore at project root |
+| Skill metadata | Configuration | - | SKILL.md YAML frontmatter |
 
 ## Standard Stack
 
@@ -91,52 +91,52 @@ scanned 6 packages, 6 OK
 ### System Architecture Diagram
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                    Project Root (J:\dataanalyst)                 │
-├─────────────────────────────────────────────────────────────────┤
-│  requirements.txt ──────► Python Environment                    │
-│  (locked versions)         (pip install -r)                     │
-│                                                                 │
-│  .gitignore ─────────────► Git Repository                      │
-│  (exclude patterns)         (tracked files)                     │
-│                                                                 │
-│  src/config/ ─────────────► Logging Configuration              │
-│  logging_config.py          (centralized setup)                 │
-│         │                                                       │
-│         ▼                                                       │
-│  ┌───────────────────────────────────────────────┐              │
-│  │  Application Modules (using pathlib + logging) │              │
-│  │  ├── analyze_data.py                           │              │
-│  │  ├── behavior_analysis.py                      │              │
-│  │  ├── statistical_analysis.py                   │              │
-│  │  └── scripts/read_excel.py                     │              │
-│  │      └── scripts/read_pptx.py                  │              │
-│  └───────────────────────────────────────────────┘              │
-│         │                                                       │
-│         ▼                                                       │
-│  Path.resolve() ─────────► Cross-platform file I/O             │
-│  logger.info() ──────────► Structured output (stdout/file)     │
-└─────────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------------+
+|                    Project Root (J:\dataanalyst)                   |
++-------------------------------------------------------------------+
+|  requirements.txt ---------> Python Environment                    |
+|  (locked versions)           (pip install -r)                      |
+|                                                                   |
+|  .gitignore ---------------> Git Repository                        |
+|  (exclude patterns)          (tracked files)                      |
+|                                                                   |
+|  src/config/ --------------> Logging Configuration                 |
+|  logging_config.py           (centralized setup)                   |
+|         |                                                         |
+|         v                                                         |
+|  +-------------------------------------------------------+        |
+|  |  Application Modules (using pathlib + logging)        |        |
+|  |  |-- analyze_data.py                                  |        |
+|  |  |-- behavior_analysis.py                             |        |
+|  |  |-- statistical_analysis.py                          |        |
+|  |  +-- scripts/read_excel.py                            |        |
+|  |     +-- scripts/read_pptx.py                          |        |
+|  +-------------------------------------------------------+        |
+|         |                                                         |
+|         v                                                         |
+|  Path.resolve() ------------> Cross-platform file I/O            |
+|  logger.info() --------------> Structured output (stdout/file)    |
++-------------------------------------------------------------------+
 ```
 
 ### Recommended Project Structure
 ```
 J:\dataanalyst\
-├── requirements.txt           # Locked dependencies (Phase 1)
-├── .gitignore                 # Git exclude patterns (Phase 1)
-├── src/
-│   ├── config/
-│   │   └── logging_config.py  # Centralized logging setup (Phase 1)
-│   ├── analysis/
-│   │   ├── analyze_data.py    # Refactored with pathlib + logging
-│   │   ├── behavior_analysis.py
-│   │   └── statistical_analysis.py
-│   └── scripts/
-│       ├── read_excel.py      # huashu-data-pro utility
-│       └── read_pptx.py       # huashu-data-pro utility
-├── data/                      # Sample data files (gitignored)
-├── output/                    # Analysis outputs (gitignored)
-└── .planning/                 # GSD planning artifacts
++-- requirements.txt           # Locked dependencies (Phase 1)
++-- .gitignore                 # Git exclude patterns (Phase 1)
++-- src/
+|   +-- config/
+|   |   +-- logging_config.py  # Centralized logging setup (Phase 1)
+|   +-- analysis/
+|   |   +-- analyze_data.py    # Refactored with pathlib + logging
+|   |   +-- behavior_analysis.py
+|   |   +-- statistical_analysis.py
+|   +-- scripts/
+|       +-- read_excel.py      # huashu-data-pro utility
+|       +-- read_pptx.py       # huashu-data-pro utility
++-- data/                      # Sample data files (gitignored)
++-- output/                    # Analysis outputs (gitignored)
++-- .planning/                 # GSD planning artifacts
 ```
 
 ### Pattern 1: pathlib Cross-Platform Path Construction
@@ -252,7 +252,7 @@ pip install -r requirements.txt
 
 ### Anti-Patterns to Avoid
 
-- **`warnings.filterwarnings('ignore')`**: Suppresses all warnings globally — prevents detecting real issues. Remove entirely. Use targeted suppression: `warnings.filterwarnings('ignore', category=SpecificWarning)`
+- **`warnings.filterwarnings('ignore')`**: Suppresses all warnings globally - prevents detecting real issues. Remove entirely. Use targeted suppression: `warnings.filterwarnings('ignore', category=SpecificWarning)`
 - **`r'C:\Users\...'` hardcoded paths**: Breaks on macOS/Linux. Use `Path.home()` or environment variables.
 - **`print()` for output**: No log levels, no timestamps, no file persistence. Use `logger.info()`, `logger.warning()`, `logger.error()`.
 - **`os.path.join()`**: Verbose compared to pathlib's `/` operator. Use `Path('dir') / 'file'`.
@@ -275,11 +275,11 @@ pip install -r requirements.txt
 
 | Category | Items Found | Action Required |
 |----------|-------------|------------------|
-| Stored data | None — no databases or persistent stores yet | None |
-| Live service config | None — project is local scripts only | None |
-| OS-registered state | None — no scheduled tasks or services | None |
-| Secrets/env vars | None — hardcoded paths reference local user directories | Will need DATA_DIR env var design |
-| Build artifacts | `huashu-data-pro-extracted/__MACOSX/` — macOS archive metadata (20+ files) | Delete entire `__MACOSX` directory tree |
+| Stored data | None - no databases or persistent stores yet | None |
+| Live service config | None - project is local scripts only | None |
+| OS-registered state | None - no scheduled tasks or services | None |
+| Secrets/env vars | None - hardcoded paths reference local user directories | Will need DATA_DIR env var design |
+| Build artifacts | `huashu-data-pro-extracted/__MACOSX/` - macOS archive metadata (20+ files) | Delete entire `__MACOSX` directory tree |
 
 **Nothing found in category:** Verified explicitly for stored data, live service config, OS-registered state, and secrets.
 
@@ -382,8 +382,8 @@ python -m pip install -r requirements.txt
 
 **Deprecated/outdated:**
 - `os.path` module: Still works but pathlib is recommended for new code
-- `warnings.filterwarnings('ignore')` globally: Prevents legitimate warning detection — use targeted suppression only
-- String path concatenation: `dir + '/' + file` — use pathlib instead
+- `warnings.filterwarnings('ignore')` globally: Prevents legitimate warning detection - use targeted suppression only
+- String path concatenation: `dir + '/' + file` - use pathlib instead
 
 ## Assumptions Log
 
@@ -397,38 +397,38 @@ python -m pip install -r requirements.txt
 
 **All other claims:** Verified via pip show, slopcheck, official documentation, or direct codebase inspection.
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **Should scripts be moved to src/scripts/ or kept at project root?**
+1. **Should scripts be moved to src/scripts/ or kept at project root?** - RESOLVED
    - What we know: Current scripts are at root level (analyze_data.py, etc.) plus huashu-data-pro/scripts/
-   - What's unclear: Preferred organization for single-developer analysis project
-   - Recommendation: Keep utility scripts in src/scripts/, analysis scripts in src/analysis/
+   - What was unclear: Preferred organization for single-developer analysis project
+   - **Resolution:** Scripts organized into `src/scripts/` (utility scripts like read_excel.py, read_pptx.py) and `src/analysis/` (analysis scripts like analyze_data.py, behavior_analysis.py, statistical_analysis.py). Per Recommended Project Structure (lines 96-114).
 
-2. **Should logging go to file or only stdout?**
+2. **Should logging go to file or only stdout?** - RESOLVED
    - What we know: Current code uses print() for all output
-   - What's unclear: Whether file logging is needed for debugging/audit
-   - Recommendation: Default to stdout, add optional file logging for long-running analyses
+   - What was unclear: Whether file logging is needed for debugging/audit
+   - **Resolution:** Default to stdout via `StreamHandler(sys.stdout)`. Optional file logging via `log_file` parameter in `setup_logging()`. Per Pattern 2: Structured Logging Configuration (lines 146-196).
 
 ## Environment Availability
 
 | Dependency | Required By | Available | Version | Fallback |
 |------------|------------|-----------|---------|----------|
-| Python | Runtime | ✓ | 3.14.3 | — |
-| pip | Package management | ✓ | 26.1.1 | — |
-| Git | Version control | ✓ | 2.54.0.windows.1 | — |
-| pandas | Data analysis | ✓ | 3.0.1 | — |
-| numpy | Numerical ops | ✓ | 2.4.3 | — |
-| scipy | Statistical tests | ✓ | 1.17.1 | — |
-| openpyxl | Excel reading | ✓ | 3.1.5 | — |
-| python-pptx | PPTX generation | ✓ | 1.0.2 | — |
-| Pillow | Image processing | ✓ | 12.1.1 | — |
-| pytest | Testing framework | ✗ | — | Will install in Wave 0 |
+| Python | Runtime | Yes | 3.14.3 | - |
+| pip | Package management | Yes | 26.1.1 | - |
+| Git | Version control | Yes | 2.54.0.windows.1 | - |
+| pandas | Data analysis | Yes | 3.0.1 | - |
+| numpy | Numerical ops | Yes | 2.4.3 | - |
+| scipy | Statistical tests | Yes | 1.17.1 | - |
+| openpyxl | Excel reading | Yes | 3.1.5 | - |
+| python-pptx | PPTX generation | Yes | 1.0.2 | - |
+| Pillow | Image processing | Yes | 12.1.1 | - |
+| pytest | Testing framework | No | - | Will install in Wave 0 |
 
 **Missing dependencies with no fallback:**
-- pytest: Required for nyquist_validation — Wave 0 will install
+- pytest: Required for nyquist_validation - Wave 0 will install
 
 **Missing dependencies with fallback:**
-- None — all core dependencies verified available
+- None - all core dependencies verified available
 
 ## Validation Architecture
 
@@ -438,18 +438,18 @@ python -m pip install -r requirements.txt
 | Property | Value |
 |----------|-------|
 | Framework | pytest (not yet installed) |
-| Config file | None — see Wave 0 |
+| Config file | None - see Wave 0 |
 | Quick run command | `pytest tests/ -x -v` |
 | Full suite command | `pytest tests/ -v --tb=short` |
 
-### Phase Requirements → Test Map
+### Phase Requirements to Test Map
 | Req ID | Behavior | Test Type | Automated Command | File Exists? |
 |--------|----------|-----------|-------------------|-------------|
-| INF-01 | requirements.txt with locked versions | unit | `pytest tests/test_infrastructure.py::test_requirements_locked -x` | ❌ Wave 0 |
-| INF-02 | pathlib replaces hardcoded paths | unit | `pytest tests/test_infrastructure.py::test_paths_cross_platform -x` | ❌ Wave 0 |
-| INF-03 | logging replaces print statements | unit | `pytest tests/test_infrastructure.py::test_logging_levels -x` | ❌ Wave 0 |
-| INF-04 | Git initialized with proper .gitignore | unit | `pytest tests/test_infrastructure.py::test_gitignore_patterns -x` | ❌ Wave 0 |
-| INF-05 | __MACOSX cleanup, skill structure normalized | unit | `pytest tests/test_infrastructure.py::test_no_macosx_artifacts -x` | ❌ Wave 0 |
+| INF-01 | requirements.txt with locked versions | unit | `pytest tests/test_infrastructure.py::test_requirements_locked -x` | No - Wave 0 |
+| INF-02 | pathlib replaces hardcoded paths | unit | `pytest tests/test_infrastructure.py::test_paths_cross_platform -x` | No - Wave 0 |
+| INF-03 | logging replaces print statements | unit | `pytest tests/test_infrastructure.py::test_logging_levels -x` | No - Wave 0 |
+| INF-04 | Git initialized with proper .gitignore | unit | `pytest tests/test_infrastructure.py::test_gitignore_patterns -x` | No - Wave 0 |
+| INF-05 | __MACOSX cleanup, skill structure normalized | unit | `pytest tests/test_infrastructure.py::test_no_macosx_artifacts -x` | No - Wave 0 |
 
 ### Sampling Rate
 - **Per task commit:** `pytest tests/ -x -v`
@@ -457,16 +457,16 @@ python -m pip install -r requirements.txt
 - **Phase gate:** Full suite green before `/gsd:verify-work`
 
 ### Wave 0 Gaps
-- [ ] `tests/test_infrastructure.py` — covers INF-01 through INF-05
-- [ ] `tests/conftest.py` — shared fixtures (test data paths, logging setup)
+- [ ] `tests/test_infrastructure.py` - covers INF-01 through INF-05
+- [ ] `tests/conftest.py` - shared fixtures (test data paths, logging setup)
 - [ ] pytest install: `pip install pytest pytest-cov`
 - [ ] pytest.ini: Basic configuration for test discovery
 
-*(No existing test infrastructure — all Phase 1 tests require Wave 0 setup)*
+*(No existing test infrastructure - all Phase 1 tests require Wave 0 setup)*
 
 ## Security Domain
 
-> security_enforcement not explicitly set — default enabled
+> security_enforcement not explicitly set - default enabled
 
 ### Applicable ASVS Categories
 
@@ -478,7 +478,7 @@ python -m pip install -r requirements.txt
 | V5 Input Validation | no | No user input validation (file paths from code, not user) |
 | V6 Cryptography | no | No crypto operations |
 
-**Note:** Phase 1 is infrastructure-only — no security-sensitive operations. Future phases handling user-provided data files will require V5 (Input Validation) for filepath sanitization.
+**Note:** Phase 1 is infrastructure-only - no security-sensitive operations. Future phases handling user-provided data files will require V5 (Input Validation) for filepath sanitization.
 
 ### Known Threat Patterns for Python Data Analysis
 
@@ -488,7 +488,7 @@ python -m pip install -r requirements.txt
 | CSV injection (formula injection) | Tampering | sanitize cell values, use openpyxl's security features |
 | Pickle deserialization | Elevation of Privilege | Never load untrusted pickle files, use JSON/safe formats |
 
-**Phase 1 security scope:** No user-provided input paths yet — all paths are hardcoded and being converted to pathlib. Security considerations apply in Phase 2+.
+**Phase 1 security scope:** No user-provided input paths yet - all paths are hardcoded and being converted to pathlib. Security considerations apply in Phase 2+.
 
 ## Sources
 
@@ -502,7 +502,7 @@ python -m pip install -r requirements.txt
 - slopcheck package legitimacy scan (verified all packages [OK])
 
 ### Tertiary (LOW confidence)
-- None — all claims verified via primary/secondary sources
+- None - all claims verified via primary/secondary sources
 
 ## Metadata
 
