@@ -79,7 +79,7 @@ Plans:
 **Wave 0** *(test infrastructure - enables Nyquist validation)*
 
 - [x] 02-01a-PLAN.md — Wave 0: Dependencies and test fixtures (charset-normalizer, sample data files)
-- [ ] 02-01b-PLAN.md — Wave 0: Test scaffold files (pytest stubs for DATA-01 through DATA-07)
+- [x] 02-01b-PLAN.md — Wave 0: Test scaffold files (pytest stubs for DATA-01 through DATA-07)
 
 **Wave 1** *(blocked on Wave 0 completion)*
 
@@ -231,11 +231,11 @@ Plans:
 | Phase | Plans Complete | Status | Completed |
 |-------|---------------|--------|-----------|
 | 1. Infrastructure Foundation | 0/6 | Planning complete | - |
-| 2. Data Processing Engine | 1/9 | In progress | 02-01a |
+| 2. Data Processing Engine | 2/9 | In progress | 02-01a, 02-01b |
 | 3. Analysis Engine | 0/1 | Not started | - |
 | 4. Report Generation | 0/1 | Not started | - |
 | 5. Integration & UX Polish | 0/1 | Not started | - |
 
 ---
 
-*Last updated: 2026-06-03 after Plan 02-01a completion*
+*Last updated: 2026-06-03 after Plan 02-01b completion*
