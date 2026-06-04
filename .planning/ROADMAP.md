@@ -73,7 +73,7 @@ Plans:
 5. Large datasets (>100K rows) are processed without memory exhaustion via chunking/ sampling
 6. User sees clear error messages for unsupported formats or corrupted files
 
-**Plans:** 6/9 plans executed
+**Plans:** 7/9 plans executed
 
 Plans:
 **Wave 0** *(test infrastructure - enables Nyquist validation)*
@@ -93,7 +93,7 @@ Plans:
 
 **Wave 3** *(blocked on Wave 2 completion)*
 
-- [ ] 02-04-PLAN.md — Wave 3: Type classifier (TypeClassifier, advertising/time-series/table detection)
+- [x] 02-04-PLAN.md — Wave 3: Type classifier (TypeClassifier, advertising/time-series/table detection)
 
 **Wave 4** *(blocked on Wave 3 completion)*
 
@@ -231,7 +231,7 @@ Plans:
 | Phase | Plans Complete | Status | Completed |
 |-------|---------------|--------|-----------|
 | 1. Infrastructure Foundation | 0/6 | Planning complete | - |
-| 2. Data Processing Engine | 6/9 | In Progress|  |
+| 2. Data Processing Engine | 7/9 | In Progress|  |
 | 3. Analysis Engine | 0/1 | Not started | - |
 | 4. Report Generation | 0/1 | Not started | - |
 | 5. Integration & UX Polish | 0/1 | Not started | - |
