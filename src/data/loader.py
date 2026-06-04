@@ -227,3 +227,41 @@ def load_file(filepath: Path) -> pd.DataFrame:
             message=f'文件读取失败：{filepath.name}。请检查文件是否损坏',
             technical_detail=f'{type(e).__name__}: {str(e)}'
         )
+
+
+class DataLoader:
+    """
+    Public interface for data loading operations.
+
+    Provides a clean wrapper for load_file function with logging.
+
+    Usage:
+        loader = DataLoader()
+        df = loader.load(Path('data.csv'))
+    """
+
+    def __init__(self) -> None:
+        """Initialize DataLoader instance."""
+        pass
+
+    def load(self, filepath: Path) -> pd.DataFrame:
+        """
+        Load data file and return DataFrame.
+
+        Args:
+            filepath: Path to the data file to load
+
+        Returns:
+            pandas DataFrame with the loaded data
+
+        Raises:
+            DataLoadError: If file loading fails
+
+        Note:
+            Logs loading operations for debugging.
+            Delegates to load_file for actual loading.
+        """
+        logger.info(f'Loading file: {filepath}')
+        df = load_file(filepath)
+        logger.info(f'File loaded successfully: {len(df)} rows')
+        return df
