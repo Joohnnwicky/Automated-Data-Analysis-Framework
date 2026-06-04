@@ -115,3 +115,65 @@ def dispatch_parallel_experts(
         output_paths[role.id] = get_expert_output_path(role)
 
     return output_paths
+
+
+class ExpertRunner:
+    """Main orchestrator for parallel expert analysis.
+
+    Coordinates the execution of multiple expert roles in parallel,
+    building isolated prompts for each expert and dispatching them
+    to separate output files.
+
+    Implements EXPT-03: Parallel expert execution orchestration.
+
+    Threat Mitigations:
+        - T-3-04: Each expert writes to separate file (no race conditions)
+        - T-3-05: build_expert_prompt ensures context isolation
+        - T-3-03: STATISTICAL_ENFORCEMENT_PROMPT included in all prompts
+    """
+
+    def __init__(self):
+        """Initialize ExpertRunner."""
+        pass
+
+    def run_experts(
+        self,
+        selected_roles: List['ExpertRole'],
+        data_path: Path,
+        data_profile: Dict
+    ) -> Dict[str, Any]:
+        """EXPT-03: Run parallel expert analysis.
+
+        Orchestrates the execution of multiple expert roles:
+        1. Builds isolated prompts for each expert (context isolation)
+        2. Dispatches experts to separate output files
+        3. Returns structured result with outputs and metadata
+
+        Args:
+            selected_roles: List of ExpertRole objects to execute.
+            data_path: Path to the data file being analyzed.
+            data_profile: Dict with data metadata (dimensions, data_type, etc.).
+
+        Returns:
+            Dict with:
+            - expert_outputs: Dict mapping role_id to output Path
+            - execution_timestamp: ISO format timestamp
+            - total_experts: Number of experts executed
+        """
+        result = {}
+
+        # Build prompts for each expert (context isolation)
+        prompts = {}
+        for role in selected_roles:
+            prompts[role.id] = build_expert_prompt(role, data_path, data_profile)
+
+        # Dispatch experts in parallel
+        output_paths = dispatch_parallel_experts(prompts, selected_roles)
+
+        result['expert_outputs'] = output_paths
+        result['execution_timestamp'] = datetime.now().isoformat()
+        result['total_experts'] = len(selected_roles)
+
+        logger.info(f'Executed {len(selected_roles)} experts in parallel')
+
+        return result
