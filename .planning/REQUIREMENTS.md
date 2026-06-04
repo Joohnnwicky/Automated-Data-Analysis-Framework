@@ -32,7 +32,7 @@
 - [x] **DATA-04**: 基础统计分析（均值/中位数/极值/分布）
 - [ ] **DATA-05**: 输出初步洞察（1-2 个可见趋势或异常）
 - [ ] **DATA-06**: 大数据集 chunking 支持（>10万行时采样策略）
-- [ ] **DATA-07**: 缺失值报告 + 处理策略建议
+- [x] **DATA-07**: 缺失值报告 + 处理策略建议
 
 ### Phase 2: Multi-Expert Analysis
 
@@ -63,7 +63,7 @@
 - [ ] **UX-01**: Skill 触发关键词识别（"分析数据"、"做报告"、"做PPT"、"Excel"、"投放分析"等）
 - [ ] **UX-02**: 快速响应模式（简单查询直接输出，不启动多专家流程）
 - [ ] **UX-03**: 进度提示（Phase 阶段切换时显示进度）
-- [ ] **UX-04**: 错误友好提示（文件读取失败、格式不支持等场景）
+- [x] **UX-04**: 错误友好提示（文件读取失败、格式不支持等场景）
 
 ---
 
@@ -129,14 +129,14 @@
 | INF-03 | Phase 1: Infrastructure | logging 替换 print | Pending |
 | INF-04 | Phase 1: Infrastructure | Git 初始化 | Pending |
 | INF-05 | Phase 1: Infrastructure | 文件结构规范化 | Pending |
-| DATA-01 | Phase 2: Data Processing | 数据文件加载 | Complete (02-02a) |
-| DATA-02 | Phase 2: Data Processing | 数据概览输出 | Pending |
+| DATA-01 | Phase 2: Data Processing | 数据文件加载 | Complete (02-02a, 02-02b) |
+| DATA-02 | Phase 2: Data Processing | 数据概览输出 | Complete (02-03a) |
 | DATA-03 | Phase 2: Data Processing | 数据类型识别 | Pending |
-| DATA-04 | Phase 2: Data Processing | 基础统计分析 | Pending |
+| DATA-04 | Phase 2: Data Processing | 基础统计分析 | Complete (02-03a) |
 | DATA-05 | Phase 2: Data Processing | 初步洞察输出 | Pending |
 | DATA-06 | Phase 2: Data Processing | 大数据集 chunking | Pending |
 | DATA-07 | Phase 2: Data Processing | 缺失值报告 | Pending |
-| UX-04 | Phase 2: Data Processing | 错误友好提示 | Pending |
+| UX-04 | Phase 2: Data Processing | 错误友好提示 | Complete (02-02b) |
 | CLAR-01 | Phase 3: Analysis Engine | 澄清流程可选 | Pending |
 | CLAR-02 | Phase 3: Analysis Engine | 3 个核心问题 | Pending |
 | CLAR-03 | Phase 3: Analysis Engine | context.md 写入 | Pending |
@@ -166,4 +166,4 @@
 
 ---
 
-*Last updated: 2026-06-04 after 02-02a completion*
+*Last updated: 2026-06-04 after 02-02b completion*
