@@ -9,6 +9,66 @@ import pandas as pd
 from pathlib import Path
 
 
+class TestClassifyDataType:
+    """Tests for classify_data_type function."""
+
+    def test_classify_advertising_data(self):
+        """Verify advertising classification with 3+ keywords."""
+        from src.data.classifier import classify_data_type
+
+        df = pd.DataFrame({
+            'ctr': [0.05, 0.06],
+            'impression': [1000, 1200],
+            'click': [50, 72],
+            'conversion': [5, 7]
+        })
+        data_type, methods = classify_data_type(df)
+        assert data_type == 'advertising'
+        assert 'ROI analysis' in methods
+        assert 'CTR trend analysis' in methods
+
+    def test_classify_time_series_data(self):
+        """Verify time_series classification with datetime column and >10 unique values."""
+        from src.data.classifier import classify_data_type
+
+        dates = [f'2023010{i}' for i in range(12)]
+        df = pd.DataFrame({
+            'date': dates,
+            'value': list(range(12))
+        })
+        data_type, methods = classify_data_type(df)
+        assert data_type == 'time_series'
+        assert 'Trend analysis' in methods
+        assert 'Seasonal decomposition' in methods
+
+    def test_classify_table_data(self):
+        """Verify table classification as default fallback."""
+        from src.data.classifier import classify_data_type
+
+        df = pd.DataFrame({
+            'name': ['Alice', 'Bob', 'Charlie'],
+            'age': [30, 25, 35]
+        })
+        data_type, methods = classify_data_type(df)
+        assert data_type == 'table'
+        assert 'Distribution analysis' in methods
+        assert 'Correlation analysis' in methods
+
+    def test_advertising_priority_over_time_series(self):
+        """Verify advertising takes priority when both indicators present."""
+        from src.data.classifier import classify_data_type
+
+        dates = [f'2023010{i}' for i in range(12)]
+        df = pd.DataFrame({
+            'date': dates,
+            'ctr': [0.05] * 12,
+            'impression': [1000] * 12,
+            'click': [50] * 12
+        })
+        data_type, methods = classify_data_type(df)
+        assert data_type == 'advertising'
+
+
 class TestDetectAdvertisingKeywords:
     """Tests for detect_advertising_keywords helper function."""
 
