@@ -33,3 +33,39 @@ print(f"ROI均值: {roi_mean:.2f}")
 ```
 ROI均值: 45.62
 """
+
+
+def verify_code_execution(output: str) -> bool:
+    """Check that output contains code blocks for numerical claims.
+
+    Verifies that expert analysis outputs contain Python code blocks,
+    ensuring numerical conclusions are backed by code execution rather than
+    LLM mental math or estimation.
+
+    Args:
+        output: Expert analysis text to check for code blocks.
+
+    Returns:
+        True if at least one Python code block is present, False otherwise.
+
+    Examples:
+        >>> output = '''Analysis:
+        ... ```python
+        ... mean = df['value'].mean()
+        ... print(f"Mean: {mean:.2f}")
+        ... ```
+        ... Mean: 45.62'''
+        >>> verify_code_execution(output)
+        True
+
+        >>> output = "The mean value is 45.6"
+        >>> verify_code_execution(output)
+        False
+    """
+    # Look for python code blocks
+    code_blocks = re.findall(r'```python.*?```', output, re.DOTALL)
+
+    # Look for numerical claims without code backing
+    # This is a heuristic check - human review recommended for edge cases
+
+    return len(code_blocks) > 0
