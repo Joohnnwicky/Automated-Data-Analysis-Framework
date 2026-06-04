@@ -47,7 +47,6 @@ class TestDesignStyles:
         # Verify values match style fields
         assert css_vars['--primary-color'] == '#33302E'
 
-    @pytest.mark.skip(reason="Wave 0 scaffold - src/report/styles.py not implemented")
     def test_design_styles_length(self):
         """REP-03: Verify DESIGN_STYLES list contains 11 style definitions."""
         from src.report.styles import DESIGN_STYLES
