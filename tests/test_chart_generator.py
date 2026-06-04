@@ -34,10 +34,10 @@ class TestChartGenerator:
         # Verify line chart type
         assert chart.data[0].type == 'scatter' or hasattr(chart.data[0], 'mode')
 
-    @pytest.mark.skip(reason="Wave 0 scaffold - src/report/chart_generator.py not implemented")
     def test_generate_bar_chart(self):
         """REP-01: Verify Plotly bar chart generation."""
         from src.report.chart_generator import generate_bar_chart
+        from src.report.styles import get_design_style
 
         # Create sample data
         df = pd.DataFrame({
@@ -45,7 +45,8 @@ class TestChartGenerator:
             'value': [10, 20, 15]
         })
 
-        chart = generate_bar_chart(df, x='category', y='value')
+        style = get_design_style('ft')
+        chart = generate_bar_chart(df, x_col='category', y_col='value', title='Sales by Category', style=style)
 
         # Verify chart is a Plotly figure
         assert chart is not None
