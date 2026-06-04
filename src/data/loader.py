@@ -1,5 +1,5 @@
 """
-Data loading module for Data Analyst Pro.
+Data loading module for Automated Data Analysis Framework.
 
 Provides data loading, encoding detection, and user-friendly error handling.
 """

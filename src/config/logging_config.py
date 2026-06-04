@@ -1,6 +1,6 @@
 # src/config/logging_config.py
 """
-Centralized logging configuration for Data Analyst Pro.
+Centralized logging configuration for Automated Data Analysis Framework.
 
 Usage:
     from config.logging_config import setup_logging

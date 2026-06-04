@@ -1,5 +1,5 @@
 """
-Data profiling functions for Data Analyst Pro.
+Data profiling functions for Automated Data Analysis Framework.
 
 Provides profile_dimensions, profile_fields, profile_statistics,
 suggest_memory_optimization, suggest_missing_value_strategy,
