@@ -24,3 +24,6 @@ pytest-cov==7.1.0
 coverage==7.14.1
 iniconfig==2.3.0
 pluggy==1.6.0
+
+# UX dependencies
+tqdm==4.66.4  # UX-03: Progress indicators (optional)
