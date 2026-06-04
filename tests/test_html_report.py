@@ -117,7 +117,6 @@ class TestHTMLReport:
         # Should mention Ctrl+P or Cmd+P for PDF export
         assert 'Ctrl' in content or 'Cmd' in content or 'PDF' in content or '打印' in content
 
-    @pytest.mark.skip(reason="Wave 0 scaffold - src/report/html_report.py not implemented")
     def test_no_xss(self, tmp_path):
         """T-4-01: Verify Jinja2 autoescape enabled to prevent XSS."""
         from src.report.html_report import HTMLReportGenerator
