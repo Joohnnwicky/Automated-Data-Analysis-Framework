@@ -14,6 +14,7 @@ Threat Model:
 - T-4-01: XSS prevention via Jinja2 autoescape (select_autoescape)
 """
 
+from html import escape
 from pathlib import Path
 from typing import Dict, Any, Optional
 
@@ -198,7 +199,7 @@ class HTMLReportGenerator:
             lines.append('<p>关键指标：</p>')
             lines.append('<ul>')
             for name, value in metrics.items():
-                lines.append(f'<li>{name}: {value}</li>')
+                lines.append(f'<li>{escape(name)}: {escape(str(value))}</li>')
             lines.append('</ul>')
 
         return '\n'.join(lines)
@@ -220,8 +221,8 @@ class HTMLReportGenerator:
 
         for name, value in metrics.items():
             lines.append(f'<div class="metric-card">')
-            lines.append(f'<span class="metric-name">{name}</span>')
-            lines.append(f'<span class="metric-value">{value}</span>')
+            lines.append(f'<span class="metric-name">{escape(name)}</span>')
+            lines.append(f'<span class="metric-value">{escape(str(value))}</span>')
             lines.append('</div>')
 
         lines.append('</div>')
@@ -257,7 +258,7 @@ class HTMLReportGenerator:
                 title = theme_name
                 insights = []
 
-            lines.append(f'<h3>{title}</h3>')
+            lines.append(f'<h3>{escape(title)}</h3>')
 
             # Add chart if available
             if theme_name in charts:
@@ -267,7 +268,7 @@ class HTMLReportGenerator:
             if insights:
                 lines.append('<ul>')
                 for insight in insights:
-                    lines.append(f'<li>{insight}</li>')
+                    lines.append(f'<li>{escape(insight)}</li>')
                 lines.append('</ul>')
 
             lines.append('</div>')
@@ -290,7 +291,7 @@ class HTMLReportGenerator:
         lines.append('<ul>')
 
         for item in conclusions:
-            lines.append(f'<li>{item}</li>')
+            lines.append(f'<li>{escape(item)}</li>')
 
         lines.append('</ul>')
         return '\n'.join(lines)
