@@ -72,6 +72,63 @@ def test_load_json_safe():
     assert len(df) > 0
 
 
+def test_load_file_success():
+    """DATA-01: Verify load_file routes to correct format-specific loaders."""
+    from src.data.loader import load_file
+
+    fixtures_dir = Path(__file__).parent / 'fixtures' / 'sample_data'
+
+    # Test CSV routing
+    csv_file = fixtures_dir / 'test_utf8.csv'
+    df_csv = load_file(csv_file)
+    assert df_csv is not None
+    assert len(df_csv) > 0
+
+    # Test Excel routing
+    excel_file = fixtures_dir / 'test.xlsx'
+    df_excel = load_file(excel_file)
+    assert df_excel is not None
+    assert len(df_excel) > 0
+
+    # Test JSON routing
+    json_file = fixtures_dir / 'test.json'
+    df_json = load_file(json_file)
+    assert df_json is not None
+    assert len(df_json) > 0
+
+
+def test_load_file_nonexistent():
+    """UX-04: Verify DataLoadError for non-existent file."""
+    from src.data.loader import load_file, DataLoadError
+
+    nonexistent = Path('/nonexistent/file.csv')
+    with pytest.raises(DataLoadError) as exc_info:
+        load_file(nonexistent)
+
+    assert '文件不存在' in exc_info.value.user_message
+    assert exc_info.value.technical_detail is not None
+
+
+def test_load_file_unsupported_format():
+    """UX-04: Verify DataLoadError for unsupported file format."""
+    from src.data.loader import load_file, DataLoadError
+
+    # Create a temporary .txt file
+    import tempfile
+    with tempfile.NamedTemporaryFile(suffix='.txt', delete=False) as f:
+        f.write(b'test content')
+        temp_path = Path(f.name)
+
+    try:
+        with pytest.raises(DataLoadError) as exc_info:
+            load_file(temp_path)
+
+        assert '不支持该文件格式' in exc_info.value.user_message
+        assert exc_info.value.technical_detail is not None
+    finally:
+        temp_path.unlink(missing_ok=True)
+
+
 def test_error_unsupported_format():
     """UX-04: Verify DataLoadError raised for unsupported file formats."""
     from src.data.loader import DataLoadError
