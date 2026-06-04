@@ -11,6 +11,8 @@ from typing import Optional
 import pandas as pd
 from charset_normalizer import from_bytes
 
+from src.data.memory import estimate_memory, MEMORY_THRESHOLD_BYTES
+
 logger = logging.getLogger(__name__)
 
 
@@ -202,6 +204,19 @@ def load_file(filepath: Path) -> pd.DataFrame:
             message=f'文件过大（{file_size_mb:.1f}MB），建议使用采样模式或分块处理',
             technical_detail=f'File size: {file_size_mb:.2f}MB exceeds 500MB limit'
         )
+
+    # Memory estimation check for CSV files (chunking suggestion)
+    if suffix == '.csv':
+        estimated_memory = estimate_memory(filepath)
+        estimated_memory_mb = estimated_memory / 1024 / 1024
+
+        # Already handled by file size limit above if >= 500MB
+        # Log warning for files > 50MB suggesting chunked processing
+        if estimated_memory > 50 * 1024 * 1024:
+            logger.warning(
+                f'Large file detected ({estimated_memory_mb:.1f}MB estimated), '
+                'consider using chunked processing'
+            )
 
     # Route to format-specific loader
     try:
