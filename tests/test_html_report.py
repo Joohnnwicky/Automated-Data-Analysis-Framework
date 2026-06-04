@@ -12,7 +12,6 @@ import tempfile
 class TestHTMLReport:
     """Tests for HTML report generation and structure."""
 
-    @pytest.mark.skip(reason="Wave 0 scaffold - src/report/html_report.py not implemented")
     def test_generate_html_report(self, tmp_path):
         """REP-01: Verify HTML output with embedded charts."""
         from src.report.html_report import HTMLReportGenerator
@@ -27,7 +26,7 @@ class TestHTMLReport:
             'conclusions': ['建议继续优化转化路径']
         }
 
-        generator = HTMLReportGenerator(style='financial_times')
+        generator = HTMLReportGenerator(style='ft')
         output_path = tmp_path / 'report.html'
 
         generator.generate(report_data, output_path)
