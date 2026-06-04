@@ -67,25 +67,25 @@ class TestBusinessClarifier:
 
     def test_ask_questions_returns_dict_or_none(self):
         """CLAR-02: Verify ask_questions returns dict with goal/audience/metrics or None if skipped."""
-        pytest.skip("Wave 0 scaffold - implementation pending")
-
-        from src.analysis.clarification import BusinessClarifier
+        from src.analysis.clarification import BusinessClarifier, ask_clarification_questions
 
         clarifier = BusinessClarifier()
 
-        # When user provides answers, should return dict
-        # (Mocked input will be handled in integration tests)
-        # For unit test, verify structure when not None
-        # result = clarifier.ask_questions()
-        # if result is not None:
-        #     assert isinstance(result, dict)
-        #     assert 'goal' in result
-        #     assert 'audience' in result
-        #     assert 'metrics' in result
+        # Test helper function returns dict with correct keys
+        # (In production, AskUserQuestion tool would be used)
+        # For testing, function returns predefined answers
+        result = ask_clarification_questions()
 
-        # When user skips, should return None
-        # This is verified through the skip mechanism
-        pass
+        # Verify structure when not None
+        if result is not None:
+            assert isinstance(result, dict)
+            assert 'goal' in result
+            assert 'audience' in result
+            assert 'metrics' in result
+            # Verify values are strings
+            assert isinstance(result['goal'], str)
+            assert isinstance(result['audience'], str)
+            assert isinstance(result['metrics'], str)
 
     def test_write_context_creates_file(self):
         """CLAR-03: Verify write_context creates .planning/context.md file."""
