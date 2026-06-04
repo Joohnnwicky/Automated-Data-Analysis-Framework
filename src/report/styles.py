@@ -170,3 +170,27 @@ DESIGN_STYLES: List[DesignStyle] = [
         chart_colors=['#CC0000', '#003366', '#666666']
     ),
 ]
+
+
+def get_design_style(style_id: str) -> DesignStyle:
+    """Get a design style by its unique identifier.
+
+    Args:
+        style_id: The unique identifier of the style (e.g., 'ft', 'mckinsey')
+
+    Returns:
+        The DesignStyle object matching the given id
+
+    Raises:
+        ValueError: If no style with the given id exists
+
+    Example:
+        >>> style = get_design_style('ft')
+        >>> style.name
+        'Financial Times'
+    """
+    for style in DESIGN_STYLES:
+        if style.id == style_id:
+            return style
+
+    raise ValueError(f"Unknown style: {style_id}")
