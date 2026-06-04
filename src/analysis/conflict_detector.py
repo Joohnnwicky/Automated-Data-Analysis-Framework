@@ -46,3 +46,40 @@ def detect_numerical_conflicts(expert_outputs: List[Dict]) -> List[Dict]:
             metrics[metric] = {'value': value, 'expert': expert_id}
 
     return conflicts
+
+
+def detect_recommendation_conflicts(expert_outputs: List[Dict]) -> List[Dict]:
+    """EXPT-08: Detect recommendation direction conflicts.
+
+    Args:
+        expert_outputs: List of expert output dicts with 'recommendation' key
+
+    Returns:
+        List of conflict dicts for opposing recommendations
+
+    Note:
+        Detects 'increase' vs 'decrease' direction conflicts.
+    """
+    recommendations = []
+
+    for output in expert_outputs:
+        rec = output.get('recommendation', '')
+        expert_id = output.get('expert_id', 'unknown')
+
+        # Detect direction keywords (similar to keyword detection in classifier.py)
+        if '增加' in rec or '提高' in rec or '上升' in rec:
+            recommendations.append(('increase', expert_id))
+        elif '减少' in rec or '降低' in rec or '下降' in rec:
+            recommendations.append(('decrease', expert_id))
+
+    # Check for opposing directions
+    directions = [r[0] for r in recommendations]
+    if 'increase' in directions and 'decrease' in directions:
+        logger.info('Recommendation conflict detected: opposing directions')
+        return [{
+            'type': 'recommendation',
+            'direction': 'opposite',
+            'experts': [r[1] for r in recommendations]
+        }]
+
+    return []

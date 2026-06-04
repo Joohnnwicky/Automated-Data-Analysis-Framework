@@ -54,45 +54,32 @@ class TestConflictDetector:
 
     def test_detect_recommendation_conflicts(self):
         """EXPT-08: Verify detect_recommendation_conflicts returns conflict when directions oppose."""
-        pytest.skip("Wave 0 scaffold - implementation pending")
-
         from src.analysis.conflict_detector import detect_recommendation_conflicts
 
-        # Create expert outputs with opposing recommendations
-        expert_outputs = {
-            'quant_analyst': {
-                'recommendations': [
-                    'Increase advertising spend',
-                    'Focus on high-value customers',
-                    'Reduce marketing budget'
-                ]
+        # Create expert outputs with opposing recommendations (List[Dict] structure)
+        expert_outputs = [
+            {
+                'expert_id': 'quant_analyst',
+                'recommendation': '建议增加投入以提高ROI'
             },
-            'ad_optimizer': {
-                'recommendations': [
-                    'Decrease advertising spend',  # Opposes 'Increase advertising spend'
-                    'Focus on conversion rate',
-                    'Expand marketing budget'      # Opposes 'Reduce marketing budget'
-                ]
+            {
+                'expert_id': 'ad_optimizer',
+                'recommendation': '建议减少预算以降低成本'
             }
-        }
+        ]
 
         result = detect_recommendation_conflicts(expert_outputs)
 
         # Should detect opposing directions
-        assert isinstance(result, dict)
-
-        # Should flag 'Increase' vs 'Decrease' conflict
+        assert isinstance(result, list)
         assert len(result) > 0
 
-        # Verify conflict contains direction opposition
-        has_direction_conflict = False
-        for key, conflict in result.items():
-            if 'increase' in conflict.get('directions', []) and 'decrease' in conflict.get('directions', []):
-                has_direction_conflict = True
-            elif 'expand' in conflict.get('directions', []) and 'reduce' in conflict.get('directions', []):
-                has_direction_conflict = True
-
-        assert has_direction_conflict, "Should detect opposing direction conflicts"
+        # Verify conflict structure
+        conflict = result[0]
+        assert conflict['type'] == 'recommendation'
+        assert conflict['direction'] == 'opposite'
+        assert 'quant_analyst' in conflict['experts']
+        assert 'ad_optimizer' in conflict['experts']
 
     def test_no_conflict_same_values(self):
         """EXPT-08: Verify no conflict when values differ <10%."""
