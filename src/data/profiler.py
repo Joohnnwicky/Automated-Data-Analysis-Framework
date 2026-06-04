@@ -153,6 +153,73 @@ def suggest_memory_optimization(df: pd.DataFrame) -> Dict[str, Any]:
     }
 
 
+def suggest_missing_value_strategy(df: pd.DataFrame) -> Dict[str, Any]:
+    """
+    Suggest missing value handling strategies for DataFrame columns.
+
+    Analyzes columns with missing values and suggests appropriate handling
+    strategies based on data type and missing percentage.
+
+    Args:
+        df: DataFrame to analyze
+
+    Returns:
+        Dict with:
+        - missing_columns: dict of column names to strategy recommendations
+        - total_missing_rows: count of rows with at least one missing value
+
+    Note:
+        Strategy recommendations based on missing percentage:
+        - Numeric < 5%: fill with mean
+        - Numeric 5-20%: fill with median
+        - Numeric >= 20%: consider dropping column or rows
+        - Categorical < 5%: fill with mode
+        - Categorical >= 5%: fill with placeholder "Unknown" or drop rows
+
+        Implements DATA-07 (missing value report + strategy suggestions).
+    """
+    strategies = {}
+
+    for col in df.columns:
+        null_count = df[col].isna().sum()
+        if null_count > 0:
+            null_pct = null_count / len(df) * 100
+            dtype = df[col].dtype
+
+            # Determine strategy based on dtype and null percentage
+            if dtype in ['int64', 'float64', 'int32', 'float32']:
+                # Numeric columns
+                if null_pct < 5:
+                    strategy = 'fill with mean'
+                elif null_pct < 20:
+                    strategy = 'fill with median'
+                else:
+                    strategy = 'consider dropping column or rows'
+            elif dtype == 'object' or str(dtype) == 'str':
+                # String/categorical columns
+                if null_pct < 5:
+                    strategy = 'fill with mode'
+                else:
+                    strategy = 'fill with placeholder "Unknown" or drop rows'
+            else:
+                # Other types (datetime, etc.)
+                strategy = 'investigate appropriate fill method'
+
+            strategies[col] = {
+                'null_pct': round(null_pct, 2),
+                'dtype': str(dtype),
+                'suggested_strategy': strategy
+            }
+
+    total_missing_rows = int(df.isna().any(axis=1).sum())
+    logger.info(f'Missing value strategies: {len(strategies)} columns with missing values')
+
+    return {
+        'missing_columns': strategies,
+        'total_missing_rows': total_missing_rows
+    }
+
+
 def profile_statistics(df: pd.DataFrame) -> Dict[str, Any]:
     """
     Generate statistical summaries using pandas describe().
