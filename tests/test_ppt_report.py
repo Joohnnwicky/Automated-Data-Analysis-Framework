@@ -74,28 +74,33 @@ class TestPPTReport:
         placeholder = first_slide.placeholders[1]
         assert placeholder.text == '测试内容'
 
-    @pytest.mark.skip(reason="Wave 0 scaffold - src/report/ppt_report.py not implemented")
     def test_ppt_chart_embedding(self, tmp_path):
         """Verify charts embedded as images in PPT."""
         from src.report.ppt_report import PPTReportGenerator
         from pptx import Presentation
         from pptx.shapes.picture import Picture
+        import plotly.graph_objects as go
+        import pandas as pd
 
-        report_data = {
-            'title': '分析报告',
-            'metrics': {'ROI': 15.5},
-            'themes': {},
-            'conclusions': [],
-            'charts': [{'type': 'bar', 'data': {'x': ['A', 'B'], 'y': [1, 2]}}]
-        }
+        generator = PPTReportGenerator(style_id='ft')
 
-        generator = PPTReportGenerator()
-        output_path = tmp_path / 'report.pptx'
+        # Create a simple Plotly chart
+        df = pd.DataFrame({'x': ['A', 'B', 'C'], 'y': [10, 20, 15]})
+        fig = go.Figure()
+        fig.add_trace(go.Bar(x=df['x'], y=df['y']))
 
-        generator.generate(report_data, output_path)
+        # Add chart slide
+        generator.add_chart_slide('图表测试', fig, tmp_path)
+
+        # Save to verify
+        output_path = tmp_path / 'test_chart.pptx'
+        generator.save_ppt(output_path)
 
         # Open and verify chart images
         prs = Presentation(str(output_path))
+
+        # Verify slide exists
+        assert len(prs.slides) >= 1
 
         # Check for picture shapes (chart images)
         picture_count = 0
@@ -104,5 +109,5 @@ class TestPPTReport:
                 if hasattr(shape, 'image') or isinstance(shape, Picture):
                     picture_count += 1
 
-        # Should have at least one chart image if charts provided
-        assert picture_count >= 0  # May be 0 if no charts in data
+        # Should have at least one chart image
+        assert picture_count >= 1
