@@ -14,60 +14,54 @@ class TestBusinessClarifier:
 
     def test_should_trigger_returns_bool(self):
         """CLAR-01: Verify should_trigger returns boolean for complexity check."""
-        pytest.skip("Wave 0 scaffold - implementation pending")
-
         from src.analysis.clarification import BusinessClarifier
 
-        # Simple dataset should not trigger
-        df_simple = pd.DataFrame({
-            'name': ['Alice', 'Bob'],
-            'age': [30, 25]
-        })
+        # Simple dataset profile should not trigger
+        profile_simple = {
+            'dimensions': {'rows': 100, 'columns': 5},
+            'data_type': 'table'
+        }
         clarifier = BusinessClarifier()
-        result = clarifier.should_trigger(df_simple)
+        result = clarifier.should_trigger(profile_simple)
         assert isinstance(result, bool)
 
-        # Complex dataset should trigger
-        df_complex = pd.DataFrame({
-            f'col_{i}': list(range(1000)) for i in range(50)
-        })
-        result_complex = clarifier.should_trigger(df_complex)
+        # Complex dataset profile should trigger
+        profile_complex = {
+            'dimensions': {'rows': 1000, 'columns': 15},
+            'data_type': 'advertising'
+        }
+        result_complex = clarifier.should_trigger(profile_complex)
         assert isinstance(result_complex, bool)
 
     def test_trigger_high_complexity(self):
         """CLAR-05: Verify high complexity (large dataset + complex type) triggers clarification."""
-        pytest.skip("Wave 0 scaffold - implementation pending")
-
         from src.analysis.clarification import BusinessClarifier
 
-        # Create high complexity dataset: large rows + advertising data
-        df = pd.DataFrame({
-            'ctr': [0.05] * 10000,
-            'impression': [1000] * 10000,
-            'click': [50] * 10000,
-            'conversion': [5] * 10000,
-            'date': [f'2023010{i % 10}' for i in range(10000)]
-        })
+        # High complexity profile: large rows + advertising data type
+        # columns > 10 (+1), rows > 500 (+1), data_type='advertising' (+1) = score 3
+        profile = {
+            'dimensions': {'rows': 1000, 'columns': 12},
+            'data_type': 'advertising'
+        }
 
         clarifier = BusinessClarifier()
-        result = clarifier.should_trigger(df)
+        result = clarifier.should_trigger(profile)
 
         assert result is True, "High complexity dataset should trigger clarification"
 
     def test_trigger_low_complexity(self):
         """CLAR-05: Verify low complexity (small dataset + simple type) does not trigger."""
-        pytest.skip("Wave 0 scaffold - implementation pending")
-
         from src.analysis.clarification import BusinessClarifier
 
-        # Create low complexity dataset: small rows + simple table data
-        df = pd.DataFrame({
-            'name': ['Alice', 'Bob', 'Charlie'],
-            'age': [30, 25, 35]
-        })
+        # Low complexity profile: small rows + simple table data type
+        # columns <= 10 (+0), rows <= 500 (+0), data_type='table' (+0) = score 0
+        profile = {
+            'dimensions': {'rows': 50, 'columns': 5},
+            'data_type': 'table'
+        }
 
         clarifier = BusinessClarifier()
-        result = clarifier.should_trigger(df)
+        result = clarifier.should_trigger(profile)
 
         assert result is False, "Low complexity dataset should not trigger clarification"
 
