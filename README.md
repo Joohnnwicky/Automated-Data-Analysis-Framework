@@ -1,123 +1,123 @@
 # Data Analyst Pro — 融合增强版数据分析 Skill
 
-AI-powered data analysis skill that provides end-to-end workflow from business intent clarification to professional report generation. Designed for business analysts, data analysts, operations teams, and management.
+AI 驱动的数据分析技能，提供从业务意图澄清到专业报告生成的端到端工作流。服务于业务分析师、数据分析师、运营团队和管理层。
 
-**Core Value:** 让数据分析从「理解业务问题」开始，产出管理层可直接汇报的专业报告。
+**核心价值：** 让数据分析从「理解业务问题」开始，产出管理层可直接汇报的专业报告。
 
-## Features
+## 功能特性
 
-- **Business Intent Clarification** — Optional Phase 0 to ensure analysis direction is correct
-- **Multi-Expert Parallel Analysis** — 6 specialized expert roles providing multi-perspective insights
-- **Professional Report Generation** — 11 design styles (FT, McKinsey, Economist, etc.) with HTML/PPT output
-- **Chinese-First Output** — Reports in Chinese with professional terminology retained (ROI, CapEx, FCF, etc.)
-- **Automatic Type Detection** — Recognizes table, advertising, and time-series data types
-- **Memory-Safe Processing** — Chunked loading and sampling for large datasets (>100K rows)
-- **Progress Indicators** — Clear phase transitions during workflow execution
+- **业务意图澄清** — 可选的 Phase 0，确保分析方向正确
+- **多专家并行分析** — 6 个专业专家角色提供多视角洞察
+- **专业报告生成** — 11 种设计风格（FT、McKinsey、Economist 等），支持 HTML/PPT 输出
+- **中文优先输出** — 中文报告，保留专业术语英文（ROI、CapEx、FCF 等）
+- **自动类型识别** — 自动识别表格、投放、时序数据类型
+- **内存安全处理** — 大数据集（>100K 行）自动分块加载和采样
+- **进度指示器** — 工作流各阶段清晰可见
 
-## Project Structure
+## 项目结构
 
 ```
 dataanalyst/
 ├── src/
-│   ├── data/               # Phase 2: Data Processing Engine
-│   │   ├── loader.py       # Data loading with encoding detection
-│   │   ├── profiler.py     # Data profiling (dimensions, statistics, missing values)
-│   │   ├── classifier.py   # Type classification (table/advertising/time_series)
-│   │   ├── insights.py     # Initial insight generation (anomalies, trends)
-│   │   └── memory.py       # Memory utilities (chunking, sampling, estimation)
+│   ├── data/               # Phase 2: 数据处理引擎
+│   │   ├── loader.py       # 数据加载与编码检测
+│   │   ├── profiler.py     # 数据画像（维度、统计、缺失值）
+│   │   ├── classifier.py   # 类型分类（table/advertising/time_series）
+│   │   ├── insights.py     # 初步洞察生成（异常、趋势）
+│   │   └── memory.py       # 内存工具（分块、采样、估算）
 │   │
-│   ├── analysis/           # Phase 3: Analysis Engine
-│   │   ├── expert_roles.py     # 6 predefined expert role definitions
-│   │   ├── expert_selector.py  # Expert selection algorithm
-│   │   ├── expert_runner.py    # Parallel subagent execution
-│   │   ├── clarification.py    # Business intent clarification
-│   │   ├── conflict_detector.py # Detect conflicting expert conclusions
-│   │   └── statistical_enforcement.py # Enforce code execution for numerical claims
+│   ├── analysis/           # Phase 3: 分析引擎
+│   │   ├── expert_roles.py     # 6 个预定义专家角色
+│   │   ├── expert_selector.py  # 专家选择算法
+│   │   ├── expert_runner.py    # 并行 subagent 执行
+│   │   ├── clarification.py    # 业务意图澄清
+│   │   ├── conflict_detector.py # 专家结论冲突检测
+│   │   └── statistical_enforcement.py # 强制代码执行验证数值
 │   │
-│   ├── report/             # Phase 4: Report Generation
-│   │   ├── styles.py       # 11 professional design styles
-│   │   ├── synthesis.py    # Multi-expert synthesis engine
-│   │   ├── chart_selector.py   # Automatic chart type matching
-│   │   ├── chart_generator.py  # Plotly chart generation
-│   │   ├── html_report.py  # HTML report with Jinja2 templates
-│   │   ├── ppt_report.py   # PowerPoint report via python-pptx
-│   │   └── templates/      # Jinja2 HTML templates
+│   ├── report/             # Phase 4: 报告生成
+│   │   ├── styles.py       # 11 种专业设计风格
+│   │   ├── synthesis.py    # 多专家综合引擎
+│   │   ├── chart_selector.py   # 自动图表类型匹配
+│   │   ├── chart_generator.py  # Plotly 图表生成
+│   │   ├── html_report.py  # HTML 报告（Jinja2 模板）
+│   │   ├── ppt_report.py   # PowerPoint 报告（python-pptx）
+│   │   └── templates/      # Jinja2 HTML 模板
 │   │
-│   ├── workflow/           # Phase 5: Integration & UX
-│   │   ├── orchestrator.py     # End-to-end workflow coordination
-│   │   ├── intent_detector.py  # Natural language intent detection
-│   │   ├── progress.py     # Progress indicators
-│   │   └── phases.py       # Workflow phase definitions
+│   ├── workflow/           # Phase 5: 集成与 UX
+│   │   ├── orchestrator.py     # 端到端工作流协调
+│   │   ├── intent_detector.py  # 自然语言意图检测
+│   │   ├── progress.py     # 进度指示器
+│   │   └── phases.py       # 工作流阶段定义
 │   │
-│   ├── config/             # Phase 1: Infrastructure
-│   │   └── logging_config.py   # Structured logging setup
+│   ├── config/             # Phase 1: 基础设施
+│   │   └── logging_config.py   # 结构化日志配置
 │   │
-│   └── scripts/            # Utility scripts
-│       ├── read_excel.py   # Excel reading helper
-│       └── read_pptx.py    # PowerPoint reading helper
+│   └── scripts/            # 工具脚本
+│       ├── read_excel.py   # Excel 读取辅助
+│       └── read_pptx.py    # PowerPoint 读取辅助
 │
-├── tests/                  # Test suite (157 tests)
-│   ├── test_data_*.py      # Data module tests
-│   ├── test_expert_*.py    # Analysis module tests
-│   ├── test_*.py           # Report and workflow tests
-│   └── test_infrastructure.py # Infrastructure tests
+├── tests/                  # 测试套件（157 个测试）
+│   ├── test_data_*.py      # 数据模块测试
+│   ├── test_expert_*.py    # 分析模块测试
+│   ├── test_*.py           # 报告和工作流测试
+│   └── test_infrastructure.py # 基础设施测试
 │
-├── .planning/              # GSD workflow artifacts (gitignored)
-├── requirements.txt        # Locked dependencies
-├── pytest.ini              # Test configuration
-└── .gitignore              # Git ignore patterns
+├── .planning/              # GSD 工作流产物（gitignored）
+├── requirements.txt        # 锁定依赖
+├── pytest.ini              # 测试配置
+└── .gitignore              # Git 忽略规则
 ```
 
-## Installation
+## 安装部署
 
-### Prerequisites
+### 环境要求
 
 - Python 3.10+
-- pip package manager
+- pip 包管理器
 
-### Install Dependencies
+### 安装依赖
 
 ```bash
-# Clone the repository
+# 克隆仓库
 git clone <repository-url>
 cd dataanalyst
 
-# Install dependencies
+# 安装依赖
 pip install -r requirements.txt
 ```
 
-### Dependencies Overview
+### 依赖说明
 
-| Category | Packages |
-|----------|----------|
-| Core Data | pandas, numpy, scipy, openpyxl, charset-normalizer |
-| Visualization | plotly, kaleido |
-| Reports | python-pptx, Pillow, xlsxwriter |
-| Testing | pytest, pytest-cov |
+| 类别 | 包名 |
+|------|------|
+| 核心数据处理 | pandas, numpy, scipy, openpyxl, charset-normalizer |
+| 可视化 | plotly, kaleido |
+| 报告生成 | python-pptx, Pillow, xlsxwriter |
+| 测试 | pytest, pytest-cov |
 | UX | tqdm |
 
-## Quick Start
+## 快速开始
 
-### 1. Load and Profile Data
+### 1. 加载并画像数据
 
 ```python
 from pathlib import Path
 from src.data.loader import DataLoader
 from src.data.profiler import DataProfiler
 
-# Load data file (Excel, CSV, or JSON)
+# 加载数据文件（Excel、CSV 或 JSON）
 loader = DataLoader()
 df = loader.load_file(Path('data/sales.xlsx'))
 
-# Profile the data
+# 数据画像
 profiler = DataProfiler(df)
 profile = profiler.profile()
 
-print(f"Dimensions: {profile['dimensions']['rows']} rows, {profile['dimensions']['columns']} columns")
-print(f"Missing rate: {profile['quality']['missing_rate']:.2%}")
+print(f"维度: {profile['dimensions']['rows']} 行, {profile['dimensions']['columns']} 列")
+print(f"缺失率: {profile['quality']['missing_rate']:.2%}")
 ```
 
-### 2. Classify Data Type
+### 2. 分类数据类型
 
 ```python
 from src.data.classifier import TypeClassifier
@@ -125,73 +125,74 @@ from src.data.classifier import TypeClassifier
 classifier = TypeClassifier(df)
 data_type, suggested_methods = classifier.classify()
 
-print(f"Data type: {data_type}")  # 'table', 'advertising', or 'time_series'
-print(f"Suggested methods: {suggested_methods}")
+print(f"数据类型: {data_type}")  # 'table', 'advertising', 或 'time_series'
+print(f"建议方法: {suggested_methods}")
 ```
 
-### 3. Run Full Workflow
+### 3. 运行完整工作流
 
 ```python
 from pathlib import Path
 from src.workflow.orchestrator import WorkflowOrchestrator
 
-# Initialize orchestrator
+# 初始化协调器
 orchestrator = WorkflowOrchestrator(
-    output_format='html',  # or 'ppt'
-    style='ft'             # Design style
+    output_format='html',  # 或 'ppt'
+    style='ft'             # 设计风格
 )
 
-# Execute end-to-end workflow
+# 执行端到端工作流
 result = orchestrator.execute(
     query="分析这份销售数据，找出增长趋势",
     data_path=Path('data/sales.xlsx')
 )
 
-# Get report path
-print(f"Report generated: {result['report_path']}")
+# 获取报告路径
+print(f"报告已生成: {result['report_path']}")
 ```
 
-### 4. Quick Mode (Simple Queries)
+### 4. Quick Mode（简单查询）
 
-For simple queries, the system automatically uses quick mode without full multi-expert analysis:
+简单查询自动使用快速模式，无需完整多专家分析：
 
 ```python
 from src.workflow.intent_detector import detect_intent, should_use_quick_mode
+from src.workflow.intent_detector import quick_response
 
-# Detect intent
+# 检测意图
 intent = detect_intent("这份数据有多少行")
-print(f"Intent: {intent.intent_type}")  # 'quick_stats'
+print(f"意图: {intent.intent_type}")  # 'quick_stats'
 
-# Quick mode check
+# 快速模式判断
 if should_use_quick_mode(df, intent):
-    # Returns immediate statistics without full workflow
+    # 直接返回统计结果，无需完整工作流
     response = quick_response(df, intent)
 ```
 
-## Module Usage
+## 模块使用详解
 
-### Data Loading (`src/data/loader.py`)
+### 数据加载 (`src/data/loader.py`)
 
 ```python
 from pathlib import Path
 from src.data.loader import DataLoader, DataLoadError, detect_encoding
 
-# Automatic encoding detection (supports GB2312, GBK, UTF-8)
+# 自动编码检测（支持 GB2312、GBK、UTF-8）
 encoding = detect_encoding(Path('data/chinese_data.csv'))
 
-# Safe loading with error handling
+# 安全加载与错误处理
 loader = DataLoader()
 try:
     df = loader.load_file(Path('data/sales.xlsx'))
 except DataLoadError as e:
-    print(f"Error: {e.user_message}")  # Chinese user-friendly message
-    print(f"Detail: {e.technical_detail}")  # Technical debug info
+    print(f"错误: {e.user_message}")        # 中文友好提示
+    print(f"详情: {e.technical_detail}")    # 技术调试信息
 
-# Memory-safe loading for large files
+# 大文件内存安全加载
 df = loader.load_file(Path('data/big_file.csv'), chunk_size=50000)
 ```
 
-### Data Profiling (`src/data/profiler.py`)
+### 数据画像 (`src/data/profiler.py`)
 
 ```python
 from src.data.profiler import DataProfiler
@@ -199,7 +200,7 @@ from src.data.profiler import DataProfiler
 profiler = DataProfiler(df)
 profile = profiler.profile()
 
-# Profile structure:
+# 画像结构:
 {
     'dimensions': {'rows': 1000, 'columns': 15},
     'fields': [
@@ -216,126 +217,126 @@ profile = profiler.profile()
     }
 }
 
-# Get optimization suggestions
+# 获取优化建议
 suggestions = profiler.suggest_memory_optimization()
-# Returns: {'category_columns': ['status', 'region'], 'estimated_reduction': '40%'}
+# 返回: {'category_columns': ['status', 'region'], 'estimated_reduction': '40%'}
 ```
 
-### Type Classification (`src/data/classifier.py`)
+### 类型分类 (`src/data/classifier.py`)
 
 ```python
 from src.data.classifier import classify_data_type, detect_advertising_keywords
 
-# Classify data type
+# 分类数据类型
 data_type, methods = classify_data_type(df)
-# Returns: ('advertising', ['ROI分析', 'CTR趋势', '渠道对比'])
+# 返回: ('advertising', ['ROI分析', 'CTR趋势', '渠道对比'])
 
-# Check for advertising keywords
+# 检测投放关键词
 keywords = detect_advertising_keywords(df.columns)
-# Returns: ['ROI', 'CTR', 'click', 'impression', '转化']
+# 返回: ['ROI', 'CTR', 'click', 'impression', '转化']
 
-# Detect datetime columns
+# 检测时间列
 datetime_cols = detect_datetime_columns(df)
-# Returns: ['date', 'created_at', '更新时间']
+# 返回: ['date', 'created_at', '更新时间']
 ```
 
-### Expert Roles (`src/analysis/expert_roles.py`)
+### 专家角色 (`src/analysis/expert_roles.py`)
 
-6 predefined expert roles covering all data types:
+6 个预定义专家角色覆盖所有数据类型：
 
-| Role ID | Name | Domain | Data Types |
-|---------|------|--------|------------|
-| `quant_analyst` | 量化分析师 | Statistical analysis | table, time_series, advertising |
-| `valuation_expert` | 估值专家 | Financial valuation | table, time_series |
-| `growth_optimizer` | 投放优化师 | Advertising ROI | advertising |
-| `user_growth` | 用户增长专家 | User behavior analysis | table, advertising |
-| `industry_analyst` | 行业分析师 | Competitive analysis | table, time_series |
-| `financial_analyst` | 财务分析师 | Financial health | table, time_series |
+| 角色 ID | 名称 | 专业领域 | 数据类型 |
+|---------|------|----------|----------|
+| `quant_analyst` | 量化分析师 | 统计建模与分布分析 | table, time_series, advertising |
+| `valuation_expert` | 估值专家 | 财务估值与现金流 | table, time_series |
+| `growth_optimizer` | 投放优化师 | 广告 ROI 优化 | advertising |
+| `user_growth` | 用户增长专家 | 用户行为与增长分析 | table, advertising |
+| `industry_analyst` | 行业分析师 | 对标与战略分析 | table, time_series |
+| `financial_analyst` | 财务分析师 | 财务健康与风险评估 | table, time_series |
 
 ```python
 from src.analysis.expert_roles import EXPERT_ROLES, ExpertRole
 
-# Access expert definitions
+# 查看专家定义
 for role in EXPERT_ROLES:
     print(f"{role.name}: {role.domain}")
 
-# Filter by data type
+# 按数据类型筛选
 advertising_experts = [r for r in EXPERT_ROLES if 'advertising' in r.data_types]
 ```
 
-### Expert Selection (`src/analysis/expert_selector.py`)
+### 专家选择 (`src/analysis/expert_selector.py`)
 
 ```python
 from src.analysis.expert_selector import ExpertSelector
 
 selector = ExpertSelector()
 
-# Select experts by data type
+# 按数据类型选择专家
 experts = selector.select(
     data_type='advertising',
-    business_context={'goal': 'optimize ROI', 'audience': 'marketing team'}
+    business_context={'goal': '优化ROI', 'audience': '市场团队'}
 )
 
-# Each expert gets isolated context (no cross-expert references)
-# Returns: [ExpertRole(id='growth_optimizer'), ExpertRole(id='user_growth'), ...]
+# 每个专家获得隔离上下文（无跨专家引用）
+# 返回: [ExpertRole(id='growth_optimizer'), ExpertRole(id='user_growth'), ...]
 
-# Write role definitions for review
+# 输出角色定义供审阅
 selector.write_role_definitions(experts, Path('output/expert_roles.md'))
 ```
 
-### Business Clarification (`src/analysis/clarification.py`)
+### 业务澄清 (`src/analysis/clarification.py`)
 
 ```python
 from src.analysis.clarification import BusinessClarifier
 
 clarifier = BusinessClarifier()
 
-# Check if clarification should trigger
+# 检查是否需要触发澄清
 if clarifier.should_trigger(df):
-    # Ask 3 core questions
+    # 提问 3 个核心问题
     answers = clarifier.ask_questions()
-    # Returns: {'goal': '...', 'audience': '...', 'metrics': '...'}
+    # 返回: {'goal': '...', 'audience': '...', 'metrics': '...'}
 
-    # Write business context
+    # 写入业务上下文
     clarifier.write_context(answers, Path('output/experts/business_context.md'))
 
-# Skip clarification for simple tasks
+# 简单任务可跳过澄清
 clarifier = BusinessClarifier(skip=True)
 ```
 
-### Report Generation (`src/report/`)
+### 报告生成 (`src/report/`)
 
-#### Design Styles
+#### 设计风格
 
-11 professional design styles available:
+11 种专业设计风格：
 
-| Style ID | Name | Use Case |
-|----------|------|----------|
-| `ft` | Financial Times | Financial reporting |
-| `mckinsey` | McKinsey | Strategic analysis |
-| `economist` | Economist | Economic analysis |
-| `goldman` | Goldman Sachs | Investment reports |
-| `swiss` | Swiss Style | Clean, minimalist |
-| `wsj` | Wall Street Journal | Business news |
-| `bloomberg` | Bloomberg | Market analysis |
-| `reuters` | Reuters | News reporting |
-| `morningstar` | Morningstar | Investment research |
-| `bcg` | BCG | Consulting reports |
-| `bain` | Bain & Company | Strategy consulting |
+| 风格 ID | 名称 | 适用场景 |
+|---------|------|----------|
+| `ft` | Financial Times | 财务报告 |
+| `mckinsey` | McKinsey | 战略分析 |
+| `economist` | Economist | 经济分析 |
+| `goldman` | Goldman Sachs | 投资报告 |
+| `swiss` | Swiss Style | 简洁极简 |
+| `wsj` | Wall Street Journal | 商业新闻 |
+| `bloomberg` | Bloomberg | 市场分析 |
+| `reuters` | Reuters | 新闻报道 |
+| `morningstar` | Morningstar | 投研报告 |
+| `bcg` | BCG | 咨询报告 |
+| `bain` | Bain & Company | 战略咨询 |
 
 ```python
 from src.report.styles import get_design_style, DesignStyle
 
-# Get style definition
+# 获取风格定义
 style = get_design_style('mckinsey')
-print(f"Primary color: {style.primary_color}")  # #18406F
+print(f"主色调: {style.primary_color}")  # #18406F
 
-# Generate CSS variables for templates
+# 生成 CSS 变量用于模板
 css_vars = style.to_css_vars()
-# Returns: {'--primary-color': '#18406F', '--font-family': 'Noto Sans SC', ...}
+# 返回: {'--primary-color': '#18406F', '--font-family': 'Noto Sans SC', ...}
 ```
 
-#### HTML Report
+#### HTML 报告
 
 ```python
 from pathlib import Path
@@ -343,7 +344,7 @@ from src.report.html_report import HTMLReportGenerator
 
 generator = HTMLReportGenerator(style='ft')
 
-# Generate report
+# 生成报告
 report_path = generator.generate(
     report_data={
         'title': '销售分析报告',
@@ -355,57 +356,57 @@ report_path = generator.generate(
     output_path=Path('output/report.html')
 )
 
-# Features:
-# - XSS prevention via Jinja2 autoescape
-# - PDF export hint (Ctrl/Cmd + P)
-# - Embedded Plotly charts as SVG
-# - Chinese-first output with lang='zh-CN'
+# 特性:
+# - XSS 防护（Jinja2 autoescape）
+# - PDF 导出提示（Ctrl/Cmd + P）
+# - Plotly 图表嵌入为 SVG
+# - 中文优先输出（lang='zh-CN'）
 ```
 
-#### PPT Report
+#### PPT 报告
 
 ```python
 from src.report.ppt_report import PPTReportGenerator
 
 generator = PPTReportGenerator(style='mckinsey')
 
-# Generate PowerPoint
+# 生成 PowerPoint
 report_path = generator.generate(
     report_data={...},
     output_path=Path('output/report.pptx')
 )
 
-# Features:
-# - Direct python-pptx construction (no HTML conversion)
-# - Chart embedding as PNG images
-# - Styled title and content slides
+# 特性:
+# - 直接 python-pptx 构建（无需 HTML 转换）
+# - 图表嵌入为 PNG 图片
+# - 样式化标题和内容幻灯片
 ```
 
-### Workflow Orchestrator (`src/workflow/orchestrator.py`)
+### 工作流协调器 (`src/workflow/orchestrator.py`)
 
 ```python
 from pathlib import Path
 from src.workflow.orchestrator import WorkflowOrchestrator
 
-# Initialize with options
+# 初始化
 orchestrator = WorkflowOrchestrator(
-    output_format='html',  # 'html' or 'ppt'
-    style='ft'             # Design style ID
+    output_format='html',  # 'html' 或 'ppt'
+    style='ft'             # 设计风格 ID
 )
 
-# Execute full workflow
+# 执行完整工作流
 result = orchestrator.execute(
     query="分析这份广告投放数据，找出ROI下降的原因",
     data_path=Path('data/advertising.xlsx'),
-    skip_clarification=False  # Set True to skip Phase 0
+    skip_clarification=False  # 设为 True 跳过 Phase 0
 )
 
-# Result structure:
+# 结果结构:
 {
-    'intent': IntentMatch(...),        # Detected intent
-    'profile': {...},                  # Data profile
-    'workflow_mode': 'full',           # 'quick' or 'full'
-    'expert_outputs': {                # Expert analysis paths
+    'intent': IntentMatch(...),        # 检测到的意图
+    'profile': {...},                  # 数据画像
+    'workflow_mode': 'full',           # 'quick' 或 'full'
+    'expert_outputs': {                # 专家分析路径
         'growth_optimizer': 'output/experts/growth_optimizer.md',
         'quant_analyst': 'output/experts/quant_analyst.md',
     },
@@ -413,25 +414,25 @@ result = orchestrator.execute(
 }
 ```
 
-## Running Tests
+## 运行测试
 
 ```bash
-# Run all tests
+# 运行所有测试
 python -m pytest tests/
 
-# Run specific module tests
+# 运行特定模块测试
 python -m pytest tests/test_data_loader.py -v
 python -m pytest tests/test_expert_selector.py -v
 
-# Run with coverage
+# 运行覆盖率测试
 python -m pytest tests/ --cov=src --cov-report=html
 
-# Current test status: 157 passed, 4 skipped (integration tests)
+# 当前状态: 157 通过, 4 跳过（集成测试）
 ```
 
-## Output Examples
+## 输出示例
 
-### Data Profile Output
+### 数据画像输出
 
 ```
 数据概览
@@ -451,7 +452,7 @@ python -m pytest tests/ --cov=src --cov-report=html
 - 趋势: Q4 相比 Q1 增长 20%
 ```
 
-### Report Output Structure
+### 报告输出结构
 
 ```
 报告标题: 销售增长20%，华东区域领跑
@@ -475,31 +476,31 @@ python -m pytest tests/ --cov=src --cov-report=html
    - 优化A类产品供应链
 ```
 
-## Security Considerations
+## 安全考虑
 
-| Threat ID | Severity | Mitigation |
-|-----------|----------|------------|
-| T-2-03b | HIGH | 500MB file size limit prevents memory exhaustion |
-| T-3-03 | HIGH | Statistical enforcement requires code execution for all numerical claims |
-| T-4-01 | HIGH | XSS prevention via Jinja2 autoescape |
-| T-5-06 | MEDIUM | DataLoadError preserved with user-friendly Chinese messages |
+| 威胁 ID | 严重程度 | 缓解措施 |
+|---------|----------|----------|
+| T-2-03b | 高 | 500MB 文件大小限制防止内存耗尽 |
+| T-3-03 | 高 | 统计强制要求所有数值结论通过代码执行 |
+| T-4-01 | 高 | XSS 防护通过 Jinja2 autoescape |
+| T-5-06 | 中 | DataLoadError 保留中文友好提示 |
 
-## Limitations (v1.0)
+## 版本限制 (v1.0)
 
-- **Static files only** — Excel, CSV, JSON; no database or API streaming
-- **Chinese-first** — English support planned for v2
-- **Fixed design styles** — Custom style parameters planned for v2
-- **No data cleaning** — Assumes data is already prepared
+- **仅静态文件** — Excel、CSV、JSON；不支持数据库或 API 流
+- **中文优先** — 英文支持计划于 v2
+- **固定设计风格** — 自定义风格参数计划于 v2
+- **无数据清洗** — 假设数据已准备好
 
-## License
+## 版本历史
 
-Internal project for Claude Code skill usage.
+- **v1.0** (2026-06-04) — 功能完整，5 个阶段，157 测试通过
+  - Phase 1: 基础设施
+  - Phase 2: 数据处理引擎
+  - Phase 3: 分析引擎
+  - Phase 4: 报告生成
+  - Phase 5: 集成与 UX 优化
 
-## Version History
+## 许可证
 
-- **v1.0** (2026-06-04) — Feature-complete with 5 phases, 157 tests passing
-  - Phase 1: Infrastructure Foundation
-  - Phase 2: Data Processing Engine
-  - Phase 3: Analysis Engine
-  - Phase 4: Report Generation
-  - Phase 5: Integration & UX Polish
+内部项目，用于 Claude Code skill 使用。
