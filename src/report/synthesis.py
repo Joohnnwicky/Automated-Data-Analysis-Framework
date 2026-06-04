@@ -178,6 +178,111 @@ def generate_conclusion_title(metrics: Dict[str, Dict[str, Any]]) -> str:
     return ', '.join(title_parts)
 
 
+# Expert attribution patterns to remove (T-4-06 mitigation)
+_EXPERT_ATTRIBUTION_PATTERNS = [
+    r'分析师认为',
+    r'根据.*分析师',
+    r'分析师.*建议',
+    r'expert.*:',
+    r'analyst.*:',
+    r'Analyst:',
+    r'Expert:',
+]
+
+
+def generate_manager_pov_synthesis(themes: Dict[str, List[Dict[str, Any]]]) -> str:
+    """Generate manager-POV synthesis without visible expert names.
+
+    REP-06: Transforms theme-organized findings into cohesive narrative
+    without expert attribution. All findings presented as unified
+    manager perspective: "数据显示..." instead of "分析师认为...".
+
+    Args:
+        themes: Dict mapping theme name to list of findings.
+
+    Returns:
+        Complete synthesis markdown string with theme sections.
+
+    Threat Mitigation:
+        - T-4-06: Regex removes all expert attribution patterns
+    """
+    synthesis_lines = []
+
+    for theme_name, findings in themes.items():
+        # Add theme section header
+        synthesis_lines.append(f"## {theme_name}\n\n")
+
+        # Process each finding
+        for finding in findings:
+            # Get finding content
+            finding_text = _get_finding_content(finding)
+
+            # Remove expert attribution patterns (T-4-06)
+            finding_text = _remove_expert_attribution(finding_text)
+
+            # Rewrite as manager-POV statement
+            if finding_text:
+                # Use "数据显示" prefix for metrics
+                metrics_text = _extract_metrics_text(finding)
+                if metrics_text:
+                    synthesis_lines.append(f"数据显示{metrics_text}\n")
+
+                # Add recommendations as bullet points
+                for rec in finding.get('recommendations', []):
+                    clean_rec = _remove_expert_attribution(rec)
+                    if clean_rec:
+                        synthesis_lines.append(f"- {clean_rec}\n")
+
+        synthesis_lines.append("\n")  # Section separator
+
+    return ''.join(synthesis_lines)
+
+
+def _remove_expert_attribution(text: str) -> str:
+    """Remove expert attribution patterns from text.
+
+    T-4-06 mitigation: Strips patterns like "分析师认为", "根据...分析师".
+
+    Args:
+        text: Input text with potential expert attribution.
+
+    Returns:
+        Cleaned text without expert attribution.
+    """
+    for pattern in _EXPERT_ATTRIBUTION_PATTERNS:
+        text = re.sub(pattern, '', text, flags=re.IGNORECASE)
+
+    # Clean up whitespace and awkward phrasing
+    text = re.sub(r'\s+', ' ', text).strip()
+    text = re.sub(r'^应该', '', text)  # Remove "应该" prefix after attribution removal
+
+    return text
+
+
+def _extract_metrics_text(finding: Dict[str, Any]) -> str:
+    """Extract metrics as readable text for manager-POV synthesis.
+
+    Args:
+        finding: Finding dict with 'metrics' key.
+
+    Returns:
+        Concatenated metrics context string.
+    """
+    metrics = finding.get('metrics', [])
+    if not metrics:
+        return ''
+
+    parts = []
+    for metric in metrics:
+        context = metric.get('context', '')
+        if context:
+            # Clean up context for readability
+            clean_context = _remove_expert_attribution(context)
+            parts.append(clean_context)
+
+    return ', '.join(parts) if parts else ''
+
+
 def _get_finding_content(finding: Dict[str, Any]) -> str:
     """Extract all text content from a finding dict.
 
