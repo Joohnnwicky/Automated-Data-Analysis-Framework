@@ -99,3 +99,57 @@ def load_csv_safe(filepath: Path) -> pd.DataFrame:
                 continue
 
         raise ValueError(f'Cannot decode file {filepath} with any encoding')
+
+
+def load_excel_safe(filepath: Path) -> pd.DataFrame:
+    """
+    Load Excel file with openpyxl engine.
+
+    Args:
+        filepath: Path to the Excel file to load
+
+    Returns:
+        pandas DataFrame with the loaded data
+
+    Raises:
+        DataLoadError: If the file is empty or malformed
+
+    Note:
+        Uses openpyxl engine for .xlsx and .xls files.
+    """
+    try:
+        df = pd.read_excel(filepath, engine='openpyxl')
+        logger.info(f'Loaded Excel: {len(df)} rows from {filepath}')
+        return df
+    except pd.errors.EmptyDataError as e:
+        raise DataLoadError(
+            message=f'文件为空或格式错误：{filepath.name}',
+            technical_detail=f'EmptyDataError: {str(e)}'
+        )
+
+
+def load_json_safe(filepath: Path) -> pd.DataFrame:
+    """
+    Load JSON file with UTF-8 encoding.
+
+    Args:
+        filepath: Path to the JSON file to load
+
+    Returns:
+        pandas DataFrame with the loaded data
+
+    Raises:
+        DataLoadError: If the file is malformed or cannot be parsed
+
+    Note:
+        Uses UTF-8 encoding for JSON files.
+    """
+    try:
+        df = pd.read_json(filepath, encoding='utf-8')
+        logger.info(f'Loaded JSON: {len(df)} rows from {filepath}')
+        return df
+    except ValueError as e:
+        raise DataLoadError(
+            message=f'JSON格式错误：{filepath.name}。请检查文件是否符合JSON规范',
+            technical_detail=f'ValueError: {str(e)}'
+        )
