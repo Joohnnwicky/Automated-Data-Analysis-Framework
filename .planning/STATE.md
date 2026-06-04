@@ -92,6 +92,8 @@ See: .planning/PROJECT.md
 | 10% significance threshold for titles | Metrics below threshold excluded from conclusion-style titles | 2026-06-04
 | Expert attribution regex removal | Remove "分析师认为", "根据.*分析师", "expert.*:", "analyst.*:" for T-4-06 | 2026-06-04
 | Manager-POV language: "数据显示" | Unified narrative prefix instead of expert attribution | 2026-06-04 |
+| Jinja2 autoescape for XSS prevention | select_autoescape(['html', 'xml']) for T-4-01 mitigation | 2026-06-04 |
+| CSS variables from DesignStyle.to_css_vars() | Single source for REP-08 style management | 2026-06-04 |
 | PPT direct construction (no HTML→PPTX) | python-pptx builds slides directly, more reliable than conversion | 2026-06-04 |
 | Chart PNG embedding for PPT | Plotly → PNG bytes → temp file → add_picture (REP-02) | 2026-06-04 |
 
@@ -121,12 +123,21 @@ See: .planning/PROJECT.md
 - **2026-06-04**: Plan 04-03 complete — Synthesis engine (6 min, REP-05, REP-06, 8 TDD commits, 4 functions)
 - **2026-06-04**: Plan 04-05 complete — Chart generator (10 min, REP-01, REP-04, 5 TDD commits, 4 tests passing)
 - **2026-06-04**: Plan 04-07 complete — PPT Report Generator (12 min, REP-02, 5 TDD commits, 4 tests passing)
+- **2026-06-04**: Plan 04-06 complete — HTML Report Generator (11 min, REP-01, REP-04, REP-05, REP-07, REP-10, 8 TDD commits, 5 tests passing)
 
 ## Next Action
 
 Phase 4 Wave 3 complete. Continue with remaining report module plans.
 
 **Phase 4 Wave 3 Progress:**
+
+- ✓ Plan 04-06: HTML Report Generator (11 min, REP-01, REP-04, REP-05, REP-07, REP-10)
+  - HTMLReportGenerator class with Jinja2 Environment and autoescape
+  - base.html template with 4 block sections and CSS variables
+  - 4 section templates: executive_summary, metrics_panel, thematic_analysis, conclusions
+  - PDF hint "按 Ctrl/Cmd + P 可导出 PDF" in footer
+  - XSS prevention via Jinja2 select_autoescape
+  - 5 tests passing, 0 skipped
 
 - ✓ Plan 04-07: PPT Report Generator (12 min, REP-02)
   - PPTReportGenerator class with python-pptx direct construction
