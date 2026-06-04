@@ -119,8 +119,31 @@ Plans:
 6. User can skip business clarification for simple tasks and proceed directly
 7. Conflicting expert conclusions are flagged for user attention
 
-**Plans:** TBD
+**Plans:** 2/8 plans executed
 **Pitfalls Addressed:** PITFALL-01 (LLM statistical reasoning), PITFALL-02 (coordination risks), PITFALL-15 (subagent context leakage)
+
+Plans:
+**Wave 0** *(test infrastructure - enables Nyquist validation)*
+
+- [ ] 03-01-PLAN.md — Wave 0: Test infrastructure scaffold (pytest stubs for CLAR-01~05, EXPT-01~08)
+
+**Wave 1** *(blocked on Wave 0 completion)*
+
+- [ ] 03-02-PLAN.md — Wave 1: Expert role definitions (EXPT-02: ExpertRole dataclass, EXPERT_ROLES library)
+- [ ] 03-03-PLAN.md — Wave 1: Business clarification (CLAR-01~05: BusinessClarifier, complexity trigger)
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
+- [ ] 03-04-PLAN.md — Wave 2: Expert selector (EXPT-01, EXPT-04: ExpertSelector, selection algorithm)
+- [ ] 03-05-PLAN.md — Wave 2: Statistical enforcement (EXPT-07: STATISTICAL_ENFORCEMENT_PROMPT, verify_code_execution)
+
+**Wave 3** *(blocked on Wave 2 completion)*
+
+- [ ] 03-06-PLAN.md — Wave 3: Expert runner (EXPT-03, EXPT-05, EXPT-06: ExpertRunner, context isolation, parallel dispatch)
+
+**Wave 4** *(blocked on Wave 3 completion)*
+
+- [ ] 03-07-PLAN.md — Wave 4: Conflict detector (EXPT-08: detect_conflicts, flag_conflicts_for_review)
 
 ### Phase 4: Report Generation
 
@@ -164,18 +187,19 @@ Plans:
 
 | REQ-ID | Phase | Category | Status |
 |--------|-------|----------|--------|
-| INF-01 | Phase 1 | Infrastructure | Pending |
-| INF-02 | Phase 1 | Infrastructure | Pending |
-| INF-03 | Phase 1 | Infrastructure | Pending |
-| INF-04 | Phase 1 | Infrastructure | Pending |
-| INF-05 | Phase 1 | Infrastructure | Pending |
-| DATA-01 | Phase 2 | Data Processing | Pending |
-| DATA-02 | Phase 2 | Data Processing | Pending |
-| DATA-03 | Phase 2 | Data Processing | Pending |
-| DATA-04 | Phase 2 | Data Processing | Pending |
-| DATA-05 | Phase 2 | Data Processing | Pending |
-| DATA-06 | Phase 2 | Data Processing | Pending |
-| DATA-07 | Phase 2 | Data Processing | Pending |
+| INF-01 | Phase 1 | Infrastructure | Complete |
+| INF-02 | Phase 1 | Infrastructure | Complete |
+| INF-03 | Phase 1 | Infrastructure | Complete |
+| INF-04 | Phase 1 | Infrastructure | Complete |
+| INF-05 | Phase 1 | Infrastructure | Complete |
+| DATA-01 | Phase 2 | Data Processing | Complete |
+| DATA-02 | Phase 2 | Data Processing | Complete |
+| DATA-03 | Phase 2 | Data Processing | Complete |
+| DATA-04 | Phase 2 | Data Processing | Complete |
+| DATA-05 | Phase 2 | Data Processing | Complete |
+| DATA-06 | Phase 2 | Data Processing | Complete |
+| DATA-07 | Phase 2 | Data Processing | Complete |
+| UX-04 | Phase 2 | Data Processing | Complete |
 | CLAR-01 | Phase 3 | Analysis | Pending |
 | CLAR-02 | Phase 3 | Analysis | Pending |
 | CLAR-03 | Phase 3 | Analysis | Pending |
@@ -202,7 +226,6 @@ Plans:
 | UX-01 | Phase 5 | Integration | Pending |
 | UX-02 | Phase 5 | Integration | Pending |
 | UX-03 | Phase 5 | Integration | Pending |
-| UX-04 | Phase 2 | Data Processing | Pending |
 
 **Coverage:** 39/39 requirements mapped ✓
 **Orphaned requirements:** None
@@ -232,10 +255,10 @@ Plans:
 |-------|---------------|--------|-----------|
 | 1. Infrastructure Foundation | 6/6 | Complete | ✓ |
 | 2. Data Processing Engine | 9/9 | Complete | ✓ |
-| 3. Analysis Engine | 0/1 | Not started | - |
+| 3. Analysis Engine | 2/8 | In Progress|  |
 | 4. Report Generation | 0/1 | Not started | - |
 | 5. Integration & UX Polish | 0/1 | Not started | - |
 
 ---
 
-*Last updated: 2026-06-04 after Plan 02-06 completion*
+*Last updated: 2026-06-04 after Phase 3 planning*

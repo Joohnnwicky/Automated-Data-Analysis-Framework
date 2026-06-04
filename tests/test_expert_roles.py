@@ -14,8 +14,6 @@ class TestExpertRole:
 
     def test_expert_role_dataclass_fields(self):
         """EXPT-02: Verify ExpertRole dataclass has id, name, domain, framework, tasks, data_types fields."""
-        pytest.skip("Wave 0 scaffold - implementation pending")
-
         from src.analysis.expert_roles import ExpertRole
 
         # Create an expert role instance
