@@ -129,6 +129,22 @@ def test_load_file_unsupported_format():
         temp_path.unlink(missing_ok=True)
 
 
+def test_data_loader_class():
+    """DATA-01: Verify DataLoader class wrapper."""
+    from src.data.loader import DataLoader
+
+    fixtures_dir = Path(__file__).parent / 'fixtures' / 'sample_data'
+
+    loader = DataLoader()
+    assert loader is not None
+
+    # Test load method
+    csv_file = fixtures_dir / 'test_utf8.csv'
+    df = loader.load(csv_file)
+    assert df is not None
+    assert len(df) > 0
+
+
 def test_error_unsupported_format():
     """UX-04: Verify DataLoadError raised for unsupported file formats."""
     from src.data.loader import DataLoadError
