@@ -9,6 +9,45 @@ import pandas as pd
 from pathlib import Path
 
 
+class TestDetectAdvertisingKeywords:
+    """Tests for detect_advertising_keywords helper function."""
+
+    def test_detect_english_keywords(self):
+        """Verify detection of English advertising keywords."""
+        from src.data.classifier import detect_advertising_keywords
+
+        df = pd.DataFrame({
+            'ctr': [0.05, 0.06],
+            'impression': [1000, 1200],
+            'click': [50, 72]
+        })
+        result = detect_advertising_keywords(df)
+        assert result == 3
+
+    def test_detect_chinese_keywords(self):
+        """Verify detection of Chinese advertising keywords."""
+        from src.data.classifier import detect_advertising_keywords
+
+        df = pd.DataFrame({
+            '投放': ['A', 'B'],
+            '点击': [100, 200],
+            '曝光': [1000, 2000]
+        })
+        result = detect_advertising_keywords(df)
+        assert result == 3
+
+    def test_no_advertising_keywords(self):
+        """Verify zero matches when no advertising keywords present."""
+        from src.data.classifier import detect_advertising_keywords
+
+        df = pd.DataFrame({
+            'name': ['Alice', 'Bob'],
+            'age': [30, 25]
+        })
+        result = detect_advertising_keywords(df)
+        assert result == 0
+
+
 class TestDetectDatetimeColumns:
     """Tests for detect_datetime_columns helper function."""
 

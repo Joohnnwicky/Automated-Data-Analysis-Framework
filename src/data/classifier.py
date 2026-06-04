@@ -38,3 +38,26 @@ def detect_datetime_columns(df: pd.DataFrame) -> List[str]:
 
     logger.info(f'Detected {len(datetime_cols)} datetime columns: {datetime_cols}')
     return datetime_cols
+
+
+def detect_advertising_keywords(df: pd.DataFrame) -> int:
+    """Count advertising keyword matches in DataFrame column names.
+
+    Args:
+        df: Input DataFrame to analyze.
+
+    Returns:
+        Number of advertising keyword matches found.
+    """
+    advertising_keywords = [
+        'ctr', 'click', 'impression', 'conversion',
+        'roi', 'cost', 'cpm', 'cpc', 'cpa',
+        '投放', '点击', '转化', '曝光', '花费'
+    ]
+
+    column_names = [col.lower() for col in df.columns]
+    ad_matches = sum(1 for kw in advertising_keywords
+                     if any(kw in col for col in column_names))
+
+    logger.info(f'Advertising keywords detected: {ad_matches} matches')
+    return ad_matches
