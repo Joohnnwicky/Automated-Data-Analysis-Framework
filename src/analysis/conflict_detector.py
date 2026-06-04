@@ -30,7 +30,11 @@ def detect_numerical_conflicts(expert_outputs: List[Dict]) -> List[Dict]:
 
     for output in expert_outputs:
         expert_id = output.get('expert_id', 'unknown')
-        for metric, value in output.get('metrics', {}).items():
+        metrics_dict = output.get('metrics', {})
+        if not isinstance(metrics_dict, dict):
+            logger.warning(f"Expert {expert_id} has invalid metrics type: {type(metrics_dict)}")
+            continue
+        for metric, value in metrics_dict.items():
             if metric in metrics:
                 existing = metrics[metric]
                 # Check if difference exceeds 10% threshold
