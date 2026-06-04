@@ -29,6 +29,25 @@ def test_encoding_detection():
     assert 'utf' in encoding.lower()
 
 
+def test_load_csv_safe():
+    """DATA-01: Verify CSV loading with encoding detection and fallback chain."""
+    from src.data.loader import load_csv_safe
+
+    fixtures_dir = Path(__file__).parent / 'fixtures' / 'sample_data'
+
+    # Test UTF-8 CSV file
+    utf8_csv = fixtures_dir / 'test_utf8.csv'
+    df_utf8 = load_csv_safe(utf8_csv)
+    assert df_utf8 is not None
+    assert len(df_utf8) > 0
+
+    # Test GB2312 CSV file (Chinese encoding)
+    gb2312_csv = fixtures_dir / 'test_gb2312.csv'
+    df_gb = load_csv_safe(gb2312_csv)
+    assert df_gb is not None
+    assert len(df_gb) > 0
+
+
 def test_error_unsupported_format():
     """UX-04: Verify DataLoadError raised for unsupported file formats."""
     from src.data.loader import DataLoadError
