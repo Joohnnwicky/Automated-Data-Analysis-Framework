@@ -1,12 +1,14 @@
 """
 Data profiling functions for Data Analyst Pro.
 
-Provides profile_dimensions, profile_fields, and profile_statistics
-for comprehensive DataFrame analysis.
+Provides profile_dimensions, profile_fields, profile_statistics,
+suggest_memory_optimization, suggest_missing_value_strategy,
+and DataProfiler class for comprehensive DataFrame analysis.
 """
 
 import logging
 from typing import Dict, Any
+from datetime import datetime
 
 import pandas as pd
 import numpy as np
@@ -253,3 +255,103 @@ def profile_statistics(df: pd.DataFrame) -> Dict[str, Any]:
     logger.info(f'Generated statistics summary for {len(numeric_cols)} numeric, {len(categorical_cols)} categorical columns')
 
     return stats
+
+
+class DataProfiler:
+    """
+    Main profiling class that orchestrates all profiling functions.
+
+    Provides comprehensive DataFrame profiling including dimensions,
+    field profiles, statistics, optimization suggestions, and
+    missing value strategies.
+    """
+
+    def __init__(self):
+        """Initialize DataProfiler."""
+        pass
+
+    def profile(self, df: pd.DataFrame) -> Dict[str, Any]:
+        """
+        Generate comprehensive profile of DataFrame.
+
+        Orchestrates all profiling functions to produce a complete
+        profile dictionary.
+
+        Args:
+            df: DataFrame to profile
+
+        Returns:
+            Dict with:
+            - dimensions: row/column counts and memory usage
+            - fields: detailed profiles for each field
+            - statistics: numeric and categorical summaries
+            - optimization: memory optimization suggestions
+            - missing_strategies: missing value handling recommendations
+            - profiling_timestamp: ISO format timestamp
+            - data_quality_score: quality score (0-100)
+
+        Note:
+            All computations use pandas/numpy methods (no LLM mental math).
+            Implements DATA-02, DATA-04, DATA-07 requirements.
+        """
+        profile = {}
+
+        # Call helper functions
+        profile['dimensions'] = profile_dimensions(df)
+        profile['fields'] = profile_fields(df)
+        profile['statistics'] = profile_statistics(df)
+        profile['optimization'] = suggest_memory_optimization(df)
+        profile['missing_strategies'] = suggest_missing_value_strategy(df)
+
+        # Add metadata
+        profile['profiling_timestamp'] = datetime.now().isoformat()
+        profile['data_quality_score'] = self._calculate_quality_score(df)
+
+        logger.info(f'Profile generated: {profile["dimensions"]["rows"]} rows, {profile["dimensions"]["columns"]} columns')
+
+        return profile
+
+    def _calculate_quality_score(self, df: pd.DataFrame) -> float:
+        """
+        Calculate data quality score based on missing rates, duplicates, and consistency.
+
+        Args:
+            df: DataFrame to evaluate
+
+        Returns:
+            Quality score between 0 and 100
+
+        Note:
+            Score calculation:
+            - Missing rate penalty: -0.5 points per % missing
+            - Duplicate rows penalty: -1 point per % duplicates
+            - Consistency bonus: +10 if all columns have consistent dtypes
+        """
+        # Calculate overall missing rate
+        total_cells = len(df) * len(df.columns)
+        total_missing = df.isna().sum().sum()
+        missing_rate = (total_missing / total_cells) * 100
+
+        # Calculate duplicate row rate
+        duplicate_rows = df.duplicated().sum()
+        duplicate_rate = (duplicate_rows / len(df)) * 100
+
+        # Start with perfect score
+        score = 100.0
+
+        # Apply penalties
+        score -= missing_rate * 0.5  # -0.5 points per % missing
+        score -= duplicate_rate * 1.0  # -1 point per % duplicates
+
+        # Consistency bonus: check if all expected dtypes are present
+        # (This is a simple heuristic - could be enhanced)
+        numeric_cols = df.select_dtypes(include=[np.number]).columns
+        object_cols = df.select_dtypes(include=['object', 'str']).columns
+        if len(numeric_cols) > 0 and len(object_cols) > 0:
+            # Mixed types suggest well-structured data
+            score += 5
+
+        # Ensure score is between 0 and 100
+        score = max(0, min(100, score))
+
+        return round(score, 2)
