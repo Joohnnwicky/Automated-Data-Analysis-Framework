@@ -148,3 +148,53 @@ def generate_distribution_insight(df: pd.DataFrame, col: str) -> Dict:
         'type': 'distribution',
         'message': f'{col} 分布较为对称，均值={mean_val:.2f}，标准差={std_val:.2f}'
     }
+
+
+def generate_initial_insights(df: pd.DataFrame, data_type: str) -> List[Dict]:
+    """Generate 1-2 initial insights from data.
+
+    Args:
+        df: Input DataFrame to analyze.
+        data_type: Type of data ('table', 'time_series', 'advertising').
+
+    Returns:
+        List of insight dicts (max 2).
+        Each dict contains: type, message, recommendation, statistics.
+    """
+    insights = []
+
+    # Extract numeric columns for trend/anomaly detection
+    numeric_cols = df.select_dtypes(include=[np.number]).columns.tolist()
+
+    if not numeric_cols:
+        logger.info('No numeric columns for insight generation')
+        return [{'type': 'info', 'message': '数据无数值字段，建议查看分类分布'}]
+
+    # Trend insight: For time_series/advertising data
+    if data_type in ['time_series', 'advertising']:
+        from src.data.classifier import detect_datetime_columns
+
+        datetime_cols = detect_datetime_columns(df)
+        if datetime_cols:
+            time_col = datetime_cols[0]
+            for metric_col in numeric_cols[:3]:
+                if time_col in df.columns and metric_col in df.columns:
+                    trend_insight = detect_trend(df, time_col, metric_col)
+                    if trend_insight:
+                        insights.append(trend_insight)
+                        break
+
+    # Anomaly insight: If no trend or less than 2 insights
+    if len(insights) < 2 and numeric_cols:
+        primary_col = numeric_cols[0]
+        anomaly_insight = detect_anomalies(df, primary_col)
+        if anomaly_insight:
+            insights.append(anomaly_insight)
+
+    # Fallback distribution insight if still no insights
+    if not insights:
+        distribution_insight = generate_distribution_insight(df, numeric_cols[0])
+        insights.append(distribution_insight)
+
+    logger.info(f'Generated {len(insights)} initial insights')
+    return insights[:2]  # Return max 2 insights
