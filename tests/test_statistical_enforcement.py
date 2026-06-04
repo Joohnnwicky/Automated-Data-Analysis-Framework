@@ -68,8 +68,6 @@ These results show significant patterns in the data.
 
     def test_statistical_enforcement_prompt_contains_rules(self):
         """EXPT-07: Verify STATISTICAL_ENFORCEMENT_PROMPT contains rules."""
-        pytest.skip("Wave 0 scaffold - implementation pending")
-
         from src.analysis.statistical_enforcement import STATISTICAL_ENFORCEMENT_PROMPT
 
         # Verify prompt is defined
