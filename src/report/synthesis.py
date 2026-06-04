@@ -131,6 +131,53 @@ def organize_by_theme(findings: List[Dict[str, Any]]) -> Dict[str, List[Dict[str
     return final_themes
 
 
+# Significant threshold for conclusion-style titles (REP-05)
+_SIGNIFICANT_THRESHOLD = 10  # |change_pct| > 10% considered significant
+
+
+def generate_conclusion_title(metrics: Dict[str, Dict[str, Any]]) -> str:
+    """Generate conclusion-style title from key metrics.
+
+    REP-05: Creates titles like "ROI增长15%, CTR下降3%" instead of
+    topic-style titles like "ROI分析报告".
+
+    Args:
+        metrics: Dict mapping metric name to dict with 'value' and 'change_pct'.
+
+    Returns:
+        Conclusion-style title string, or "数据概览" fallback.
+
+    Note:
+        Only metrics with |change_pct| > 10% threshold are included.
+        Top 2 significant metrics are used for title.
+    """
+    significant_metrics = []
+
+    for metric_name, data in metrics.items():
+        change_pct = data.get('change_pct', 0)
+        if abs(change_pct) > _SIGNIFICANT_THRESHOLD:
+            direction = '增长' if change_pct > 0 else '下降'
+            significant_metrics.append({
+                'name': metric_name,
+                'direction': direction,
+                'magnitude': abs(change_pct)
+            })
+
+    # Sort by magnitude, take top 2
+    significant_metrics.sort(key=lambda x: x['magnitude'], reverse=True)
+    top_2 = significant_metrics[:2]
+
+    if len(top_2) == 0:
+        return "数据概览"  # Fallback
+
+    # Generate conclusion-style title
+    title_parts = []
+    for m in top_2:
+        title_parts.append(f"{m['name']}{m['direction']}{int(m['magnitude'])}%")
+
+    return ', '.join(title_parts)
+
+
 def _get_finding_content(finding: Dict[str, Any]) -> str:
     """Extract all text content from a finding dict.
 
