@@ -48,6 +48,30 @@ def test_load_csv_safe():
     assert len(df_gb) > 0
 
 
+def test_load_excel_safe():
+    """DATA-01: Verify Excel file loading with openpyxl engine."""
+    from src.data.loader import load_excel_safe
+
+    fixtures_dir = Path(__file__).parent / 'fixtures' / 'sample_data'
+    excel_file = fixtures_dir / 'test.xlsx'
+
+    df = load_excel_safe(excel_file)
+    assert df is not None
+    assert len(df) > 0
+
+
+def test_load_json_safe():
+    """DATA-01: Verify JSON file loading."""
+    from src.data.loader import load_json_safe
+
+    fixtures_dir = Path(__file__).parent / 'fixtures' / 'sample_data'
+    json_file = fixtures_dir / 'test.json'
+
+    df = load_json_safe(json_file)
+    assert df is not None
+    assert len(df) > 0
+
+
 def test_error_unsupported_format():
     """UX-04: Verify DataLoadError raised for unsupported file formats."""
     from src.data.loader import DataLoadError
