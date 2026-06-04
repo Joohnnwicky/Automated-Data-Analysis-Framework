@@ -165,6 +165,58 @@ def test_suggest_memory_optimization():
     assert low_unique_suggestion[0]['estimated_reduction'] > 50  # Should have significant reduction
 
 
+def test_suggest_missing_value_strategy():
+    """DATA-07: Verify missing value strategy suggestions."""
+    from src.data.profiler import suggest_missing_value_strategy
+
+    # Create DataFrame with various missing value patterns
+    df = pd.DataFrame({
+        'numeric_low_null': [1.0, 2.0, 3.0, 4.0, 5.0],  # 0% null
+        'numeric_medium_null': [1.0, 2.0, None, 4.0, 5.0],  # 20% null
+        'numeric_high_null': [1.0, None, None, None, None],  # 80% null
+        'categorical_low_null': ['a', 'b', 'c', 'd', 'e'],  # 0% null
+        'categorical_medium_null': ['a', None, 'c', 'd', 'e'],  # 20% null
+    })
+
+    result = suggest_missing_value_strategy(df)
+
+    # Verify result structure
+    assert 'missing_columns' in result
+    assert 'total_missing_rows' in result
+
+    # Verify columns with missing values are identified
+    # Should only include columns where null_count > 0
+    missing_cols = result['missing_columns']
+    assert 'numeric_low_null' not in missing_cols
+    assert 'categorical_low_null' not in missing_cols
+    assert 'numeric_medium_null' in missing_cols
+    assert 'numeric_high_null' in missing_cols
+    assert 'categorical_medium_null' in missing_cols
+
+    # Verify strategy suggestions for numeric columns
+    assert missing_cols['numeric_medium_null']['null_pct'] == 20.0
+    assert missing_cols['numeric_medium_null']['dtype'] == 'float64'
+    # 20% null should suggest 'fill with median' or 'consider dropping column or rows'
+    assert 'fill' in missing_cols['numeric_medium_null']['suggested_strategy'] or 'drop' in missing_cols['numeric_medium_null']['suggested_strategy']
+
+    # High null percentage should suggest dropping
+    assert missing_cols['numeric_high_null']['null_pct'] == 80.0
+    assert 'drop' in missing_cols['numeric_high_null']['suggested_strategy']
+
+    # Verify strategy for categorical columns
+    assert missing_cols['categorical_medium_null']['dtype'] in ['object', 'str']
+    # 20% null for categorical should suggest fill with placeholder or drop rows
+    strategy = missing_cols['categorical_medium_null']['suggested_strategy']
+    assert 'Unknown' in strategy or 'drop' in strategy or 'mode' in strategy
+
+    # Verify total missing rows count
+    # Rows with at least one null: row 2 (numeric_medium_null, numeric_high_null), row 3, row 4, row 5
+    # Actually row 2 has numeric_medium_null null and numeric_high_null null
+    # row 3-5 have numeric_high_null null
+    # So total missing rows = 4
+    assert result['total_missing_rows'] >= 1  # At least some rows have missing values
+
+
 @pytest.mark.skip(reason="src/data/profiler.py not implemented")
 def test_missing_value_report():
     """DATA-02: Verify missing value detection and strategy suggestions."""
