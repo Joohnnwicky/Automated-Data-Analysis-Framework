@@ -65,24 +65,49 @@ class TestSynthesis:
         for theme in expected_themes:
             assert theme in themes
 
-    @pytest.mark.skip(reason="Wave 0 scaffold - src/report/synthesis.py not implemented")
     def test_generate_conclusion_title(self):
-        """REP-05: Verify conclusion-style titles (not expert-attribute)."""
+        """REP-05: Verify conclusion-style titles (not topic-style)."""
         from src.report.synthesis import generate_conclusion_title
 
-        # Test with analysis content
-        content = 'ROI increased by 15% compared to last quarter, driven by improved conversion rates.'
+        # Test with metrics dict containing significant changes
+        metrics = {
+            'ROI': {'value': 15.2, 'change_pct': 15},
+            'CTR': {'value': 3.1, 'change_pct': -3},
+            'Revenue': {'value': 1000, 'change_pct': 5}  # Below 10% threshold
+        }
 
-        title = generate_conclusion_title(content)
+        title = generate_conclusion_title(metrics)
 
-        # Verify title is conclusion-style, not expert-attributed
+        # Verify title is conclusion-style
         assert isinstance(title, str)
         assert len(title) > 0
-        # Title should NOT contain expert attribution patterns
+
+        # Title should be like "ROI增长15%, CTR下降3%"
+        assert 'ROI' in title
+        assert '增长' in title or '下降' in title
+
+        # Title should NOT be topic-style like "ROI分析报告"
+        assert '分析' not in title
+        assert '报告' not in title
+
+        # Title should NOT contain expert attribution
         assert 'expert' not in title.lower()
         assert 'analyst' not in title.lower()
-        # Title should be actionable/conclusive
-        assert any(word in title for word in ['increased', 'improved', 'decreased', 'change', 'trend', 'result'])
+
+    def test_generate_conclusion_title_fallback(self):
+        """REP-05: Verify fallback title when no significant metrics."""
+        from src.report.synthesis import generate_conclusion_title
+
+        # Test with no significant metrics (all below 10% threshold)
+        metrics = {
+            'Revenue': {'value': 1000, 'change_pct': 5},
+            'Users': {'value': 500, 'change_pct': 2}
+        }
+
+        title = generate_conclusion_title(metrics)
+
+        # Fallback to "数据概览"
+        assert title == '数据概览'
 
     @pytest.mark.skip(reason="Wave 0 scaffold - src/report/synthesis.py not implemented")
     def test_manager_pov(self):
