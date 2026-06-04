@@ -217,7 +217,58 @@ def test_suggest_missing_value_strategy():
     assert result['total_missing_rows'] >= 1  # At least some rows have missing values
 
 
-@pytest.mark.skip(reason="src/data/profiler.py not implemented")
-def test_missing_value_report():
-    """DATA-02: Verify missing value detection and strategy suggestions."""
-    pass
+def test_data_profiler_class():
+    """DATA-02: Verify DataProfiler orchestrates all profiling functions."""
+    from src.data.profiler import DataProfiler
+
+    # Create test DataFrame with consistent row counts
+    df = pd.DataFrame({
+        'numeric_col': list(range(100)),
+        'string_col': ['a', 'b', 'c', 'd', 'e'] * 20,
+        'col_with_nulls': [1.0, 2.0, None, 4.0, 5.0] * 20,  # 20% nulls
+        'low_cardinality': ['a'] * 90 + ['b'] * 10,  # For memory optimization
+    })
+
+    profiler = DataProfiler()
+    profile = profiler.profile(df)
+
+    # Verify profile structure
+    assert 'dimensions' in profile
+    assert 'fields' in profile
+    assert 'statistics' in profile
+    assert 'optimization' in profile
+    assert 'missing_strategies' in profile
+    assert 'profiling_timestamp' in profile
+    assert 'data_quality_score' in profile
+
+    # Verify dimensions
+    assert profile['dimensions']['rows'] == 100
+    assert profile['dimensions']['columns'] == 4
+
+    # Verify fields
+    assert len(profile['fields']) == 4
+    assert 'numeric_col' in profile['fields']
+    assert 'string_col' in profile['fields']
+    assert 'col_with_nulls' in profile['fields']
+    assert 'low_cardinality' in profile['fields']
+
+    # Verify statistics
+    assert 'numeric_summary' in profile['statistics']
+
+    # Verify optimization
+    assert 'current_memory_mb' in profile['optimization']
+    assert 'suggestions' in profile['optimization']
+
+    # Verify missing strategies
+    assert 'missing_columns' in profile['missing_strategies']
+    assert 'col_with_nulls' in profile['missing_strategies']['missing_columns']
+
+    # Verify quality score is between 0 and 100
+    assert 0 <= profile['data_quality_score'] <= 100
+
+    # Verify timestamp is a valid ISO format string
+    from datetime import datetime
+    try:
+        datetime.fromisoformat(profile['profiling_timestamp'])
+    except ValueError:
+        assert False, "profiling_timestamp should be valid ISO format"
