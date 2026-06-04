@@ -11,7 +11,6 @@ from pathlib import Path
 class TestSynthesis:
     """Tests for synthesis engine and manager-POV synthesis generation."""
 
-    @pytest.mark.skip(reason="Wave 0 scaffold - src/report/synthesis.py not implemented")
     def test_parse_expert_files(self, tmp_path):
         """REP-05: Verify expert file parsing from output/experts/ directory."""
         from src.report.synthesis import parse_expert_files
@@ -21,15 +20,29 @@ class TestSynthesis:
         experts_dir.mkdir()
 
         expert_file = experts_dir / 'quant_analyst.md'
-        expert_file.write_text('# Quantitative Analyst\n\n## Analysis\n\nROI increased by 15%.', encoding='utf-8')
+        expert_file.write_text(
+            '# Quantitative Analyst\n\n'
+            '## Analysis\n\n'
+            'ROI increased by 15%.\n\n'
+            'Revenue: $1.2M.\n\n'
+            '## Recommendations\n\n'
+            '- Increase marketing spend\n'
+            '- Focus on retention\n',
+            encoding='utf-8'
+        )
+
+        # Skip roles.md if present
+        roles_file = experts_dir / 'roles.md'
+        roles_file.write_text('# Role definitions\n', encoding='utf-8')
 
         result = parse_expert_files(experts_dir)
 
-        # Verify parsing returns list of expert outputs
+        # Verify parsing returns list of findings dicts
         assert isinstance(result, list)
-        assert len(result) == 1
-        assert result[0]['expert_id'] == 'quant_analyst'
-        assert 'ROI' in result[0]['content']
+        assert len(result) == 1  # Only quant_analyst.md, roles.md skipped
+        assert 'source_file' in result[0]
+        assert 'metrics' in result[0]
+        assert 'recommendations' in result[0]
 
     @pytest.mark.skip(reason="Wave 0 scaffold - src/report/synthesis.py not implemented")
     def test_organize_by_theme(self):
