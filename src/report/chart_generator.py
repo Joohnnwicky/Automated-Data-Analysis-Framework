@@ -53,6 +53,9 @@ def generate_line_chart(
     Returns:
         Plotly Figure object ready for display or export
 
+    Raises:
+        ValueError: If DataFrame is empty or columns not found
+
     Examples:
         >>> df = pd.DataFrame({'date': ['2023-01', '2023-02'], 'value': [100, 150]})
         >>> style = get_design_style('ft')
@@ -60,6 +63,16 @@ def generate_line_chart(
         >>> fig.data[0].type
         'scatter'
     """
+    # Validate DataFrame is not empty
+    if data.empty:
+        raise ValueError("DataFrame is empty - cannot generate chart")
+
+    # Validate columns exist
+    if x_col not in data.columns:
+        raise ValueError(f"Column '{x_col}' not found in DataFrame")
+    if y_col not in data.columns:
+        raise ValueError(f"Column '{y_col}' not found in DataFrame")
+
     fig = go.Figure()
 
     # Add line trace with markers
@@ -115,6 +128,9 @@ def generate_bar_chart(
     Returns:
         Plotly Figure object ready for display or export
 
+    Raises:
+        ValueError: If DataFrame is empty or columns not found
+
     Examples:
         >>> df = pd.DataFrame({'category': ['A', 'B', 'C'], 'value': [10, 20, 15]})
         >>> style = get_design_style('ft')
@@ -122,6 +138,16 @@ def generate_bar_chart(
         >>> fig.data[0].type
         'bar'
     """
+    # Validate DataFrame is not empty
+    if data.empty:
+        raise ValueError("DataFrame is empty - cannot generate chart")
+
+    # Validate columns exist
+    if x_col not in data.columns:
+        raise ValueError(f"Column '{x_col}' not found in DataFrame")
+    if y_col not in data.columns:
+        raise ValueError(f"Column '{y_col}' not found in DataFrame")
+
     fig = go.Figure()
 
     # Add bar trace
