@@ -125,10 +125,44 @@ def test_profile_statistics():
     assert 'numeric_summary' not in result_categorical or result_categorical['numeric_summary'] == {}
 
 
-@pytest.mark.skip(reason="src/data/profiler.py not implemented")
-def test_numeric_stats():
-    """DATA-02: Verify statistical summaries via pandas describe()."""
-    pass
+def test_suggest_memory_optimization():
+    """DATA-02: Verify memory optimization suggestions for category conversion."""
+    from src.data.profiler import suggest_memory_optimization
+
+    # Create DataFrame with object columns suitable for category conversion
+    df = pd.DataFrame({
+        'numeric_col': [1, 2, 3, 4, 5],
+        'low_cardinality': ['a', 'b', 'a', 'b', 'a'],  # 3 unique out of 5 rows (60% < 50% unique)
+        'high_cardinality': ['a', 'b', 'c', 'd', 'e'],  # 5 unique out of 5 rows (100% unique)
+    })
+
+    result = suggest_memory_optimization(df)
+
+    # Verify result structure
+    assert 'current_memory_mb' in result
+    assert 'suggestions' in result
+    assert result['current_memory_mb'] >= 0
+
+    # Verify low_cardinality is suggested for category conversion
+    # unique_ratio = 3/5 = 0.6 which is > 0.5, so it should NOT be suggested
+    # Actually, need to check: unique_ratio < 0.5 means < 50% unique
+    # 3 unique out of 5 rows = 60% unique ratio, which is > 0.5
+    # So this should NOT be suggested
+
+    # Let's use a better test case
+    df2 = pd.DataFrame({
+        'numeric_col': list(range(100)),
+        'low_unique': ['a'] * 90 + ['b'] * 10,  # 2 unique out of 100 rows (2% unique)
+    })
+
+    result2 = suggest_memory_optimization(df2)
+    suggestions = result2['suggestions']
+
+    # Should have at least one suggestion for low_unique
+    low_unique_suggestion = [s for s in suggestions if s['column'] == 'low_unique']
+    assert len(low_unique_suggestion) > 0, "Should suggest category conversion for low cardinality column"
+    assert low_unique_suggestion[0]['suggestion'] == 'convert to category'
+    assert low_unique_suggestion[0]['estimated_reduction'] > 50  # Should have significant reduction
 
 
 @pytest.mark.skip(reason="src/data/profiler.py not implemented")

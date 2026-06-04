@@ -108,6 +108,51 @@ def profile_fields(df: pd.DataFrame) -> Dict[str, Dict]:
     return fields
 
 
+def suggest_memory_optimization(df: pd.DataFrame) -> Dict[str, Any]:
+    """
+    Suggest memory optimizations for DataFrame.
+
+    Analyzes object columns for category conversion potential by comparing
+    unique value ratios and memory reduction estimates.
+
+    Args:
+        df: DataFrame to analyze
+
+    Returns:
+        Dict with:
+        - current_memory_mb: current memory usage in MB
+        - suggestions: list of optimization suggestions
+
+    Note:
+        Only suggests category conversion if:
+        - unique_ratio < 0.5 (less than 50% unique values)
+        - estimated memory reduction > 50%
+    """
+    suggestions = []
+    current_memory = df.memory_usage(deep=True).sum()
+
+    # Handle both pandas 1.x 'object' and 2.x 'str' dtypes
+    for col in df.select_dtypes(include=['object', 'str']).columns:
+        unique_ratio = df[col].nunique() / len(df)
+        if unique_ratio < 0.5:  # Less than 50% unique
+            cat_memory = df[col].astype('category').memory_usage(deep=True)
+            obj_memory = df[col].memory_usage(deep=True)
+            reduction = (obj_memory - cat_memory) / obj_memory * 100
+            if reduction > 50:
+                suggestions.append({
+                    'column': col,
+                    'suggestion': 'convert to category',
+                    'estimated_reduction': round(reduction, 1)
+                })
+
+    logger.info(f'Memory optimization: {len(suggestions)} suggestions found')
+
+    return {
+        'current_memory_mb': round(current_memory / 1024 / 1024, 2),
+        'suggestions': suggestions
+    }
+
+
 def profile_statistics(df: pd.DataFrame) -> Dict[str, Any]:
     """
     Generate statistical summaries using pandas describe().
