@@ -65,7 +65,6 @@ class TestHTMLReport:
         # Verify Chinese characters render properly
         assert '业务分析总结' in content
 
-    @pytest.mark.skip(reason="Wave 0 scaffold - src/report/html_report.py not implemented")
     def test_report_structure(self, tmp_path):
         """REP-07: Verify Executive Summary → Metrics → Themes → Conclusions structure."""
         from src.report.html_report import HTMLReportGenerator
