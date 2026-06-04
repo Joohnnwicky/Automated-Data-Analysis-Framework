@@ -41,35 +41,38 @@ class TestPPTReport:
         # Verify file size is reasonable (not empty)
         assert output_path.stat().st_size > 1000  # PPTX should be at least 1KB
 
-    @pytest.mark.skip(reason="Wave 0 scaffold - src/report/ppt_report.py not implemented")
     def test_ppt_slide_structure(self, tmp_path):
         """Verify PPT slides have title and content structure."""
         from src.report.ppt_report import PPTReportGenerator
         from pptx import Presentation
 
-        report_data = {
-            'title': '分析报告',
-            'metrics': {'ROI': 15.5},
-            'themes': {
-                'performance': {'title': '绩效分析', 'insights': ['insight1']}
-            },
-            'conclusions': ['结论1']
-        }
+        generator = PPTReportGenerator(style_id='ft')
 
-        generator = PPTReportGenerator()
-        output_path = tmp_path / 'report.pptx'
+        # Add slide with title and content
+        generator.add_slide('测试标题', '测试内容')
 
-        generator.generate(report_data, output_path)
+        # Save to verify structure
+        output_path = tmp_path / 'test_slide.pptx'
+        generator.save_ppt(output_path)
 
         # Open and verify structure
         prs = Presentation(str(output_path))
 
-        # Verify slides exist
-        assert len(prs.slides) >= 3  # Should have at least title + metrics + conclusions
+        # Verify slide exists
+        assert len(prs.slides) >= 1
 
         # Verify first slide has title
         first_slide = prs.slides[0]
         assert len(first_slide.shapes) > 0
+
+        # Verify title text
+        title_shape = first_slide.shapes.title
+        assert title_shape is not None
+        assert title_shape.text == '测试标题'
+
+        # Verify content placeholder has text
+        placeholder = first_slide.placeholders[1]
+        assert placeholder.text == '测试内容'
 
     @pytest.mark.skip(reason="Wave 0 scaffold - src/report/ppt_report.py not implemented")
     def test_ppt_chart_embedding(self, tmp_path):
