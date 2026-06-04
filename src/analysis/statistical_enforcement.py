@@ -7,6 +7,34 @@ requirement for all numerical conclusions.
 
 All numerical claims in expert outputs must be backed by Python code execution,
 not LLM mental math or estimation.
+
+This module provides:
+1. STATISTICAL_ENFORCEMENT_PROMPT: Prompt instructions to embed in expert prompts
+2. verify_code_execution: Function to validate expert outputs contain code blocks
+
+Usage:
+    from src.analysis.statistical_enforcement import (
+        STATISTICAL_ENFORCEMENT_PROMPT,
+        verify_code_execution
+    )
+
+    # Include in expert prompt
+    expert_prompt = base_prompt + "\\n\\n" + STATISTICAL_ENFORCEMENT_PROMPT
+
+    # Verify expert output
+    if not verify_code_execution(expert_output):
+        raise ValueError("Expert output lacks code execution verification")
+
+Architecture:
+    This module is designed to be integrated into the expert runner pipeline
+    (src/analysis/expert_runner.py). The STATISTICAL_ENFORCEMENT_PROMPT should
+    be appended to every expert's system prompt, and verify_code_execution
+    should be called on every expert's output before accepting conclusions.
+
+Threat Mitigation:
+    - T-3-03 (HIGH): LLM hallucination in analysis is mitigated by requiring
+      all numerical claims to be backed by executed Python code
+    - PITFALL-01: Statistical reasoning failures prevented by code execution
 """
 
 import re
