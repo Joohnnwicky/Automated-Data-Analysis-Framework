@@ -7,30 +7,32 @@ Initially skipped - will pass after src/report/ppt_report.py implementation.
 import pytest
 from pathlib import Path
 import tempfile
+from pptx import Presentation
+from pptx.presentation import Presentation as PresentationClass
 
 
 class TestPPTReport:
     """Tests for PPT report generation via python-pptx."""
 
-    @pytest.mark.skip(reason="Wave 0 scaffold - src/report/ppt_report.py not implemented")
     def test_generate_ppt(self, tmp_path):
-        """REP-02: Verify PPT file created via python-pptx."""
+        """REP-02: Verify PPTReportGenerator creates Presentation object with style."""
         from src.report.ppt_report import PPTReportGenerator
+        from pptx import Presentation
 
-        # Create sample report data
-        report_data = {
-            'title': '数据分析报告',
-            'metrics': {'ROI': 15.5, 'conversion_rate': 0.05},
-            'themes': {
-                'performance': {'title': '绩效分析', 'insights': ['ROI提升显著']}
-            },
-            'conclusions': ['建议继续优化']
-        }
+        # Test initialization with style_id
+        generator = PPTReportGenerator(style_id='ft')
 
-        generator = PPTReportGenerator()
-        output_path = tmp_path / 'report.pptx'
+        # Verify Presentation object created
+        assert generator.prs is not None
+        assert isinstance(generator.prs, PresentationClass)
 
-        generator.generate(report_data, output_path)
+        # Verify style loaded
+        assert generator.style is not None
+        assert generator.style.id == 'ft'
+
+        # Test basic save
+        output_path = tmp_path / 'test.pptx'
+        generator.save_ppt(output_path)
 
         # Verify PPT file created
         assert output_path.exists()
