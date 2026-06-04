@@ -27,7 +27,6 @@ class TestChartSelector:
         assert chart_type == 'line'
         assert '时序' in rationale or '趋势' in rationale
 
-    @pytest.mark.skip(reason="Wave 0 scaffold - src/report/chart_selector.py not implemented")
     def test_select_chart_type_categorical(self):
         """REP-09: Verify numeric + categorical → bar chart selection."""
         from src.report.chart_selector import select_chart_type
