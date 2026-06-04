@@ -1,4 +1,4 @@
-# Roadmap — Data Analyst Pro
+# Roadmap - Data Analyst Pro
 
 **Project:** AI-powered data analysis skill
 **Mode:** Horizontal Layers
@@ -8,15 +8,14 @@
 
 Data Analyst Pro is an enhanced data analysis skill that merges huashu-data-pro's report generation capabilities with data-analyst TUI's exploratory analysis strengths. The build follows a horizontal layers approach: complete technical layers built in sequence, then integrated at the end.
 
-**Core Value:** 让数据分析从「理解业务问题」开始，产出管理层可直接汇报的专业报告
-
-**Build Strategy:** Infrastructure → Data Processing → Analysis Engine → Report Generation → Integration Testing
+**Core Value:** Let data analysis start from "understanding business problems" and produce professional reports that management can directly present.
+**Build Strategy:** Infrastructure -> Data Processing -> Analysis Engine -> Report Generation -> Integration Testing
 
 ## Phases
 
 - [ ] **Phase 1: Infrastructure Foundation** - Establish Python toolchain, dependency management, cross-platform paths, logging, and version control
 - [ ] **Phase 2: Data Processing Engine** - Build data loader, schema profiler, type detector, and insight generator with memory safety
-- [ ] **Phase 3: Analysis Engine** - Implement multi-expert parallel analysis with subagent orchestration and statistical safeguards
+- [x] **Phase 3: Analysis Engine** - Implement multi-expert parallel analysis with subagent orchestration and statistical safeguards (completed 2026-06-04)
 - [ ] **Phase 4: Report Generation** - Create HTML/PPT generators with professional design system and synthesis engine
 - [ ] **Phase 5: Integration & UX Polish** - End-to-end workflow integration, error handling, and user experience refinements
 
@@ -43,21 +42,21 @@ Data Analyst Pro is an enhanced data analysis skill that merges huashu-data-pro'
 Plans:
 **Wave 1**
 
-- [ ] 01-01-PLAN.md — Wave 0: Test infrastructure scaffold (pytest, conftest, test stubs)
-- [ ] 01-02-PLAN.md — Wave 1: Dependency management (requirements.txt, .gitignore)
-- [ ] 01-03-PLAN.md — Wave 1: Logging infrastructure (logging_config.py, src/ structure)
+- [ ] 01-01-PLAN.md - Wave 0: Test infrastructure scaffold (pytest, conftest, test stubs)
+- [ ] 01-02-PLAN.md - Wave 1: Dependency management (requirements.txt, .gitignore)
+- [ ] 01-03-PLAN.md - Wave 1: Logging infrastructure (logging_config.py, src/ structure)
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 01-04-PLAN.md — Wave 2: Path refactoring (move scripts, pathlib, remove warnings)
+- [ ] 01-04-PLAN.md - Wave 2: Path refactoring (move scripts, pathlib, remove warnings)
 
 **Wave 3** *(blocked on Wave 2 completion)*
 
-- [ ] 01-05-PLAN.md — Wave 3: Logging integration (replace print with logger)
+- [ ] 01-05-PLAN.md - Wave 3: Logging integration (replace print with logger)
 
 **Wave 4** *(blocked on Wave 3 completion)*
 
-- [ ] 01-06-PLAN.md — Wave 4: Cleanup & validation (__MACOSX, tests, obsolete files)
+- [ ] 01-06-PLAN.md - Wave 4: Cleanup & validation (__MACOSX, tests, obsolete files)
 
 ### Phase 2: Data Processing Engine
 
@@ -73,35 +72,35 @@ Plans:
 5. Large datasets (>100K rows) are processed without memory exhaustion via chunking/ sampling
 6. User sees clear error messages for unsupported formats or corrupted files
 
-**Plans:** 9/9 plans executed ✓
+**Plans:** 9/9 plans executed OK
 
 Plans:
 **Wave 0** *(test infrastructure - enables Nyquist validation)*
 
-- [x] 02-01a-PLAN.md — Wave 0: Dependencies and test fixtures (charset-normalizer, sample data files)
-- [x] 02-01b-PLAN.md — Wave 0: Test scaffold files (pytest stubs for DATA-01 through DATA-07)
+- [x] 02-01a-PLAN.md - Wave 0: Dependencies and test fixtures (charset-normalizer, sample data files)
+- [x] 02-01b-PLAN.md - Wave 0: Test scaffold files (pytest stubs for DATA-01 through DATA-07)
 
 **Wave 1** *(blocked on Wave 0 completion)*
 
-- [x] 02-02a-PLAN.md — Wave 1: Package structure and encoding detection (DataLoadError, detect_encoding)
-- [x] 02-03a-PLAN.md — Wave 1: Profiling helper functions (profile_dimensions, profile_fields, profile_statistics)
+- [x] 02-02a-PLAN.md - Wave 1: Package structure and encoding detection (DataLoadError, detect_encoding)
+- [x] 02-03a-PLAN.md - Wave 1: Profiling helper functions (profile_dimensions, profile_fields, profile_statistics)
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [x] 02-02b-PLAN.md — Wave 2: Complete DataLoader (load_file, format loaders, security validation)
-- [x] 02-03b-PLAN.md — Wave 2: Complete DataProfiler (memory optimization, missing strategies, profile method)
+- [x] 02-02b-PLAN.md - Wave 2: Complete DataLoader (load_file, format loaders, security validation)
+- [x] 02-03b-PLAN.md - Wave 2: Complete DataProfiler (memory optimization, missing strategies, profile method)
 
 **Wave 3** *(blocked on Wave 2 completion)*
 
-- [x] 02-04-PLAN.md — Wave 3: Type classifier (TypeClassifier, advertising/time-series/table detection)
+- [x] 02-04-PLAN.md - Wave 3: Type classifier (TypeClassifier, advertising/time-series/table detection)
 
 **Wave 4** *(blocked on Wave 3 completion)*
 
-- [x] 02-05-PLAN.md — Wave 4: Insight generator (InsightGenerator, trend/anomaly detection)
+- [x] 02-05-PLAN.md - Wave 4: Insight generator (InsightGenerator, trend/anomaly detection)
 
 **Wave 5** *(blocked on Wave 4 completion)*
 
-- [x] 02-06-PLAN.md — Wave 5: Memory utilities (chunked loading, sampling, memory estimation)
+- [x] 02-06-PLAN.md - Wave 5: Memory utilities (chunked loading, sampling, memory estimation)
 **Pitfalls Addressed:** PITFALL-05 (memory exhaustion), PITFALL-10 (missing value handling), PITFALL-04 (data hallucination)
 
 ### Phase 3: Analysis Engine
@@ -119,31 +118,31 @@ Plans:
 6. User can skip business clarification for simple tasks and proceed directly
 7. Conflicting expert conclusions are flagged for user attention
 
-**Plans:** 2/8 plans executed
+**Plans:** 8/8 plans complete
 **Pitfalls Addressed:** PITFALL-01 (LLM statistical reasoning), PITFALL-02 (coordination risks), PITFALL-15 (subagent context leakage)
 
 Plans:
 **Wave 0** *(test infrastructure - enables Nyquist validation)*
 
-- [ ] 03-01-PLAN.md — Wave 0: Test infrastructure scaffold (pytest stubs for CLAR-01~05, EXPT-01~08)
+- [ ] 03-01-PLAN.md - Wave 0: Test infrastructure scaffold (pytest stubs for CLAR-01~05, EXPT-01~08)
 
 **Wave 1** *(blocked on Wave 0 completion)*
 
-- [ ] 03-02-PLAN.md — Wave 1: Expert role definitions (EXPT-02: ExpertRole dataclass, EXPERT_ROLES library)
-- [ ] 03-03-PLAN.md — Wave 1: Business clarification (CLAR-01~05: BusinessClarifier, complexity trigger)
+- [x] 03-02-PLAN.md - Wave 1: Expert role definitions (EXPT-02: ExpertRole dataclass, EXPERT_ROLES library)
+- [x] 03-03-PLAN.md - Wave 1: Business clarification (CLAR-01~05: BusinessClarifier, complexity trigger)
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 03-04-PLAN.md — Wave 2: Expert selector (EXPT-01, EXPT-04: ExpertSelector, selection algorithm)
-- [ ] 03-05-PLAN.md — Wave 2: Statistical enforcement (EXPT-07: STATISTICAL_ENFORCEMENT_PROMPT, verify_code_execution)
+- [x] 03-04-PLAN.md - Wave 2: Expert selector (EXPT-01, EXPT-04: ExpertSelector, selection algorithm)
+- [x] 03-05-PLAN.md - Wave 2: Statistical enforcement (EXPT-07: STATISTICAL_ENFORCEMENT_PROMPT, verify_code_execution)
 
 **Wave 3** *(blocked on Wave 2 completion)*
 
-- [ ] 03-06-PLAN.md — Wave 3: Expert runner (EXPT-03, EXPT-05, EXPT-06: ExpertRunner, context isolation, parallel dispatch)
+- [x] 03-06-PLAN.md - Wave 3: Expert runner (EXPT-03, EXPT-05, EXPT-06: ExpertRunner, context isolation, parallel dispatch)
 
 **Wave 4** *(blocked on Wave 3 completion)*
 
-- [ ] 03-07-PLAN.md — Wave 4: Conflict detector (EXPT-08: detect_conflicts, flag_conflicts_for_review)
+- [x] 03-07-PLAN.md - Wave 4: Conflict detector (EXPT-08: detect_conflicts, flag_conflicts_for_review)
 
 ### Phase 4: Report Generation
 
@@ -153,16 +152,36 @@ Plans:
 **Success Criteria** (what must be TRUE):
 
 1. User receives HTML report as default output with embedded visualizations
-2. User can request PPT output when explicitly needed (HTML→PPTX conversion)
+2. User can request PPT output when explicitly needed (HTML->PPTX conversion)
 3. User can select from 11 professional design styles (FT, McKinsey, Economist, Goldman, Swiss, +6 others)
 4. Report uses conclusion-style titles ("CapEx doubled, net cash turned negative" not "Capital Expenditure Analysis")
 5. Report presents synthesis from manager-POV with no visible expert names, organized by theme
-6. Report structure follows: Executive Summary → Key Metrics Panel → Thematic Analysis → Conclusions
+6. Report structure follows: Executive Summary -> Key Metrics Panel -> Thematic Analysis -> Conclusions
 7. Charts are automatically matched to data characteristics (no manual selection needed)
 8. User sees PDF export hint (Ctrl/Cmd + P) for printing
 
-**Plans:** TBD
+**Plans:** 7 plans in 4 waves
 **Pitfalls Addressed:** PITFALL-06 (insights buried), PITFALL-07 (chart type mismatch), PITFALL-08 (style drift), PITFALL-09 (output consistency)
+
+Plans:
+**Wave 0** *(test infrastructure - enables Nyquist validation)*
+
+- [ ] 04-01-PLAN.md - Wave 0: Test infrastructure scaffold + dependencies (plotly, kaleido)
+
+**Wave 1** *(blocked on Wave 0 completion - parallel execution)*
+
+- [ ] 04-02-PLAN.md - Wave 1: Design styles (REP-03, REP-08: DesignStyle, 11 predefined styles)
+- [ ] 04-03-PLAN.md - Wave 1: Synthesis engine (REP-05, REP-06: parse experts, organize by theme, conclusion titles)
+- [ ] 04-04-PLAN.md - Wave 1: Chart selector (REP-09: auto chart type matching)
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
+- [ ] 04-05-PLAN.md - Wave 2: Chart generator (REP-01, REP-04: Plotly charts, Chinese fonts, SVG export)
+
+**Wave 3** *(blocked on Wave 2 completion - parallel execution)*
+
+- [ ] 04-06-PLAN.md - Wave 3: HTML report (REP-01, REP-04, REP-05, REP-07, REP-10: Jinja2 templates, structure, PDF hint)
+- [ ] 04-07-PLAN.md - Wave 3: PPT report (REP-02: python-pptx direct construction)
 
 ### Phase 5: Integration & UX Polish
 
@@ -171,9 +190,9 @@ Plans:
 **Requirements:** UX-01, UX-02, UX-03
 **Success Criteria** (what must be TRUE):
 
-1. User can invoke skill with natural keywords ("分析数据", "做报告", "做PPT", "Excel", "投放分析")
+1. User can invoke skill with natural keywords ("analyze data", "make report", "make PPT", "Excel", "advertising analysis")
 2. User receives quick responses for simple queries without full multi-expert workflow
-3. User sees progress indicators at each phase transition (Clarify → Understand → Analyze → Report)
+3. User sees progress indicators at each phase transition (Clarify -> Understand -> Analyze -> Report)
 4. End-to-end workflow completes successfully from data load to report output
 5. User receives helpful error messages for common failure scenarios (file not found, format unsupported, encoding issues)
 
@@ -200,19 +219,19 @@ Plans:
 | DATA-06 | Phase 2 | Data Processing | Complete |
 | DATA-07 | Phase 2 | Data Processing | Complete |
 | UX-04 | Phase 2 | Data Processing | Complete |
-| CLAR-01 | Phase 3 | Analysis | Pending |
-| CLAR-02 | Phase 3 | Analysis | Pending |
-| CLAR-03 | Phase 3 | Analysis | Pending |
-| CLAR-04 | Phase 3 | Analysis | Pending |
-| CLAR-05 | Phase 3 | Analysis | Pending |
-| EXPT-01 | Phase 3 | Analysis | Pending |
-| EXPT-02 | Phase 3 | Analysis | Pending |
-| EXPT-03 | Phase 3 | Analysis | Pending |
-| EXPT-04 | Phase 3 | Analysis | Pending |
-| EXPT-05 | Phase 3 | Analysis | Pending |
-| EXPT-06 | Phase 3 | Analysis | Pending |
-| EXPT-07 | Phase 3 | Analysis | Pending |
-| EXPT-08 | Phase 3 | Analysis | Pending |
+| CLAR-01 | Phase 3 | Analysis | Complete |
+| CLAR-02 | Phase 3 | Analysis | Complete |
+| CLAR-03 | Phase 3 | Analysis | Complete |
+| CLAR-04 | Phase 3 | Analysis | Complete |
+| CLAR-05 | Phase 3 | Analysis | Complete |
+| EXPT-01 | Phase 3 | Analysis | Complete |
+| EXPT-02 | Phase 3 | Analysis | Complete |
+| EXPT-03 | Phase 3 | Analysis | Complete |
+| EXPT-04 | Phase 3 | Analysis | Complete |
+| EXPT-05 | Phase 3 | Analysis | Complete |
+| EXPT-06 | Phase 3 | Analysis | Complete |
+| EXPT-07 | Phase 3 | Analysis | Complete |
+| EXPT-08 | Phase 3 | Analysis | Complete |
 | REP-01 | Phase 4 | Report | Pending |
 | REP-02 | Phase 4 | Report | Pending |
 | REP-03 | Phase 4 | Report | Pending |
@@ -227,7 +246,7 @@ Plans:
 | UX-02 | Phase 5 | Integration | Pending |
 | UX-03 | Phase 5 | Integration | Pending |
 
-**Coverage:** 39/39 requirements mapped ✓
+**Coverage:** 39/39 requirements mapped OK
 **Orphaned requirements:** None
 
 ### Pitfalls Coverage
@@ -253,12 +272,12 @@ Plans:
 
 | Phase | Plans Complete | Status | Completed |
 |-------|---------------|--------|-----------|
-| 1. Infrastructure Foundation | 6/6 | Complete | ✓ |
-| 2. Data Processing Engine | 9/9 | Complete | ✓ |
-| 3. Analysis Engine | 2/8 | In Progress|  |
-| 4. Report Generation | 0/1 | Not started | - |
+| 1. Infrastructure Foundation | 6/6 | Complete | OK |
+| 2. Data Processing Engine | 9/9 | Complete | OK |
+| 3. Analysis Engine | 8/8 | Complete | 2026-06-04 |
+| 4. Report Generation | 0/7 | Not started | - |
 | 5. Integration & UX Polish | 0/1 | Not started | - |
 
 ---
 
-*Last updated: 2026-06-04 after Phase 3 planning*
+*Last updated: 2026-06-04 after Phase 4 planning*
