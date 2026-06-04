@@ -13,39 +13,44 @@ class TestConflictDetector:
     """Tests for ConflictDetector class and conflict detection logic."""
 
     def test_detect_numerical_conflicts(self):
-        """EXPT-08: Verify detect_numerical_conflicts returns conflict dict when values differ >10%."""
-        pytest.skip("Wave 0 scaffold - implementation pending")
-
+        """EXPT-08: Verify detect_numerical_conflicts returns conflict list when values differ >10%."""
         from src.analysis.conflict_detector import detect_numerical_conflicts
 
-        # Create expert outputs with conflicting numerical claims
-        expert_outputs = {
-            'quant_analyst': {
-                'mean_value': 100.0,
-                'std_value': 15.0,
-                'correlation': 0.85
+        # Create expert outputs with conflicting numerical claims (List[Dict] structure)
+        expert_outputs = [
+            {
+                'expert_id': 'quant_analyst',
+                'metrics': {
+                    'ROI': 45.5,
+                    'conversion_rate': 0.05,
+                    'engagement': 100.0
+                }
             },
-            'growth_expert': {
-                'mean_value': 150.0,  # 50% difference > 10%
-                'std_value': 16.0,    # ~7% difference < 10%
-                'correlation': 0.75   # ~12% difference > 10%
+            {
+                'expert_id': 'growth_expert',
+                'metrics': {
+                    'ROI': 60.0,        # 32% difference > 10% - should conflict
+                    'conversion_rate': 0.052,  # 4% difference < 10% - no conflict
+                    'engagement': 102.0  # 2% difference < 10% - no conflict
+                }
             }
-        }
+        ]
 
         result = detect_numerical_conflicts(expert_outputs)
 
         # Should detect conflicts for values differing > 10%
-        assert isinstance(result, dict)
+        assert isinstance(result, list)
 
-        # mean_value should be flagged (50% difference)
-        assert 'mean_value' in result
-        assert result['mean_value']['difference_pct'] > 10
+        # Should have exactly 1 conflict (ROI)
+        assert len(result) == 1
 
-        # std_value should NOT be flagged (7% difference)
-        assert 'std_value' not in result
-
-        # correlation should be flagged (12% difference)
-        assert 'correlation' in result
+        # Verify conflict structure
+        conflict = result[0]
+        assert conflict['type'] == 'numerical'
+        assert conflict['metric'] == 'ROI'
+        assert conflict['values'] == [45.5, 60.0]
+        assert conflict['experts'] == ['quant_analyst', 'growth_expert']
+        assert conflict['threshold'] == '10%'
 
     def test_detect_recommendation_conflicts(self):
         """EXPT-08: Verify detect_recommendation_conflicts returns conflict when directions oppose."""
@@ -91,28 +96,32 @@ class TestConflictDetector:
 
     def test_no_conflict_same_values(self):
         """EXPT-08: Verify no conflict when values differ <10%."""
-        pytest.skip("Wave 0 scaffold - implementation pending")
-
         from src.analysis.conflict_detector import detect_numerical_conflicts
 
         # Create expert outputs with similar values (within 10%)
-        expert_outputs = {
-            'quant_analyst': {
-                'mean_value': 100.0,
-                'std_value': 15.0,
-                'conversion_rate': 0.05
+        expert_outputs = [
+            {
+                'expert_id': 'quant_analyst',
+                'metrics': {
+                    'ROI': 45.5,
+                    'conversion_rate': 0.05,
+                    'engagement': 100.0
+                }
             },
-            'growth_expert': {
-                'mean_value': 105.0,   # 5% difference < 10%
-                'std_value': 14.5,    # ~3% difference < 10%
-                'conversion_rate': 0.052  # 4% difference < 10%
+            {
+                'expert_id': 'growth_expert',
+                'metrics': {
+                    'ROI': 46.0,        # 1% difference < 10%
+                    'conversion_rate': 0.052,  # 4% difference < 10%
+                    'engagement': 102.0  # 2% difference < 10%
+                }
             }
-        }
+        ]
 
         result = detect_numerical_conflicts(expert_outputs)
 
         # Should NOT detect conflicts when values are within 10%
-        assert isinstance(result, dict)
+        assert isinstance(result, list)
         assert len(result) == 0, "No conflicts should be detected for values within 10%"
 
     def test_flag_conflicts_for_review(self):
