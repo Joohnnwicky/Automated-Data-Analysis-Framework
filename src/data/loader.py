@@ -8,6 +8,7 @@ import logging
 from pathlib import Path
 from typing import Optional
 
+import pandas as pd
 from charset_normalizer import from_bytes
 
 logger = logging.getLogger(__name__)
@@ -62,3 +63,39 @@ def detect_encoding(filepath: Path, sample_size: int = 10000) -> str:
     # Fallback to UTF-8 if detection fails
     logger.warning('Encoding detection failed, using UTF-8 fallback')
     return 'utf-8'
+
+
+def load_csv_safe(filepath: Path) -> pd.DataFrame:
+    """
+    Load CSV file with automatic encoding detection and fallback chain.
+
+    Args:
+        filepath: Path to the CSV file to load
+
+    Returns:
+        pandas DataFrame with the loaded data
+
+    Raises:
+        ValueError: If the file cannot be decoded with any encoding
+
+    Note:
+        Uses charset-normalizer for initial encoding detection,
+        then falls back to utf-8, latin-1, cp1252 on UnicodeDecodeError.
+    """
+    encoding = detect_encoding(filepath)
+
+    try:
+        df = pd.read_csv(filepath, encoding=encoding)
+        logger.info(f'Loaded CSV: {len(df)} rows from {filepath}')
+        return df
+    except UnicodeDecodeError:
+        # Fallback chain: try alternative encodings
+        for fallback_enc in ['utf-8', 'latin-1', 'cp1252']:
+            try:
+                df = pd.read_csv(filepath, encoding=fallback_enc)
+                logger.warning(f'Used fallback encoding: {fallback_enc}')
+                return df
+            except UnicodeDecodeError:
+                continue
+
+        raise ValueError(f'Cannot decode file {filepath} with any encoding')
