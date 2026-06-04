@@ -31,7 +31,7 @@
 - [x] **DATA-03**: 实现数据类型自动识别（表格数据/投放数据/时序数据）
 - [x] **DATA-04**: 基础统计分析（均值/中位数/极值/分布）
 - [x] **DATA-05**: 输出初步洞察（1-2 个可见趋势或异常）
-- [ ] **DATA-06**: 大数据集 chunking 支持（>10万行时采样策略）
+- [x] **DATA-06**: 大数据集 chunking 支持（>10万行时采样策略）
 - [x] **DATA-07**: 缺失值报告 + 处理策略建议
 
 ### Phase 2: Multi-Expert Analysis
@@ -134,7 +134,7 @@
 | DATA-03 | Phase 2: Data Processing | 数据类型识别 | Complete (02-04) |
 | DATA-04 | Phase 2: Data Processing | 基础统计分析 | Complete (02-03a) |
 | DATA-05 | Phase 2: Data Processing | 初步洞察输出 | Complete (02-05) |
-| DATA-06 | Phase 2: Data Processing | 大数据集 chunking | Pending |
+| DATA-06 | Phase 2: Data Processing | 大数据集 chunking | Complete (02-06) |
 | DATA-07 | Phase 2: Data Processing | 缺失值报告 | Complete (02-03b) |
 | UX-04 | Phase 2: Data Processing | 错误友好提示 | Complete (02-02b) |
 | CLAR-01 | Phase 3: Analysis Engine | 澄清流程可选 | Pending |
