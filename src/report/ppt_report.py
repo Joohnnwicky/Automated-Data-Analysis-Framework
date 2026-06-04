@@ -33,12 +33,21 @@ def hex_to_rgb(hex_str: str) -> RGBColor:
     Returns:
         RGBColor object for python-pptx.
 
+    Raises:
+        ValueError: If hex string is invalid format.
+
     Example:
         >>> hex_to_rgb('#E3120B')
         RGBColor(227, 18, 11)
     """
     # Strip '#' prefix if present
     hex_str = hex_str.lstrip('#')
+
+    # Validate format
+    if not hex_str or len(hex_str) != 6:
+        raise ValueError(f"Invalid hex color: must be 6 characters, got '{hex_str}'")
+    if not all(c in '0123456789ABCDEFabcdef' for c in hex_str):
+        raise ValueError(f"Invalid hex color: contains non-hex characters in '{hex_str}'")
 
     # Parse hex to RGB values
     r = int(hex_str[0:2], 16)
