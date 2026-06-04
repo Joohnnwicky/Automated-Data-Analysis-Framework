@@ -57,7 +57,9 @@ def select_experts(
     # Business context refinement
     if business_context:
         goal = business_context.get('goal', '')
-        metrics = business_context.get('metrics', [])
+        metrics = business_context.get('metrics', '')
+        if isinstance(metrics, str):
+            metrics = [m.strip() for m in metrics.split(',')]
 
         # Prioritize advertising experts when ROI or '投放' mentioned
         if 'ROI' in metrics or '投放' in goal:
