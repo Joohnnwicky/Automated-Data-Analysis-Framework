@@ -53,10 +53,10 @@
 - [x] **REP-04**: 中文优先输出（保留专业术语英文：ROI、CapEx、FCF、MA200 等）
 - [x] **REP-05**: 结论式标题（「CapEx翻倍，净现金首次转负」而非「资本支出分析」）
 - [x] **REP-06**: Manager-POV Synthesis（从管理型分析师视角整合，不出现专家名字）
-- [ ] **REP-07**: 报告结构：核心摘要 → 关键指标面板 → 分主题分析 → 综合结论与建议
+- [x] **REP-07**: 报告结构：核心摘要 → 关键指标面板 → 分主题分析 → 综合结论与建议
 - [x] **REP-08**: 单一设计风格源（防止样式漂移）
 - [x] **REP-09**: 图表类型自动匹配数据特征
-- [ ] **REP-10**: PDF 导出提示（Ctrl/Cmd + P）
+- [x] **REP-10**: PDF 导出提示（Ctrl/Cmd + P）
 
 ### User Experience
 
@@ -156,14 +156,14 @@
 | REP-04 | Phase 4: Report Generation | 中文优先输出 | Complete (04-05) |
 | REP-05 | Phase 4: Report Generation | 结论式标题 | Complete (04-03) |
 | REP-06 | Phase 4: Report Generation | Manager-POV Synthesis | Complete (04-03) |
-| REP-07 | Phase 4: Report Generation | 报告结构规范 | Pending |
+| REP-07 | Phase 4: Report Generation | 报告结构规范 | Complete (04-06) |
 | REP-08 | Phase 4: Report Generation | 单一风格源 | Complete (04-02) |
 | REP-09 | Phase 4: Report Generation | 图表类型匹配 | Complete (04-04) |
-| REP-10 | Phase 4: Report Generation | PDF 导出提示 | Pending |
+| REP-10 | Phase 4: Report Generation | PDF 导出提示 | Complete (04-06) |
 | UX-01 | Phase 5: Integration | 触发关键词识别 | Pending |
 | UX-02 | Phase 5: Integration | 快速响应模式 | Pending |
 | UX-03 | Phase 5: Integration | 进度提示 | Pending |
 
 ---
 
-*Last updated: 2026-06-04 after 04-05 completion*
+*Last updated: 2026-06-04 after 04-06 completion*

@@ -16,7 +16,7 @@ Data Analyst Pro is an enhanced data analysis skill that merges huashu-data-pro'
 - [ ] **Phase 1: Infrastructure Foundation** - Establish Python toolchain, dependency management, cross-platform paths, logging, and version control
 - [ ] **Phase 2: Data Processing Engine** - Build data loader, schema profiler, type detector, and insight generator with memory safety
 - [x] **Phase 3: Analysis Engine** - Implement multi-expert parallel analysis with subagent orchestration and statistical safeguards (completed 2026-06-04)
-- [ ] **Phase 4: Report Generation** - Create HTML/PPT generators with professional design system and synthesis engine
+- [x] **Phase 4: Report Generation** - Create HTML/PPT generators with professional design system and synthesis engine (completed 2026-06-04)
 - [ ] **Phase 5: Integration & UX Polish** - End-to-end workflow integration, error handling, and user experience refinements
 
 ---
@@ -160,7 +160,7 @@ Plans:
 7. Charts are automatically matched to data characteristics (no manual selection needed)
 8. User sees PDF export hint (Ctrl/Cmd + P) for printing
 
-**Plans:** 5/7 plans executed
+**Plans:** 7/7 plans complete
 **Pitfalls Addressed:** PITFALL-06 (insights buried), PITFALL-07 (chart type mismatch), PITFALL-08 (style drift), PITFALL-09 (output consistency)
 
 Plans:
@@ -180,8 +180,8 @@ Plans:
 
 **Wave 3** *(blocked on Wave 2 completion - parallel execution)*
 
-- [ ] 04-06-PLAN.md - Wave 3: HTML report (REP-01, REP-04, REP-05, REP-07, REP-10: Jinja2 templates, structure, PDF hint)
-- [ ] 04-07-PLAN.md - Wave 3: PPT report (REP-02: python-pptx direct construction)
+- [x] 04-06-PLAN.md - Wave 3: HTML report (REP-01, REP-04, REP-05, REP-07, REP-10: Jinja2 templates, structure, PDF hint)
+- [x] 04-07-PLAN.md - Wave 3: PPT report (REP-02: python-pptx direct construction)
 
 ### Phase 5: Integration & UX Polish
 
@@ -275,9 +275,9 @@ Plans:
 | 1. Infrastructure Foundation | 6/6 | Complete | OK |
 | 2. Data Processing Engine | 9/9 | Complete | OK |
 | 3. Analysis Engine | 8/8 | Complete | 2026-06-04 |
-| 4. Report Generation | 6/7 | In Progress | Wave 2 ongoing |
+| 4. Report Generation | 7/7 | Complete   | 2026-06-04 |
 | 5. Integration & UX Polish | 0/1 | Not started | - |
 
 ---
 
-*Last updated: 2026-06-04 after Phase 4 Wave 2 plan 04-05 completion*
+*Last updated: 2026-06-04 after Phase 4 Wave 3 completion (04-06, 04-07)*

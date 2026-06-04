@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: completed
-last_updated: "2026-06-04T07:17:00.077Z"
+last_updated: "2026-06-04T07:37:00.000Z"
 progress:
   total_phases: 5
   completed_phases: 3
   total_plans: 30
-  completed_plans: 28
+  completed_plans: 29
   percent: 60
 ---
 
@@ -33,8 +33,8 @@ See: .planning/PROJECT.md
 ## Current State
 
 **Phase:** 4
-**Status:** Wave 0 Complete - Test Scaffold Ready
-**Current Focus:** Phase 04 — report-generation (Wave 1 next)
+**Status:** Wave 3 Complete - PPT Report Generator Implemented
+**Current Focus:** Phase 04 — report-generation (Wave 3 complete, continue with remaining plans)
 
 ## Phase Progress
 
@@ -43,7 +43,7 @@ See: .planning/PROJECT.md
 | Phase 1 | Infrastructure Foundation | Complete | 100% | 6/6 ✓ |
 | Phase 2 | Data Processing Engine | Complete | 100% | 9/9 ✓ |
 | Phase 3 | Analysis Engine | Complete | 100% | 8/8 ✓ |
-| Phase 4 | Report Generation | In Progress | 43% | 6/14 |
+| Phase 4 | Report Generation | In Progress | 50% | 7/14 |
 | Phase 5 | Integration & UX Polish | Not Started | 0% | 0/1 |
 
 ## Performance Metrics
@@ -92,6 +92,8 @@ See: .planning/PROJECT.md
 | 10% significance threshold for titles | Metrics below threshold excluded from conclusion-style titles | 2026-06-04
 | Expert attribution regex removal | Remove "分析师认为", "根据.*分析师", "expert.*:", "analyst.*:" for T-4-06 | 2026-06-04
 | Manager-POV language: "数据显示" | Unified narrative prefix instead of expert attribution | 2026-06-04 |
+| PPT direct construction (no HTML→PPTX) | python-pptx builds slides directly, more reliable than conversion | 2026-06-04 |
+| Chart PNG embedding for PPT | Plotly → PNG bytes → temp file → add_picture (REP-02) | 2026-06-04 |
 
 ### Open Questions
 
@@ -100,7 +102,7 @@ See: .planning/PROJECT.md
 | 大数据集处理 (>100K rows) | Phase 2 | ✓ Resolved - memory estimation + chunking + sampling implemented (02-06) |
 | 专家矛盾处理策略 | Phase 3 | Pending - flagging mechanism TBD |
 | Subagent 失败恢复 | Phase 3 | Pending - retry/fallback TBD |
-| HTML→PPTX 转换工具选型 | Phase 4 | Pending - pptxgenjs vs python-pptx TBD |
+| HTML→PPTX 转换工具选型 | Phase 4 | ✓ Resolved - python-pptx direct construction (Plan 04-07), no HTML conversion |
 
 ### Session Continuity
 
@@ -118,10 +120,21 @@ See: .planning/PROJECT.md
 - **2026-06-04**: Plan 04-02 complete — Design style system (8.5 min, REP-03, REP-08, 7 TDD commits, 11 styles)
 - **2026-06-04**: Plan 04-03 complete — Synthesis engine (6 min, REP-05, REP-06, 8 TDD commits, 4 functions)
 - **2026-06-04**: Plan 04-05 complete — Chart generator (10 min, REP-01, REP-04, 5 TDD commits, 4 tests passing)
+- **2026-06-04**: Plan 04-07 complete — PPT Report Generator (12 min, REP-02, 5 TDD commits, 4 tests passing)
 
 ## Next Action
 
-Phase 4 Wave 1 in progress. Continue implementing report modules.
+Phase 4 Wave 3 complete. Continue with remaining report module plans.
+
+**Phase 4 Wave 3 Progress:**
+
+- ✓ Plan 04-07: PPT Report Generator (12 min, REP-02)
+  - PPTReportGenerator class with python-pptx direct construction
+  - add_slide: Title + content slides with styled fonts
+  - add_chart_slide: Plotly chart PNG embedding
+  - build_report: Multi-slide presentation workflow
+  - hex_to_rgb helper for color conversion
+  - 4 tests passing, 0 skipped
 
 **Phase 4 Wave 1 Progress:**
 
