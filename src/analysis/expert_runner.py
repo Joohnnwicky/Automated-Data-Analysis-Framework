@@ -83,3 +83,35 @@ def build_expert_prompt(role: 'ExpertRole', data_path: Path, data_profile: Dict)
 注意:你只能看到本角色定义,不可访问其他专家的分析。"""
 
     return prompt
+
+
+def dispatch_parallel_experts(
+    prompts: Dict[str, str],
+    selected_roles: List['ExpertRole']
+) -> Dict[str, Path]:
+    """EXPT-03: Dispatch parallel expert analysis (stub).
+
+    Note: Real subagent execution requires Task tool integration in skill context.
+    For Phase 3 implementation, this is a function stub that:
+    - Returns dict mapping role_id to output_path
+    - Logs parallel dispatch intent at INFO level
+
+    In production skill context, would call Task tool with run_in_background=true.
+
+    Args:
+        prompts: Dict mapping role_id to prompt string.
+        selected_roles: List of ExpertRole objects being dispatched.
+
+    Returns:
+        Dict mapping role_id to output Path for each expert.
+
+    Threat Mitigation:
+        - T-3-04: Each expert gets unique output file via get_expert_output_path
+    """
+    logger.info(f'Dispatching {len(selected_roles)} experts in parallel')
+
+    output_paths = {}
+    for role in selected_roles:
+        output_paths[role.id] = get_expert_output_path(role)
+
+    return output_paths
