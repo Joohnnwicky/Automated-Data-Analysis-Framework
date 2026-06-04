@@ -208,13 +208,54 @@ class TestDetectDatetimeColumns:
         assert '日期' in result
 
 
-@pytest.mark.skip(reason="src/data/classifier.py not implemented")
 def test_classify_advertising():
     """DATA-03: Verify advertising data detection via keyword heuristics."""
-    pass
+    from src.data.classifier import TypeClassifier
+
+    df = pd.DataFrame({
+        'ctr': [0.05, 0.06],
+        'impression': [1000, 1200],
+        'click': [50, 72],
+        'conversion': [5, 7]
+    })
+    classifier = TypeClassifier()
+    data_type, methods = classifier.classify(df)
+
+    assert data_type == 'advertising'
+    assert 'ROI analysis' in methods
+    assert 'CTR trend analysis' in methods
 
 
-@pytest.mark.skip(reason="src/data/classifier.py not implemented")
 def test_suggest_methods():
     """DATA-03: Verify analysis method suggestions per data type."""
-    pass
+    from src.data.classifier import TypeClassifier
+
+    # Test advertising methods
+    df_ad = pd.DataFrame({
+        'ctr': [0.05, 0.06],
+        'impression': [1000, 1200],
+        'click': [50, 72]
+    })
+    classifier = TypeClassifier()
+    _, methods_ad = classifier.classify(df_ad)
+    assert len(methods_ad) == 5
+    assert all(isinstance(m, str) for m in methods_ad)
+
+    # Test time_series methods
+    dates = [f'2023010{i}' for i in range(12)]
+    df_ts = pd.DataFrame({
+        'date': dates,
+        'value': list(range(12))
+    })
+    _, methods_ts = classifier.classify(df_ts)
+    assert len(methods_ts) == 5
+    assert 'Trend analysis' in methods_ts
+
+    # Test table methods
+    df_table = pd.DataFrame({
+        'name': ['Alice', 'Bob'],
+        'age': [30, 25]
+    })
+    _, methods_table = classifier.classify(df_table)
+    assert len(methods_table) == 5
+    assert 'Distribution analysis' in methods_table
