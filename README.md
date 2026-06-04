@@ -95,6 +95,33 @@ dataanalyst/
 
 ## 安装部署
 
+### 一键安装（推荐）
+
+```bash
+# macOS / Linux
+curl -fsSL https://raw.githubusercontent.com/Joohnnwicky/Automated-Data-Analysis-Framework/main/install.sh | sh
+
+# 安装后添加到 PATH
+export PATH="$PATH:$HOME/.automated-data-analysis/bin"
+
+# 现在可以直接使用
+analyze data/sales.xlsx
+```
+
+### 手动安装
+
+```bash
+# 克隆仓库
+git clone https://github.com/Joohnnwicky/Automated-Data-Analysis-Framework.git
+cd Automated-Data-Analysis-Framework
+
+# 安装依赖
+pip install -r requirements.txt
+
+# 直接使用 CLI
+python src/workflow/cli.py data/sales.xlsx
+```
+
 ### 环境要求
 
 - Python 3.10+
@@ -120,6 +147,57 @@ pip install -r requirements.txt
 | 报告生成 | python-pptx, Pillow, xlsxwriter |
 | 测试 | pytest, pytest-cov |
 | UX | tqdm |
+
+### 卸载
+
+```bash
+# 一键卸载
+curl -fsSL https://raw.githubusercontent.com/Joohnnwicky/Automated-Data-Analysis-Framework/main/uninstall.sh | sh
+
+# 或手动卸载
+rm -rf ~/.automated-data-analysis
+```
+
+## 使用方式
+
+本项目支持两种使用方式：
+
+### 方式一：CLI 命令行（推荐新手）
+
+安装后可直接使用 `analyze` 命令：
+
+```bash
+# 基础分析
+analyze data/sales.xlsx
+
+# 生成 PPT 报告
+analyze data/sales.xlsx --format ppt
+
+# 使用 McKinsey 风格
+analyze data/sales.xlsx --style mckinsey
+
+# 指定分析任务
+analyze data/sales.xlsx --query "找出ROI下降原因"
+
+# 快速模式（仅显示数据画像）
+analyze data/sales.xlsx --quick
+
+# 查看帮助
+analyze --help
+```
+
+**CLI 参数说明：**
+
+| 参数 | 说明 | 示例 |
+|------|------|------|
+| `data_file` | 数据文件路径 | `data/sales.xlsx` |
+| `--format` | 输出格式 | `html` 或 `ppt` |
+| `--style` | 设计风格 | `ft`, `mckinsey`, `economist` 等 |
+| `--query` | 分析任务 | `"找出增长趋势"` |
+| `--output` | 输出目录 | `output` |
+| `--quick` | 快速模式 | 仅显示数据画像 |
+
+### 方式二：Claude Code Skill（推荐高级用户）
 
 ## 使用指南
 
