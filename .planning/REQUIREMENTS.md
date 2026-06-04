@@ -30,7 +30,7 @@
 - [x] **DATA-02**: 输出数据概览（维度、字段、数据类型、缺失率、统计摘要）
 - [x] **DATA-03**: 实现数据类型自动识别（表格数据/投放数据/时序数据）
 - [x] **DATA-04**: 基础统计分析（均值/中位数/极值/分布）
-- [ ] **DATA-05**: 输出初步洞察（1-2 个可见趋势或异常）
+- [x] **DATA-05**: 输出初步洞察（1-2 个可见趋势或异常）
 - [ ] **DATA-06**: 大数据集 chunking 支持（>10万行时采样策略）
 - [x] **DATA-07**: 缺失值报告 + 处理策略建议
 
@@ -131,11 +131,11 @@
 | INF-05 | Phase 1: Infrastructure | 文件结构规范化 | Pending |
 | DATA-01 | Phase 2: Data Processing | 数据文件加载 | Complete (02-02a, 02-02b) |
 | DATA-02 | Phase 2: Data Processing | 数据概览输出 | Complete (02-03a) |
-| DATA-03 | Phase 2: Data Processing | 数据类型识别 | Pending |
+| DATA-03 | Phase 2: Data Processing | 数据类型识别 | Complete (02-04) |
 | DATA-04 | Phase 2: Data Processing | 基础统计分析 | Complete (02-03a) |
-| DATA-05 | Phase 2: Data Processing | 初步洞察输出 | Pending |
+| DATA-05 | Phase 2: Data Processing | 初步洞察输出 | Complete (02-05) |
 | DATA-06 | Phase 2: Data Processing | 大数据集 chunking | Pending |
-| DATA-07 | Phase 2: Data Processing | 缺失值报告 | Pending |
+| DATA-07 | Phase 2: Data Processing | 缺失值报告 | Complete (02-03b) |
 | UX-04 | Phase 2: Data Processing | 错误友好提示 | Complete (02-02b) |
 | CLAR-01 | Phase 3: Analysis Engine | 澄清流程可选 | Pending |
 | CLAR-02 | Phase 3: Analysis Engine | 3 个核心问题 | Pending |
@@ -166,4 +166,4 @@
 
 ---
 
-*Last updated: 2026-06-04 after 02-02b completion*
+*Last updated: 2026-06-04 after 02-05 completion*

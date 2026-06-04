@@ -73,7 +73,7 @@ Plans:
 5. Large datasets (>100K rows) are processed without memory exhaustion via chunking/ sampling
 6. User sees clear error messages for unsupported formats or corrupted files
 
-**Plans:** 7/9 plans executed
+**Plans:** 8/9 plans executed
 
 Plans:
 **Wave 0** *(test infrastructure - enables Nyquist validation)*
@@ -97,7 +97,7 @@ Plans:
 
 **Wave 4** *(blocked on Wave 3 completion)*
 
-- [ ] 02-05-PLAN.md — Wave 4: Insight generator (InsightGenerator, trend/anomaly detection)
+- [x] 02-05-PLAN.md — Wave 4: Insight generator (InsightGenerator, trend/anomaly detection)
 
 **Wave 5** *(blocked on Wave 4 completion)*
 
