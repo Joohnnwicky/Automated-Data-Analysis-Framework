@@ -59,7 +59,6 @@ class TestChartSelector:
         assert chart_type == 'scatter'
         assert '双数值' in rationale or '关系' in rationale
 
-    @pytest.mark.skip(reason="Wave 0 scaffold - src/report/chart_selector.py not implemented")
     def test_select_chart_type_fallback(self):
         """REP-09: Verify fallback → table selection."""
         from src.report.chart_selector import select_chart_type
