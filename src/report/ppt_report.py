@@ -13,6 +13,7 @@ Threat Model:
 
 from pathlib import Path
 from typing import List, Optional
+import uuid
 
 from pptx import Presentation
 from pptx.util import Inches, Pt
@@ -144,11 +145,14 @@ class PPTReportGenerator:
                 run.font.size = Pt(20)
                 run.font.color.rgb = self.primary_color_rgb
 
-        # Export chart as PNG
-        png_bytes = pio.to_image(chart_fig, format='png', width=900, height=500)
+        # Export chart as PNG (WR-04: wrap in exception handling)
+        try:
+            png_bytes = pio.to_image(chart_fig, format='png', width=900, height=500)
+        except Exception as e:
+            raise ValueError(f"Failed to export chart as PNG: {e}") from e
 
-        # Save to temporary file
-        chart_png = tmp_path / 'chart.png'
+        # Save to temporary file (WR-03: use unique filename per chart)
+        chart_png = tmp_path / f'chart_{uuid.uuid4().hex}.png'
         chart_png.write_bytes(png_bytes)
 
         # Add chart image to slide
