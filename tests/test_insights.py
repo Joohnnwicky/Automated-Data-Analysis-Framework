@@ -141,13 +141,94 @@ def test_generate_distribution_insight_symmetric():
     assert '对称' in result['message'] or '均值' in result['message']
 
 
-@pytest.mark.skip(reason="Waiting for Task 4: generate_initial_insights")
+def test_generate_initial_insights_with_anomalies():
+    """Task 4: Verify generate_initial_insights returns anomaly insights."""
+    from src.data.insights import generate_initial_insights
+
+    # Create data with outliers but no datetime
+    df = pd.DataFrame({'value': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 100]})
+
+    result = generate_initial_insights(df, 'table')
+
+    # Should return anomaly insight (no datetime for trend)
+    assert isinstance(result, list)
+    assert len(result) <= 2  # Max 2 insights
+    assert len(result) > 0  # Should have at least one insight
+    assert result[0]['type'] == 'anomaly'
+
+
+def test_generate_initial_insights_with_trend():
+    """Task 4: Verify generate_initial_insights returns trend for time-series."""
+    from src.data.insights import generate_initial_insights
+
+    # Create time series with trend
+    dates = pd.date_range('2024-01-01', periods=100, freq='D')
+    values = list(range(1, 101))  # Steady increase
+    df = pd.DataFrame({'date': dates, 'value': values})
+
+    result = generate_initial_insights(df, 'time_series')
+
+    # Should return trend insight
+    assert isinstance(result, list)
+    assert len(result) <= 2
+    assert len(result) > 0
+    assert result[0]['type'] == 'trend'
+
+
+def test_generate_initial_insights_no_numeric_cols():
+    """Task 4: Verify generate_initial_insights handles non-numeric data."""
+    from src.data.insights import generate_initial_insights
+
+    # Create data with no numeric columns
+    df = pd.DataFrame({'category': ['A', 'B', 'C', 'D']})
+
+    result = generate_initial_insights(df, 'table')
+
+    # Should return info message
+    assert isinstance(result, list)
+    assert len(result) == 1
+    assert result[0]['type'] == 'info'
+    assert '无数值字段' in result[0]['message']
+
+
 def test_generate_insights():
     """DATA-05: Verify generation of 1-2 insights (trends or anomalies)."""
-    pass
+    from src.data.insights import generate_initial_insights
+
+    # Create time series with both trend and anomalies
+    dates = pd.date_range('2024-01-01', periods=100, freq='D')
+    values = list(range(1, 101))
+    values[-1] = 500  # Add outlier
+    df = pd.DataFrame({'date': dates, 'value': values})
+
+    result = generate_initial_insights(df, 'time_series')
+
+    # Should return 1-2 insights
+    assert isinstance(result, list)
+    assert 1 <= len(result) <= 2
 
 
-@pytest.mark.skip(reason="Waiting for Task 4: generate_initial_insights")
 def test_no_mental_math():
     """DATA-05: Verify all statistics computed via code execution (PITFALL-01: no LLM mental math)."""
-    pass
+    from src.data.insights import generate_initial_insights
+
+    # Create data with anomalies
+    df = pd.DataFrame({'value': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 100]})
+
+    result = generate_initial_insights(df, 'table')
+
+    # Verify specific numbers in message (not vague language like '大概', '可能')
+    if len(result) > 0 and 'statistics' in result[0]:
+        stats = result[0]['statistics']
+        # All statistics should be specific numbers, not vague
+        for key, value in stats.items():
+            if isinstance(value, (int, float)):
+                assert isinstance(value, (int, float))  # Concrete number
+            elif isinstance(value, list):
+                for item in value:
+                    assert isinstance(item, (int, float))  # Concrete number
+
+    # Message should not contain vague language
+    assert '大概' not in result[0]['message']
+    assert '可能' not in result[0]['message']
+    assert '估计' not in result[0]['message']
