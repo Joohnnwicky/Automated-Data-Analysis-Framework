@@ -77,29 +77,29 @@ class TestDesignStyles:
         with pytest.raises(ValueError, match="Unknown style: nonexistent_style"):
             get_design_style('nonexistent_style')
 
-    @pytest.mark.skip(reason="Wave 0 scaffold - src/report/styles.py not implemented")
     def test_single_style_source(self):
         """REP-08: Verify CSS variables derived from single DesignStyle object."""
-        from src.report.styles import DesignStyle, get_css_variables
+        from src.report.styles import DesignStyle, DESIGN_STYLES
 
-        style = DesignStyle(
-            id='test_style',
-            name='Test Style',
-            colors={'primary': '#FF0000', 'secondary': '#00FF00'},
-            fonts={'heading': 'Helvetica', 'body': 'Arial'}
-        )
+        # Test that all styles have consistent CSS variable structure
+        for style in DESIGN_STYLES:
+            css_vars = style.to_css_vars()
 
-        css_vars = get_css_variables(style)
+            # Verify CSS variables structure
+            assert isinstance(css_vars, dict)
 
-        # Verify CSS variables structure
-        assert isinstance(css_vars, dict)
-        assert '--color-primary' in css_vars
-        assert '--color-secondary' in css_vars
-        assert '--font-heading' in css_vars
-        assert '--font-body' in css_vars
+            # Verify all keys start with '--' (CSS custom property syntax)
+            for key in css_vars.keys():
+                assert key.startswith('--'), f"CSS variable '{key}' should start with '--'"
 
-        # Verify CSS variables match DesignStyle values
-        assert css_vars['--color-primary'] == '#FF0000'
-        assert css_vars['--color-secondary'] == '#00FF00'
-        assert css_vars['--font-heading'] == 'Helvetica'
-        assert css_vars['--font-body'] == 'Arial'
+            # Verify minimum 5 CSS variables
+            assert len(css_vars) >= 5, f"Style {style.id} should have at least 5 CSS variables"
+
+            # Verify primary color matches style field
+            assert css_vars['--primary-color'] == style.primary_color
+
+            # Verify secondary color matches style field
+            assert css_vars['--secondary-color'] == style.secondary_color
+
+            # Verify font family matches style field
+            assert css_vars['--font-family'] == style.font_family
