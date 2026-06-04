@@ -42,55 +42,42 @@ AI 驱动的数据分析技能，提供从业务意图澄清到专业报告生�
 ## 项目结构
 
 ```
-dataanalyst/
+automated-data-analysis/
 ├── src/
-│   ├── data/               # Phase 2: 数据处理引擎
-│   │   ├── loader.py       # 数据加载与编码检测
-│   │   ├── profiler.py     # 数据画像（维度、统计、缺失值）
-│   │   ├── classifier.py   # 类型分类（table/advertising/time_series）
-│   │   ├── insights.py     # 初步洞察生成（异常、趋势）
-│   │   └── memory.py       # 内存工具（分块、采样、估算）
+│   ├── data/               # 数据处理
+│   │   ├── loader.py       # 数据加载（Excel/CSV/JSON）
+│   │   ├── profiler.py     # 数据画像
+│   │   ├── classifier.py   # 类型识别
+│   │   ├── insights.py     # 洞察生成
+│   │   └── memory.py       # 内存优化
 │   │
-│   ├── analysis/           # Phase 3: 分析引擎
-│   │   ├── expert_roles.py     # 6 个预定义专家角色
-│   │   ├── expert_selector.py  # 专家选择算法
-│   │   ├── expert_runner.py    # 并行 subagent 执行
-│   │   ├── clarification.py    # 业务意图澄清
-│   │   ├── conflict_detector.py # 专家结论冲突检测
-│   │   └── statistical_enforcement.py # 强制代码执行验证数值
+│   ├── analysis/           # 分析引擎
+│   │   ├── expert_roles.py     # 专家角色定义
+│   │   ├── expert_selector.py  # 专家选择
+│   │   ├── expert_runner.py    # 并行执行
+│   │   ├── clarification.py    # 业务澄清
+│   │   └── conflict_detector.py # 冲突检测
 │   │
-│   ├── report/             # Phase 4: 报告生成
-│   │   ├── styles.py       # 11 种专业设计风格
-│   │   ├── synthesis.py    # 多专家综合引擎
-│   │   ├── chart_selector.py   # 自动图表类型匹配
-│   │   ├── chart_generator.py  # Plotly 图表生成
-│   │   ├── html_report.py  # HTML 报告（Jinja2 模板）
-│   │   ├── ppt_report.py   # PowerPoint 报告（python-pptx）
-│   │   └── templates/      # Jinja2 HTML 模板
+│   ├── report/             # 报告生成
+│   │   ├── styles.py       # 11种设计风格
+│   │   ├── synthesis.py    # 内容综合
+│   │   ├── chart_generator.py  # 图表生成
+│   │   ├── html_report.py  # HTML报告
+│   │   ├── ppt_report.py   # PPT报告
+│   │   └── templates/      # 模板文件
 │   │
-│   ├── workflow/           # Phase 5: 集成与 UX
-│   │   ├── orchestrator.py     # 端到端工作流协调
-│   │   ├── intent_detector.py  # 自然语言意图检测
-│   │   ├── progress.py     # 进度指示器
-│   │   └── phases.py       # 工作流阶段定义
+│   ├── workflow/           # 工作流
+│   │   ├── orchestrator.py     # 流程协调
+│   │   ├── intent_detector.py  # 意图识别
+│   │   ├── cli.py          # 命令行入口
+│   │   └── progress.py     # 进度显示
 │   │
-│   ├── config/             # Phase 1: 基础设施
-│   │   └── logging_config.py   # 结构化日志配置
-│   │
-│   └── scripts/            # 工具脚本
-│       ├── read_excel.py   # Excel 读取辅助
-│       └── read_pptx.py    # PowerPoint 读取辅助
+│   └── config/             # 配置
+│       └── logging_config.py
 │
-├── tests/                  # 测试套件（157 个测试）
-│   ├── test_data_*.py      # 数据模块测试
-│   ├── test_expert_*.py    # 分析模块测试
-│   ├── test_*.py           # 报告和工作流测试
-│   └── test_infrastructure.py # 基础设施测试
-│
-├── .planning/              # GSD 工作流产物（gitignored）
-├── requirements.txt        # 锁定依赖
-├── pytest.ini              # 测试配置
-└── .gitignore              # Git 忽略规则
+├── install.sh              # Linux/macOS 安装脚本
+├── install.ps1             # Windows 安装脚本
+└── requirements.txt        # Python 依赖
 ```
 
 ## 安装部署
