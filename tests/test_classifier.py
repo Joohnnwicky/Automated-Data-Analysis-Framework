@@ -9,6 +9,58 @@ import pandas as pd
 from pathlib import Path
 
 
+class TestTypeClassifier:
+    """Tests for TypeClassifier class."""
+
+    def test_classify_method_returns_tuple(self):
+        """Verify classify method returns (data_type, suggested_methods) tuple."""
+        from src.data.classifier import TypeClassifier
+
+        df = pd.DataFrame({
+            'name': ['Alice', 'Bob'],
+            'age': [30, 25]
+        })
+        classifier = TypeClassifier()
+        result = classifier.classify(df)
+
+        assert isinstance(result, tuple)
+        assert len(result) == 2
+        assert result[0] == 'table'
+        assert isinstance(result[1], list)
+
+    def test_classify_advertising_data(self):
+        """Verify TypeClassifier correctly classifies advertising data."""
+        from src.data.classifier import TypeClassifier
+
+        df = pd.DataFrame({
+            'ctr': [0.05, 0.06],
+            'impression': [1000, 1200],
+            'click': [50, 72],
+            'conversion': [5, 7]
+        })
+        classifier = TypeClassifier()
+        data_type, methods = classifier.classify(df)
+
+        assert data_type == 'advertising'
+        assert len(methods) == 5
+        assert 'ROI analysis' in methods
+
+    def test_classify_delegates_to_function(self):
+        """Verify TypeClassifier.classify delegates to classify_data_type."""
+        from src.data.classifier import TypeClassifier, classify_data_type
+
+        df = pd.DataFrame({
+            'date': ['20230101', '20230102'],
+            'value': [100, 200]
+        })
+
+        classifier = TypeClassifier()
+        classifier_result = classifier.classify(df)
+        function_result = classify_data_type(df)
+
+        assert classifier_result == function_result
+
+
 class TestClassifyDataType:
     """Tests for classify_data_type function."""
 

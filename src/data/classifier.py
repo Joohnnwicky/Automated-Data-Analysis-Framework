@@ -108,3 +108,26 @@ def classify_data_type(df: pd.DataFrame) -> Tuple[str, List[str]]:
 
     logger.info(f'Classified as {data_type} with {len(suggested_methods)} method suggestions')
     return data_type, suggested_methods
+
+
+class TypeClassifier:
+    """Data type classifier for automatic detection and analysis suggestions.
+
+    Provides a clean class interface for data type classification.
+    """
+
+    def __init__(self):
+        """Initialize TypeClassifier."""
+        pass
+
+    def classify(self, df: pd.DataFrame) -> Tuple[str, List[str]]:
+        """Classify DataFrame and suggest analysis methods.
+
+        Args:
+            df: Input DataFrame to classify.
+
+        Returns:
+            Tuple of (data_type, suggested_methods).
+        """
+        logger.info('Classifying dataset...')
+        return classify_data_type(df)
