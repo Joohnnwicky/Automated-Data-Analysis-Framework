@@ -196,7 +196,22 @@ Plans:
 4. End-to-end workflow completes successfully from data load to report output
 5. User receives helpful error messages for common failure scenarios (file not found, format unsupported, encoding issues)
 
-**Plans:** TBD
+**Plans:** 5 plans in 3 waves
+
+Plans:
+**Wave 0** *(test infrastructure - enables Nyquist validation)*
+
+- [ ] 05-01-PLAN.md - Wave 0: Test infrastructure scaffold + dependencies (tqdm, workflow package marker)
+
+**Wave 1** *(blocked on Wave 0 completion - parallel execution)*
+
+- [ ] 05-02-PLAN.md - Wave 1: Intent detector (UX-01: keyword detection, IntentMatch, detect_intent)
+- [ ] 05-03-PLAN.md - Wave 1: Progress indicator (UX-03: WorkflowPhase enum, ProgressIndicator, phase transitions)
+- [ ] 05-04-PLAN.md - Wave 1: Quick mode (UX-02: should_use_quick_mode, quick_response, complexity gate)
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
+- [ ] 05-05-PLAN.md - Wave 2: Orchestrator (UX-01-04: WorkflowOrchestrator, end-to-end integration, error handling)
 
 ---
 
@@ -276,8 +291,8 @@ Plans:
 | 2. Data Processing Engine | 9/9 | Complete | OK |
 | 3. Analysis Engine | 8/8 | Complete | 2026-06-04 |
 | 4. Report Generation | 7/7 | Complete   | 2026-06-04 |
-| 5. Integration & UX Polish | 0/1 | Not started | - |
+| 5. Integration & UX Polish | 0/5 | Not started | - |
 
 ---
 
-*Last updated: 2026-06-04 after Phase 4 Wave 3 completion (04-06, 04-07)*
+*Last updated: 2026-06-04 after Phase 5 planning completion (05-01 through 05-05)*
