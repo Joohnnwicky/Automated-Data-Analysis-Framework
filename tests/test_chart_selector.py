@@ -43,7 +43,6 @@ class TestChartSelector:
         assert chart_type == 'bar'
         assert '分类' in rationale or '数值' in rationale
 
-    @pytest.mark.skip(reason="Wave 0 scaffold - src/report/chart_selector.py not implemented")
     def test_select_chart_type_scatter(self):
         """REP-09: Verify two numeric columns → scatter chart selection."""
         from src.report.chart_selector import select_chart_type
