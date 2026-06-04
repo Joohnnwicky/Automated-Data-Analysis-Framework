@@ -56,10 +56,10 @@ class TestChartGenerator:
         # Verify bar chart type
         assert chart.data[0].type == 'bar'
 
-    @pytest.mark.skip(reason="Wave 0 scaffold - src/report/chart_generator.py not implemented")
     def test_chinese_font(self):
         """REP-04: Verify Plotly chart uses Noto Sans SC font for Chinese text."""
         from src.report.chart_generator import generate_line_chart
+        from src.report.styles import get_design_style
 
         # Create sample data with Chinese labels
         df = pd.DataFrame({
@@ -67,16 +67,26 @@ class TestChartGenerator:
             '销售额': [100, 150, 200]
         })
 
-        chart = generate_line_chart(df, x='日期', y='销售额')
+        style = get_design_style('ft')
+        chart = generate_line_chart(df, x_col='日期', y_col='销售额', title='月度销售趋势', style=style)
 
         # Verify chart font configuration
         assert chart is not None
 
-        # Check layout font
+        # Check title font - should contain Noto Sans SC
         if hasattr(chart, 'layout'):
-            font_family = chart.layout.font.family if hasattr(chart.layout, 'font') else None
-            # Font should be Noto Sans SC or similar Chinese-capable font
-            assert font_family is not None and ('Noto' in font_family or 'sans' in font_family.lower())
+            # Title font is stored in layout.title.font.family
+            title_obj = chart.layout.title
+            if hasattr(title_obj, 'font') and hasattr(title_obj.font, 'family'):
+                title_font_family = title_obj.font.family
+                assert title_font_family is not None and 'Noto' in title_font_family
+
+            # Check layout font family
+            font_obj = chart.layout.font
+            if hasattr(font_obj, 'family'):
+                font_family = font_obj.family
+                # Font should be Noto Sans SC or similar Chinese-capable font
+                assert font_family is not None and ('Noto' in font_family or 'sans' in font_family.lower())
 
     @pytest.mark.skip(reason="Wave 0 scaffold - src/report/chart_generator.py not implemented")
     def test_embed_chart_as_svg(self):
