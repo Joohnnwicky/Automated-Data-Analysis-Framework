@@ -14,8 +14,6 @@ class TestStatisticalEnforcement:
 
     def test_verify_code_execution_detects_code_blocks(self):
         """EXPT-07: Verify verify_code_execution returns True when output contains python blocks."""
-        pytest.skip("Wave 0 scaffold - implementation pending")
-
         from src.analysis.statistical_enforcement import verify_code_execution
 
         # Output with python code blocks
@@ -45,8 +43,6 @@ The results show significant variation.
 
     def test_verify_code_execution_fails_without_code(self):
         """EXPT-07: Verify verify_code_execution returns False when output has numerical claims without code."""
-        pytest.skip("Wave 0 scaffold - implementation pending")
-
         from src.analysis.statistical_enforcement import verify_code_execution
 
         # Output with numerical claims but no code blocks
