@@ -232,3 +232,40 @@ def test_no_mental_math():
     assert '大概' not in result[0]['message']
     assert '可能' not in result[0]['message']
     assert '估计' not in result[0]['message']
+
+
+def test_insight_generator_class():
+    """Task 5: Verify InsightGenerator class exists with generate method."""
+    from src.data.insights import InsightGenerator
+
+    # Create instance
+    generator = InsightGenerator()
+
+    # Create test data
+    df = pd.DataFrame({'value': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 100]})
+
+    # Generate insights
+    insights = generator.generate(df, 'table')
+
+    # Should return list of insights
+    assert isinstance(insights, list)
+    assert 1 <= len(insights) <= 2
+
+
+def test_insight_generator_integration():
+    """Task 5: Verify InsightGenerator integrates all helper functions."""
+    from src.data.insights import InsightGenerator
+
+    generator = InsightGenerator()
+
+    # Test with time series
+    dates = pd.date_range('2024-01-01', periods=100, freq='D')
+    values = list(range(1, 101))
+    df = pd.DataFrame({'date': dates, 'value': values})
+
+    insights = generator.generate(df, 'time_series')
+
+    # Should generate trend or distribution insight
+    assert isinstance(insights, list)
+    assert len(insights) > 0
+    assert insights[0]['type'] in ['trend', 'distribution', 'anomaly']
