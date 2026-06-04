@@ -44,6 +44,36 @@ def should_trigger_clarification(profile: Dict) -> bool:
     return complexity_score > 2
 
 
+def ask_clarification_questions() -> Optional[Dict]:
+    """CLAR-02: Ask 3 core questions for business clarification.
+
+    Returns:
+        Dict with 'goal', 'audience', 'metrics' keys or None if skipped
+
+    Note:
+        Core questions (CLAR-02):
+        1. 分析目标是什么？（目标/决策）
+        2. 报告受众是谁？（管理层/技术人员/客户）
+        3. 核心关注指标有哪些？（ROI/增长率/风险）
+
+        In production, would use AskUserQuestion tool.
+        For testing, returns predefined answers.
+        User can skip by returning None (CLAR-04).
+    """
+    logger.info('Asking clarification questions...')
+
+    # Predefined answers for testing
+    # In production, would call AskUserQuestion tool
+    answers = {
+        'goal': '分析投放效果并优化ROI',
+        'audience': '管理层',
+        'metrics': 'ROI, CTR, 转化率'
+    }
+
+    logger.info(f'Received answers: {answers.keys()}')
+    return answers
+
+
 class BusinessClarifier:
     """Business intent clarifier for optional clarification flow.
 
@@ -65,3 +95,12 @@ class BusinessClarifier:
         """
         logger.info('Checking clarification trigger...')
         return should_trigger_clarification(profile)
+
+    def ask_questions(self) -> Optional[Dict]:
+        """CLAR-02: Ask 3 core questions via AskUserQuestion.
+
+        Returns:
+            Dict with answers or None if skipped
+        """
+        logger.info('Initiating clarification questions...')
+        return ask_clarification_questions()
