@@ -39,7 +39,6 @@ class TestHTMLReport:
         assert '<!DOCTYPE html>' in content or '<html' in content
         assert '数据分析报告' in content
 
-    @pytest.mark.skip(reason="Wave 0 scaffold - src/report/html_report.py not implemented")
     def test_chinese_output(self, tmp_path):
         """REP-04: Verify lang='zh-CN' and Chinese text in HTML output."""
         from src.report.html_report import HTMLReportGenerator
