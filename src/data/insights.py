@@ -56,3 +56,60 @@ def detect_anomalies(df: pd.DataFrame, col: str) -> Optional[Dict]:
 
     logger.info(f'No significant anomalies detected in {col}: {outlier_pct:.1f}% outliers')
     return None
+
+
+def detect_trend(df: pd.DataFrame, time_col: str, metric_col: str) -> Optional[Dict]:
+    """Detect trend by comparing first/last period averages.
+
+    Args:
+        df: Input DataFrame to analyze.
+        time_col: Column name containing datetime values.
+        metric_col: Column name containing metric values.
+
+    Returns:
+        Insight dict if change_pct > 20%, else None.
+        Dict contains: type, message, recommendation, statistics.
+    """
+    df_time = df.copy()
+
+    try:
+        df_time[time_col] = pd.to_datetime(df_time[time_col], errors='coerce')
+        df_time = df_time.dropna(subset=[time_col, metric_col])
+    except Exception:
+        logger.warning(f'Failed to parse datetime column: {time_col}')
+        return None
+
+    if len(df_time) < 20:
+        logger.info(f'Insufficient data for trend detection: {len(df_time)} rows')
+        return None
+
+    # Sort by time and split into quarters
+    df_time = df_time.sort_values(time_col)
+    n = len(df_time)
+    first_quarter = df_time.iloc[:n//4]
+    last_quarter = df_time.iloc[-n//4:]
+
+    first_mean = first_quarter[metric_col].mean()
+    last_mean = last_quarter[metric_col].mean()
+
+    if first_mean == 0:
+        change_pct = 0
+    else:
+        change_pct = (last_mean - first_mean) / first_mean * 100
+
+    if abs(change_pct) > 20:
+        direction = '上升' if change_pct > 0 else '下降'
+        logger.info(f'Trend detected: {direction} {abs(change_pct):.1f}%')
+        return {
+            'type': 'trend',
+            'message': f'{metric_col} 趋势{direction} {abs(change_pct):.1f}%（首期均值 {first_mean:.2f} -> 末期均值 {last_mean:.2f}）',
+            'recommendation': f'建议进一步分析{direction}原因',
+            'statistics': {
+                'change_pct': round(change_pct, 2),
+                'first_period_mean': round(first_mean, 2),
+                'last_period_mean': round(last_mean, 2)
+            }
+        }
+
+    logger.info(f'No significant trend detected: {change_pct:.1f}% change')
+    return None
