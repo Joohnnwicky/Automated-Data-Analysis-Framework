@@ -9,6 +9,7 @@ from typing import List, Dict, Optional
 
 import pandas as pd
 import numpy as np
+from scipy import stats
 
 logger = logging.getLogger(__name__)
 
@@ -113,3 +114,37 @@ def detect_trend(df: pd.DataFrame, time_col: str, metric_col: str) -> Optional[D
 
     logger.info(f'No significant trend detected: {change_pct:.1f}% change')
     return None
+
+
+def generate_distribution_insight(df: pd.DataFrame, col: str) -> Dict:
+    """Generate distribution insight based on skew calculation.
+
+    Args:
+        df: Input DataFrame to analyze.
+        col: Column name to analyze distribution for.
+
+    Returns:
+        Insight dict with distribution analysis.
+        Dict contains: type, message, recommendation (if skewed).
+    """
+    data = df[col].dropna()
+    median_val = data.median()
+    mean_val = data.mean()
+    std_val = data.std()
+
+    # Use scipy.stats.skew for proper skewness coefficient
+    skew = stats.skew(data) if len(data) > 0 else 0
+
+    if abs(skew) > 1:
+        logger.info(f'Skewed distribution detected in {col}: skew={skew:.2f}')
+        return {
+            'type': 'distribution',
+            'message': f'{col} 分布偏斜（偏度={skew:.2f}），中位数={median_val:.2f}，均值={mean_val:.2f}',
+            'recommendation': '建议使用中位数而非均值作为代表值'
+        }
+
+    logger.info(f'Symmetric distribution detected in {col}: mean={mean_val:.2f}, std={std_val:.2f}')
+    return {
+        'type': 'distribution',
+        'message': f'{col} 分布较为对称，均值={mean_val:.2f}，标准差={std_val:.2f}'
+    }

@@ -109,12 +109,14 @@ def test_generate_distribution_insight_skewed():
     """Task 3: Verify generate_distribution_insight detects skewed distribution."""
     from src.data.insights import generate_distribution_insight
 
-    # Create skewed distribution (abs(skew) > 1)
-    df = pd.DataFrame({'value': [1, 1, 1, 1, 1, 1, 1, 1, 1, 100]})
+    # Create heavily skewed distribution using exponential
+    # Exponential distribution has theoretical skewness = 2
+    np.random.seed(42)
+    df = pd.DataFrame({'value': np.random.exponential(scale=10, size=100)})
 
     result = generate_distribution_insight(df, 'value')
 
-    # Should detect skewed distribution
+    # Should detect skewed distribution (skew > 1)
     assert result is not None
     assert result['type'] == 'distribution'
     assert 'value' in result['message']
