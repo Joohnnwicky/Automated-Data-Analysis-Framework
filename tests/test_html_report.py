@@ -95,7 +95,6 @@ class TestHTMLReport:
         assert themes_pos >= 0 or 'performance' in content  # Themes should be present
         assert conclusions_pos >= 0 or '结论' in content  # Conclusions should be present
 
-    @pytest.mark.skip(reason="Wave 0 scaffold - src/report/html_report.py not implemented")
     def test_pdf_hint(self, tmp_path):
         """REP-10: Verify footer contains Ctrl/Cmd + P PDF export hint."""
         from src.report.html_report import HTMLReportGenerator
