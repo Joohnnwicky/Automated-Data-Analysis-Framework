@@ -161,4 +161,5 @@ class ExpertSelector:
         Returns:
             Path to written definitions file
         """
+        logger.info('Writing role definitions...')
         return write_expert_definitions(selected)
