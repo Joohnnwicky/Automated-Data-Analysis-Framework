@@ -109,27 +109,38 @@ class TestSynthesis:
         # Fallback to "数据概览"
         assert title == '数据概览'
 
-    @pytest.mark.skip(reason="Wave 0 scaffold - src/report/synthesis.py not implemented")
     def test_manager_pov(self):
         """REP-06: Verify synthesis output contains no expert names."""
         from src.report.synthesis import generate_manager_pov_synthesis
 
-        expert_outputs = [
-            {'expert_id': 'quant_analyst', 'name': 'Quantitative Analyst', 'content': 'ROI increased by 15%.'},
-            {'expert_id': 'growth_expert', 'name': 'Growth Expert', 'content': 'User growth improved.'}
-        ]
+        # Themes dict from organize_by_theme
+        themes = {
+            '财务健康度': [
+                {'source_file': 'quant_analyst.md', 'metrics': [{'value': '15', 'context': 'ROI increased by 15%'}], 'recommendations': ['分析师认为应该增加投入']}
+            ],
+            '增长趋势': [
+                {'source_file': 'growth_expert.md', 'metrics': [{'value': '20', 'context': 'User growth improved'}], 'recommendations': ['根据量化分析师的建议']}
+            ]
+        }
 
-        synthesis = generate_manager_pov_synthesis(expert_outputs)
+        synthesis = generate_manager_pov_synthesis(themes)
 
         # Verify synthesis is generated
         assert isinstance(synthesis, str)
         assert len(synthesis) > 0
 
+        # Verify output organized by theme sections
+        assert '## 财务健康度' in synthesis
+        assert '## 增长趋势' in synthesis
+
         # Verify no expert names or IDs appear in synthesis
         assert 'quant_analyst' not in synthesis
-        assert 'Quantitative Analyst' not in synthesis
         assert 'growth_expert' not in synthesis
-        assert 'Growth Expert' not in synthesis
 
-        # Synthesis should present unified view
-        assert 'ROI' in synthesis or 'growth' in synthesis.lower()
+        # Verify no expert attribution patterns (T-4-06)
+        assert '分析师认为' not in synthesis
+        assert '根据.*分析师' not in synthesis
+        assert 'analyst' not in synthesis.lower()
+
+        # Synthesis should use manager-POV language: "数据显示..."
+        assert '数据显示' in synthesis or '发现' in synthesis
