@@ -26,10 +26,10 @@
 
 ### Phase 1: Data Understanding
 
-- [ ] **DATA-01**: 自动读取 Excel (.xlsx)、CSV、JSON 数据文件，支持中文编码
-- [ ] **DATA-02**: 输出数据概览（维度、字段、数据类型、缺失率、统计摘要）
+- [x] **DATA-01**: 自动读取 Excel (.xlsx)、CSV、JSON 数据文件，支持中文编码
+- [x] **DATA-02**: 输出数据概览（维度、字段、数据类型、缺失率、统计摘要）
 - [ ] **DATA-03**: 实现数据类型自动识别（表格数据/投放数据/时序数据）
-- [ ] **DATA-04**: 基础统计分析（均值/中位数/极值/分布）
+- [x] **DATA-04**: 基础统计分析（均值/中位数/极值/分布）
 - [ ] **DATA-05**: 输出初步洞察（1-2 个可见趋势或异常）
 - [ ] **DATA-06**: 大数据集 chunking 支持（>10万行时采样策略）
 - [ ] **DATA-07**: 缺失值报告 + 处理策略建议
@@ -129,7 +129,7 @@
 | INF-03 | Phase 1: Infrastructure | logging 替换 print | Pending |
 | INF-04 | Phase 1: Infrastructure | Git 初始化 | Pending |
 | INF-05 | Phase 1: Infrastructure | 文件结构规范化 | Pending |
-| DATA-01 | Phase 2: Data Processing | 数据文件加载 | Pending |
+| DATA-01 | Phase 2: Data Processing | 数据文件加载 | Complete (02-02a) |
 | DATA-02 | Phase 2: Data Processing | 数据概览输出 | Pending |
 | DATA-03 | Phase 2: Data Processing | 数据类型识别 | Pending |
 | DATA-04 | Phase 2: Data Processing | 基础统计分析 | Pending |
@@ -166,4 +166,4 @@
 
 ---
 
-*Last updated: 2026-06-03 after roadmap creation*
+*Last updated: 2026-06-04 after 02-02a completion*
