@@ -176,7 +176,7 @@ Plans:
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 04-05-PLAN.md - Wave 2: Chart generator (REP-01, REP-04: Plotly charts, Chinese fonts, SVG export)
+- [x] 04-05-PLAN.md - Wave 2: Chart generator (REP-01, REP-04: Plotly charts, Chinese fonts, SVG export) ✓
 
 **Wave 3** *(blocked on Wave 2 completion - parallel execution)*
 
@@ -232,10 +232,10 @@ Plans:
 | EXPT-06 | Phase 3 | Analysis | Complete |
 | EXPT-07 | Phase 3 | Analysis | Complete |
 | EXPT-08 | Phase 3 | Analysis | Complete |
-| REP-01 | Phase 4 | Report | Pending |
+| REP-01 | Phase 4 | Report | Complete |
 | REP-02 | Phase 4 | Report | Pending |
 | REP-03 | Phase 4 | Report | Complete |
-| REP-04 | Phase 4 | Report | Pending |
+| REP-04 | Phase 4 | Report | Complete |
 | REP-05 | Phase 4 | Report | Complete |
 | REP-06 | Phase 4 | Report | Complete |
 | REP-07 | Phase 4 | Report | Pending |
@@ -275,9 +275,9 @@ Plans:
 | 1. Infrastructure Foundation | 6/6 | Complete | OK |
 | 2. Data Processing Engine | 9/9 | Complete | OK |
 | 3. Analysis Engine | 8/8 | Complete | 2026-06-04 |
-| 4. Report Generation | 5/7 | In Progress | Wave 1 ongoing |
+| 4. Report Generation | 6/7 | In Progress | Wave 2 ongoing |
 | 5. Integration & UX Polish | 0/1 | Not started | - |
 
 ---
 
-*Last updated: 2026-06-04 after Phase 4 Wave 1 plan 04-03 completion*
+*Last updated: 2026-06-04 after Phase 4 Wave 2 plan 04-05 completion*
