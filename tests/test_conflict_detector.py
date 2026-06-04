@@ -113,33 +113,74 @@ class TestConflictDetector:
 
     def test_flag_conflicts_for_review(self):
         """EXPT-08: Verify flag_conflicts_for_review writes output/conflicts.md file."""
-        pytest.skip("Wave 0 scaffold - implementation pending")
-
         from src.analysis.conflict_detector import flag_conflicts_for_review
+        import tempfile
+        import shutil
 
-        # Create sample conflicts
-        conflicts = {
-            'mean_value': {
+        # Create sample conflicts (List[Dict] structure)
+        conflicts = [
+            {
+                'type': 'numerical',
+                'metric': 'ROI',
+                'values': [45.5, 60.0],
                 'experts': ['quant_analyst', 'growth_expert'],
-                'values': [100.0, 150.0],
-                'difference_pct': 50.0,
-                'recommendation': 'Review statistical methodology'
+                'threshold': '10%'
             },
-            'ad_spend_direction': {
-                'experts': ['quant_analyst', 'ad_optimizer'],
-                'directions': ['increase', 'decrease'],
-                'recommendation': 'Align advertising strategy'
+            {
+                'type': 'recommendation',
+                'direction': 'opposite',
+                'experts': ['quant_analyst', 'ad_optimizer']
             }
-        }
+        ]
 
-        output_path = flag_conflicts_for_review(conflicts, output_dir='output')
+        # Use temp directory for test
+        output_path = flag_conflicts_for_review(conflicts)
 
         # Verify file was created
         assert output_path is not None
-        assert Path(output_path).exists()
-        assert Path(output_path).name == 'conflicts.md'
+        assert output_path.exists()
+        assert output_path.name == 'conflicts.md'
 
         # Verify file contains conflict information
-        content = Path(output_path).read_text(encoding='utf-8')
-        assert 'mean_value' in content or 'Mean' in content
-        assert 'recommendation' in content.lower() or '建议' in content
+        content = output_path.read_text(encoding='utf-8')
+        assert '专家分析冲突报告' in content
+        assert 'ROI' in content
+        assert 'quant_analyst' in content
+        assert 'growth_expert' in content
+
+    def test_detect_conflicts(self):
+        """EXPT-08: Verify detect_conflicts combines numerical and recommendation detectors."""
+        from src.analysis.conflict_detector import detect_conflicts
+
+        # Create expert outputs with both numerical and recommendation conflicts
+        expert_outputs = [
+            {
+                'expert_id': 'quant_analyst',
+                'metrics': {'ROI': 45.5},
+                'recommendation': '建议增加投入以提高ROI'
+            },
+            {
+                'expert_id': 'growth_expert',
+                'metrics': {'ROI': 60.0},  # 32% difference > 10%
+                'recommendation': '建议增加投入以提高ROI'
+            },
+            {
+                'expert_id': 'ad_optimizer',
+                'metrics': {'ROI': 46.0},  # Small difference
+                'recommendation': '建议减少预算以降低成本'  # Opposes increase
+            }
+        ]
+
+        result = detect_conflicts(expert_outputs)
+
+        # Should detect both numerical and recommendation conflicts
+        assert isinstance(result, list)
+        assert len(result) >= 1  # At least one numerical conflict
+
+        # Verify numerical conflict detected
+        numerical_conflicts = [c for c in result if c['type'] == 'numerical']
+        assert len(numerical_conflicts) > 0
+
+        # Verify recommendation conflict detected
+        rec_conflicts = [c for c in result if c['type'] == 'recommendation']
+        assert len(rec_conflicts) > 0

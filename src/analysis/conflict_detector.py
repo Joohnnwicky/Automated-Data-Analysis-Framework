@@ -83,3 +83,56 @@ def detect_recommendation_conflicts(expert_outputs: List[Dict]) -> List[Dict]:
         }]
 
     return []
+
+
+def detect_conflicts(expert_outputs: List[Dict]) -> List[Dict]:
+    """EXPT-08: Detect all types of conflicts between experts.
+
+    Args:
+        expert_outputs: List of expert output dicts
+
+    Returns:
+        List of all detected conflicts
+    """
+    conflicts = []
+
+    # Numerical conflicts
+    numerical = detect_numerical_conflicts(expert_outputs)
+    conflicts.extend(numerical)
+
+    # Recommendation conflicts
+    recommendations = detect_recommendation_conflicts(expert_outputs)
+    conflicts.extend(recommendations)
+
+    logger.info(f'Detected {len(conflicts)} total conflicts')
+    return conflicts
+
+
+def flag_conflicts_for_review(conflicts: List[Dict]) -> Path:
+    """EXPT-08: Write conflicts to file for user attention.
+
+    Args:
+        conflicts: List of conflict dicts
+
+    Returns:
+        Path to written conflict report
+    """
+    conflict_path = Path('output/conflicts.md')
+    conflict_path.parent.mkdir(parents=True, exist_ok=True)
+
+    # Format conflict report
+    content = "# 专家分析冲突报告\n\n"
+    for conflict in conflicts:
+        content += f"## 冲突类型: {conflict['type']}\n\n"
+        if conflict['type'] == 'numerical':
+            content += f"- 指标: {conflict['metric']}\n"
+            content += f"- 数值差异: {conflict['values']}\n"
+            content += f"- 涉及专家: {conflict['experts']}\n"
+        elif conflict['type'] == 'recommendation':
+            content += f"- 方向冲突: {conflict['direction']}\n"
+            content += f"- 涉及专家: {conflict['experts']}\n"
+        content += "\n"
+
+    conflict_path.write_text(content, encoding='utf-8')
+    logger.info(f'Conflict report written to {conflict_path}')
+    return conflict_path
