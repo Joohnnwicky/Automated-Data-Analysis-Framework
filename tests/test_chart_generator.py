@@ -15,6 +15,7 @@ class TestChartGenerator:
     def test_generate_line_chart(self):
         """REP-01: Verify Plotly line chart generation."""
         from src.report.chart_generator import generate_line_chart
+        from src.report.styles import get_design_style
 
         # Create sample data
         df = pd.DataFrame({
@@ -22,7 +23,8 @@ class TestChartGenerator:
             'value': [100, 150, 200]
         })
 
-        chart = generate_line_chart(df, x='date', y='value')
+        style = get_design_style('ft')
+        chart = generate_line_chart(df, x_col='date', y_col='value', title='Sales Trend', style=style)
 
         # Verify chart is a Plotly figure
         assert chart is not None
