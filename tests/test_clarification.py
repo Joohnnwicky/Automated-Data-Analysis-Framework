@@ -87,27 +87,39 @@ class TestBusinessClarifier:
             assert isinstance(result['audience'], str)
             assert isinstance(result['metrics'], str)
 
-    def test_write_context_creates_file(self):
+    def test_write_context_creates_file(self, project_root):
         """CLAR-03: Verify write_context creates .planning/context.md file."""
-        pytest.skip("Wave 0 scaffold - implementation pending")
+        from src.analysis.clarification import BusinessClarifier, write_business_context
 
-        from src.analysis.clarification import BusinessClarifier
-
-        clarifier = BusinessClarifier()
-        context_data = {
-            'goal': 'Analyze sales trends',
-            'audience': 'Marketing team',
-            'metrics': ['ROI', 'conversion rate', 'CTR']
+        # Test data with Chinese content for UTF-8 verification
+        answers = {
+            'goal': 'ROI优化',
+            'audience': '管理层',
+            'metrics': 'ROI, CTR'
         }
 
-        # Write context file
-        output_path = clarifier.write_context(context_data)
+        # Write context file using helper function
+        output_path = write_business_context(answers)
 
         # Verify file was created
         assert output_path is not None
-        assert Path(output_path).exists()
-        assert Path(output_path).name == 'context.md'
+        assert isinstance(output_path, Path)
+        assert output_path.exists()
+        assert output_path.name == 'context.md'
         assert '.planning' in str(output_path)
+
+        # Verify file content has Chinese labels (UTF-8 encoding)
+        content = output_path.read_text(encoding='utf-8')
+        assert '分析目标' in content
+        assert 'ROI优化' in content
+        assert '报告受众' in content
+        assert '管理层' in content
+        assert '核心指标' in content
+        assert 'ROI, CTR' in content
+
+        # Cleanup test file
+        if output_path.exists():
+            output_path.unlink()
 
     def test_skip_option_available(self):
         """CLAR-04: Verify skip option allows proceeding without clarification."""
