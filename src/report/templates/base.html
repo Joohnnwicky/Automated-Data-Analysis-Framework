@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ report_title }}</title>
+    <style>
+        /* REP-08: Single source CSS variables from DesignStyle.to_css_vars() */
+        :root {
+            --primary-color: {{ style['--primary-color']|default('#333') }};
+            --secondary-color: {{ style['--secondary-color']|default('#666') }};
+            --font-family: {{ style['--font-family']|default('Noto Sans SC, sans-serif') }};
+            --font-family-en: {{ style['--font-family-en']|default('Helvetica, sans-serif') }};
+            --chart-color-1: {{ style['--chart-color-1']|default('#1f77b4') }};
+            --chart-color-2: {{ style['--chart-color-2']|default('#ff7f0e') }};
+            --chart-color-3: {{ style['--chart-color-3']|default('#2ca02c') }};
+        }
+
+        body {
+            font-family: var(--font-family);
+            color: var(--primary-color);
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 2px solid var(--secondary-color);
+        }
+
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 14px;
+            color: #666;
+            border-top: 1px solid #ddd;
+            margin-top: 40px;
+        }
+
+        .pdf-hint {
+            /* REP-10: PDF export hint styling */
+            font-size: 12px;
+            color: #999;
+        }
+
+        .chart-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        {% block header %}
+        <h1>{{ report_title }}</h1>
+        {% endblock %}
+    </header>
+
+    <main>
+        <!-- REP-07: Report structure: Executive Summary -> Metrics -> Themes -> Conclusions -->
+        {% block executive_summary %}
+        <section class="executive-summary">
+            {% if executive_summary %}
+            {{ executive_summary }}
+            {% endif %}
+        </section>
+        {% endblock %}
+
+        {% block metrics_panel %}
+        <section class="metrics-panel">
+            {% if metrics_panel %}
+            {{ metrics_panel }}
+            {% endif %}
+        </section>
+        {% endblock %}
+
+        {% block thematic_analysis %}
+        <section class="thematic-analysis">
+            {% if thematic_analysis %}
+            {{ thematic_analysis }}
+            {% endif %}
+        </section>
+        {% endblock %}
+
+        {% block conclusions %}
+        <section class="conclusions">
+            {% if conclusions %}
+            {{ conclusions }}
+            {% endif %}
+        </section>
+        {% endblock %}
+    </main>
+
+    <footer>
+        <!-- REP-10: PDF export hint -->
+        <p class="pdf-hint">按 Ctrl/Cmd + P 可导出 PDF</p>
+    </footer>
+</body>
+</html>
