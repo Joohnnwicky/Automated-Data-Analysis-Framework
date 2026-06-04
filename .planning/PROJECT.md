@@ -1,6 +1,6 @@
 ---
-last_updated: 2026-06-03
-after: initialization
+last_updated: 2026-06-04
+after: phase-03-analysis-engine
 ---
 
 # Data Analyst Pro — 融合增强版数据分析 Skill
@@ -21,37 +21,42 @@ after: initialization
 
 ### Validated
 
-(None yet — ship to validate)
+**Phase 03: Analysis Engine** (2026-06-04)
+- [x] **EXPT-01**: Expert selection algorithm with data type filtering and business context refinement
+- [x] **EXPT-02**: ExpertRole dataclass with 6 predefined roles covering all data types
+- [x] **EXPT-03**: ExpertRunner orchestration class for parallel subagent execution
+- [x] **EXPT-04**: Context isolation in expert prompts (no cross-expert references)
+- [x] **EXPT-05**: Statistical enforcement prompt with Chinese rules to prevent LLM hallucination
+- [x] **EXPT-06**: Unique output file per expert in output/experts/ directory
+- [x] **EXPT-07**: verify_code_execution function validates code block presence
+- [x] **EXPT-08**: Conflict detection for numerical (>10% diff) and recommendation (opposite directions) conflicts
+- [x] **CLAR-01**: BusinessClarifier with skip option for optional intent clarification
+- [x] **CLAR-02**: 3 core questions: goal, audience, metrics
+- [x] **CLAR-03**: Business context written to output/experts/business_context.md
+- [x] **CLAR-04**: skip=True parameter to bypass clarification flow
+- [x] **CLAR-05**: Complexity threshold trigger (score > 2)
 
 ### Active
 
-**Phase 0: 业务意图澄清层**
-- [ ] **CLAR-01**: 用户可选择是否进入业务意图澄清流程（可选交互）
-- [ ] **CLAR-02**: 3 个核心问题：分析目标、报告受众、核心关注指标
-- [ ] **CLAR-03**: 澄清结果写入 `.planning/context.md` 供后续阶段参考
-- [ ] **CLAR-04**: 支持跳过澄清直接进入分析（简单任务场景）
+**Phase 1: Data Understanding Layer**
+- [ ] **DATA-01**: Auto-load Excel/CSV/JSON data files
+- [ ] **DATA-02**: Output data overview (dimensions, fields, statistical summary, missing rate)
+- [ ] **DATA-03**: Integrate data-analyst TUI Python toolchain (pandas/numpy/matplotlib)
+- [ ] **DATA-04**: Identify data type (table/advertising/time_series) and match analysis methods
+- [ ] **DATA-05**: Output preliminary insights (1-2 trends or anomalies)
 
-**Phase 1: 数据理解层**
-- [ ] **DATA-01**: 自动读取 Excel/CSV/JSON 数据文件
-- [ ] **DATA-02**: 输出数据概览（维度、字段、统计摘要、缺失率）
-- [ ] **DATA-03**: 融合 data-analyst TUI 的 Python 工具链（pandas/numpy/matplotlib）
-- [ ] **DATA-04**: 识别数据类型（表格/投放/时序）并匹配分析方法
-- [ ] **DATA-05**: 输出初步洞察（1-2 个趋势或异常）
+**Phase 2: Data Processing Engine**
+- [ ] **PROC-01**: Data validation and quality checks
+- [ ] **PROC-02**: Data transformation pipeline
+- [ ] **PROC-03**: Feature extraction for analysis
 
-**Phase 2: 多专家深度分析层**
-- [ ] **EXPT-01**: 根据数据类型和业务意图选取 3-5 个专家角色
-- [ ] **EXPT-02**: 每个专家角色用 subagent 并行执行分析
-- [ ] **EXPT-03**: 专家角色陈述写入 md 文件供用户确认
-- [ ] **EXPT-04**: 上下文隔离，每个专家专注自己的分析维度
-- [ ] **EXPT-05**: 支持的专家类型：量化分析师、估值专家、投放优化师、用户增长专家、行业分析师等
-
-**Phase 3: 报告生成层**
-- [ ] **REP-01**: HTML 报告生成（默认输出）
-- [ ] **REP-02**: PPT 生成（HTML→PPTX 转换，明确要求时）
-- [ ] **REP-03**: 11 种设计风格选择（FT/McKinsey/Economist/Goldman/Swiss + 6 种设计风格）
-- [ ] **REP-04**: 中文优先输出，结论式标题
-- [ ] **REP-05**: 从管理型分析师视角整合多专家结论（不出现专家名字）
-- [ ] **REP-06**: 关键指标面板 + 分主题深度分析 + 综合结论与建议
+**Phase 4: Report Generation Layer**
+- [ ] **REP-01**: HTML report generation (default output)
+- [ ] **REP-02**: PPT generation (HTML→PPTX conversion, on explicit request)
+- [ ] **REP-03**: 11 design style choices (FT/McKinsey/Economist/Goldman/Swiss + 6 styles)
+- [ ] **REP-04**: Chinese-first output, conclusion-style titles
+- [ ] **REP-05**: Integration from management analyst perspective (no expert names)
+- [ ] **REP-06**: Key metrics panel + themed deep analysis + comprehensive conclusions
 
 **基础设施**
 - [ ] **INF-01**: Python 依赖管理（requirements.txt）
@@ -123,4 +128,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-06-03 after initialization*
+*Last updated: 2026-06-04 after Phase 03 analysis-engine completion*

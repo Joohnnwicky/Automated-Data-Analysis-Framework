@@ -1,34 +1,31 @@
 # tests/test_chart_selector.py
 """
 Test scaffolds for REP-09 requirement.
-Initially skipped - will pass after src/report/chart_selector.py implementation.
+Chart type auto-selection based on data profile from Phase 2 DataProfiler.
 """
 
 import pytest
-import pandas as pd
-from pathlib import Path
+from typing import Tuple
 
 
 class TestChartSelector:
     """Tests for chart type selection based on data profile."""
 
-    @pytest.mark.skip(reason="Wave 0 scaffold - src/report/chart_selector.py not implemented")
     def test_select_chart_type_time_series(self):
         """REP-09: Verify datetime columns → line chart selection."""
         from src.report.chart_selector import select_chart_type
 
-        # Create data profile with datetime column
+        # Create data profile matching Phase 2 DataProfiler output
         data_profile = {
-            'columns': {
-                'date': {'dtype': 'datetime64[ns]', 'unique_count': 30},
-                'value': {'dtype': 'float64', 'unique_count': 30}
-            },
-            'data_type': 'time_series'
+            'datetime_columns': ['date'],
+            'numeric_columns': ['value'],
+            'categorical_columns': []
         }
 
-        chart_type = select_chart_type(data_profile)
+        chart_type, rationale = select_chart_type(data_profile)
 
         assert chart_type == 'line'
+        assert '时序' in rationale or '趋势' in rationale
 
     @pytest.mark.skip(reason="Wave 0 scaffold - src/report/chart_selector.py not implemented")
     def test_select_chart_type_categorical(self):
@@ -37,34 +34,32 @@ class TestChartSelector:
 
         # Create data profile with categorical + numeric columns
         data_profile = {
-            'columns': {
-                'category': {'dtype': 'object', 'unique_count': 5},
-                'value': {'dtype': 'float64', 'unique_count': 100}
-            },
-            'data_type': 'table'
+            'datetime_columns': [],
+            'numeric_columns': ['sales'],
+            'categorical_columns': ['category']
         }
 
-        chart_type = select_chart_type(data_profile)
+        chart_type, rationale = select_chart_type(data_profile)
 
         assert chart_type == 'bar'
+        assert '分类' in rationale or '数值' in rationale
 
     @pytest.mark.skip(reason="Wave 0 scaffold - src/report/chart_selector.py not implemented")
     def test_select_chart_type_scatter(self):
         """REP-09: Verify two numeric columns → scatter chart selection."""
         from src.report.chart_selector import select_chart_type
 
-        # Create data profile with two numeric columns
+        # Create data profile with two numeric columns (no datetime)
         data_profile = {
-            'columns': {
-                'x_value': {'dtype': 'float64', 'unique_count': 50},
-                'y_value': {'dtype': 'float64', 'unique_count': 50}
-            },
-            'data_type': 'table'
+            'datetime_columns': [],
+            'numeric_columns': ['x_value', 'y_value'],
+            'categorical_columns': []
         }
 
-        chart_type = select_chart_type(data_profile)
+        chart_type, rationale = select_chart_type(data_profile)
 
         assert chart_type == 'scatter'
+        assert '双数值' in rationale or '关系' in rationale
 
     @pytest.mark.skip(reason="Wave 0 scaffold - src/report/chart_selector.py not implemented")
     def test_select_chart_type_fallback(self):
@@ -73,12 +68,12 @@ class TestChartSelector:
 
         # Create data profile that doesn't match any pattern
         data_profile = {
-            'columns': {
-                'text': {'dtype': 'object', 'unique_count': 1000}
-            },
-            'data_type': 'table'
+            'datetime_columns': [],
+            'numeric_columns': [],
+            'categorical_columns': ['text']
         }
 
-        chart_type = select_chart_type(data_profile)
+        chart_type, rationale = select_chart_type(data_profile)
 
         assert chart_type == 'table'
+        assert '无法' in rationale or '表格' in rationale

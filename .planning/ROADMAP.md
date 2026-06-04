@@ -166,7 +166,7 @@ Plans:
 Plans:
 **Wave 0** *(test infrastructure - enables Nyquist validation)*
 
-- [ ] 04-01-PLAN.md - Wave 0: Test infrastructure scaffold + dependencies (plotly, kaleido)
+- [x] 04-01-PLAN.md - Wave 0: Test infrastructure scaffold + dependencies (plotly, kaleido) ✓
 
 **Wave 1** *(blocked on Wave 0 completion - parallel execution)*
 
@@ -275,9 +275,9 @@ Plans:
 | 1. Infrastructure Foundation | 6/6 | Complete | OK |
 | 2. Data Processing Engine | 9/9 | Complete | OK |
 | 3. Analysis Engine | 8/8 | Complete | 2026-06-04 |
-| 4. Report Generation | 0/7 | Not started | - |
+| 4. Report Generation | 1/7 | In Progress | - | Wave 0 scaffold |
 | 5. Integration & UX Polish | 0/1 | Not started | - |
 
 ---
 
-*Last updated: 2026-06-04 after Phase 4 planning*
+*Last updated: 2026-06-04 after Phase 4 Wave 0 completion*
