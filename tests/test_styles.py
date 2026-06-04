@@ -62,19 +62,20 @@ class TestDesignStyles:
         for style in DESIGN_STYLES:
             assert isinstance(style, DesignStyle)
 
-    @pytest.mark.skip(reason="Wave 0 scaffold - src/report/styles.py not implemented")
     def test_get_design_style(self):
         """REP-03: Verify style lookup by id returns correct DesignStyle."""
         from src.report.styles import get_design_style, DESIGN_STYLES
 
-        # Test lookup by id
-        style = get_design_style('financial_times')
+        # Test lookup by id - use 'ft' (Financial Times)
+        style = get_design_style('ft')
         assert style is not None
-        assert style.id == 'financial_times'
+        assert style.id == 'ft'
+        assert style.name == 'Financial Times'
 
-        # Test invalid id returns None
-        invalid_style = get_design_style('nonexistent_style')
-        assert invalid_style is None
+        # Test invalid id raises ValueError per PLAN specification
+        import pytest
+        with pytest.raises(ValueError, match="Unknown style: nonexistent_style"):
+            get_design_style('nonexistent_style')
 
     @pytest.mark.skip(reason="Wave 0 scaffold - src/report/styles.py not implemented")
     def test_single_style_source(self):
