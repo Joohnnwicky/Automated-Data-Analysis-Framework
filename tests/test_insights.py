@@ -105,6 +105,40 @@ def test_detect_trend_insufficient_data():
     assert result is None
 
 
+def test_generate_distribution_insight_skewed():
+    """Task 3: Verify generate_distribution_insight detects skewed distribution."""
+    from src.data.insights import generate_distribution_insight
+
+    # Create skewed distribution (abs(skew) > 1)
+    df = pd.DataFrame({'value': [1, 1, 1, 1, 1, 1, 1, 1, 1, 100]})
+
+    result = generate_distribution_insight(df, 'value')
+
+    # Should detect skewed distribution
+    assert result is not None
+    assert result['type'] == 'distribution'
+    assert 'value' in result['message']
+    assert '偏斜' in result['message']
+    assert '建议使用中位数' in result['recommendation']
+
+
+def test_generate_distribution_insight_symmetric():
+    """Task 3: Verify generate_distribution_insight for symmetric distribution."""
+    from src.data.insights import generate_distribution_insight
+
+    # Create symmetric distribution (normal)
+    np.random.seed(42)
+    df = pd.DataFrame({'value': np.random.normal(50, 10, 100)})
+
+    result = generate_distribution_insight(df, 'value')
+
+    # Should detect symmetric distribution
+    assert result is not None
+    assert result['type'] == 'distribution'
+    assert 'value' in result['message']
+    assert '对称' in result['message'] or '均值' in result['message']
+
+
 @pytest.mark.skip(reason="Waiting for Task 4: generate_initial_insights")
 def test_generate_insights():
     """DATA-05: Verify generation of 1-2 insights (trends or anomalies)."""
