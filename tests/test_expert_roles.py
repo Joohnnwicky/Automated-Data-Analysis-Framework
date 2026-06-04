@@ -59,8 +59,6 @@ class TestExpertRole:
 
     def test_expert_role_data_types_coverage(self):
         """EXPT-02: Verify each role covers at least one data_type (table/time_series/advertising)."""
-        pytest.skip("Wave 0 scaffold - implementation pending")
-
         from src.analysis.expert_roles import EXPERT_ROLES
 
         valid_data_types = {'table', 'time_series', 'advertising'}
