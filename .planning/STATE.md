@@ -2,14 +2,14 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: completed
-last_updated: "2026-06-04T06:44:43.631Z"
+status: in_progress
+last_updated: "2026-06-04T15:01:00.000Z"
 progress:
   total_phases: 5
   completed_phases: 3
   total_plans: 30
-  completed_plans: 24
-  percent: 60
+  completed_plans: 28
+  percent: 67
 ---
 
 # STATE.md — Data Analyst Pro
@@ -43,7 +43,7 @@ See: .planning/PROJECT.md
 | Phase 1 | Infrastructure Foundation | Complete | 100% | 6/6 ✓ |
 | Phase 2 | Data Processing Engine | Complete | 100% | 9/9 ✓ |
 | Phase 3 | Analysis Engine | Complete | 100% | 8/8 ✓ |
-| Phase 4 | Report Generation | In Progress | 7% | 1/14 |
+| Phase 4 | Report Generation | In Progress | 36% | 5/14 |
 | Phase 5 | Integration & UX Polish | Not Started | 0% | 0/1 |
 
 ## Performance Metrics
@@ -82,6 +82,16 @@ See: .planning/PROJECT.md
 | 500MB memory threshold for chunked processing | DATA-06 requirement, prevents memory exhaustion | 2026-06-04 |
 | 50MB warning threshold for chunking suggestion | Alert before memory becomes critical | 2026-06-04 |
 | 100 items unique_approx limit | T-2-11 mitigation, prevents unbounded memory growth | 2026-06-04 |
+| Chart type precedence order | datetime > categorical > numeric > fallback for automatic selection | 2026-06-04 |
+| Rule-based chart selection | data-to-viz.com heuristics with Chinese rationale strings | 2026-06-04 |
+| Noto Sans SC for all Chinese fonts | T-4-04 mitigation, SIL open-source license for report styles | 2026-06-04 |
+| 7 fields per DesignStyle | id, name, primary_color, secondary_color, font_family, font_family_en, chart_colors | 2026-06-04 |
+| CSS variable naming convention | '--' prefix with semantic names (--primary-color, --secondary-color) | 2026-06-04 |
+| get_design_style raises ValueError | Explicit error handling for unknown style id | 2026-06-04
+| 5 theme categories for synthesis | 财务健康度, 增长趋势, 风险指标, 运营效率, 市场表现 (REP-05) | 2026-06-04
+| 10% significance threshold for titles | Metrics below threshold excluded from conclusion-style titles | 2026-06-04
+| Expert attribution regex removal | Remove "分析师认为", "根据.*分析师", "expert.*:", "analyst.*:" for T-4-06 | 2026-06-04
+| Manager-POV language: "数据显示" | Unified narrative prefix instead of expert attribution | 2026-06-04 |
 
 ### Open Questions
 
@@ -104,10 +114,27 @@ See: .planning/PROJECT.md
 - **2026-06-04**: Plan 02-04 complete — TypeClassifier implementation (7 min, DATA-03)
 - **2026-06-04**: Plan 02-05 complete — InsightGenerator implementation (16 min, DATA-05, TDD workflow)
 - **2026-06-04**: Plan 02-06 complete — Memory utilities implementation (4 min, DATA-06, T-2-04/T-2-11 mitigations)
+- **2026-06-04**: Plan 04-04 complete — Chart type auto-selection (8 min, REP-09, 4 tests passing)
+- **2026-06-04**: Plan 04-02 complete — Design style system (8.5 min, REP-03, REP-08, 7 TDD commits, 11 styles)
+- **2026-06-04**: Plan 04-03 complete — Synthesis engine (6 min, REP-05, REP-06, 8 TDD commits, 4 functions)
 
 ## Next Action
 
-Phase 4 Wave 0 complete. Proceed to Wave 1 (implement report modules) when ready.
+Phase 4 Wave 1 in progress. Continue implementing report modules.
+
+**Phase 4 Wave 1 Progress:**
+
+- ✓ Plan 04-02: Design style system (8.5 min, REP-03, REP-08)
+  - DesignStyle dataclass with 7 fields + to_css_vars method
+  - 11 predefined styles: FT, McKinsey, Economist, Goldman, Swiss, WSJ, Bloomberg, Reuters, Morningstar, BCG, Bain
+  - get_design_style helper function
+  - 4 tests passing, 0 skipped
+- ✓ Plan 04-03: Synthesis engine (6 min, REP-05, REP-06)
+  - parse_expert_files: Markdown + BeautifulSoup parsing
+  - organize_by_theme: 5 theme categories with keyword classification
+  - generate_conclusion_title: "ROI增长15%" style titles with fallback
+  - generate_manager_pov_synthesis: Manager-POV narrative without expert names
+  - 5 tests passing, 0 skipped
 
 **Phase 4 Wave 0 Complete:**
 

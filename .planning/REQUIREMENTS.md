@@ -55,7 +55,7 @@
 - [ ] **REP-06**: Manager-POV Synthesis（从管理型分析师视角整合，不出现专家名字）
 - [ ] **REP-07**: 报告结构：核心摘要 → 关键指标面板 → 分主题分析 → 综合结论与建议
 - [ ] **REP-08**: 单一设计风格源（防止样式漂移）
-- [ ] **REP-09**: 图表类型自动匹配数据特征
+- [x] **REP-09**: 图表类型自动匹配数据特征
 - [ ] **REP-10**: PDF 导出提示（Ctrl/Cmd + P）
 
 ### User Experience
@@ -158,7 +158,7 @@
 | REP-06 | Phase 4: Report Generation | Manager-POV Synthesis | Pending |
 | REP-07 | Phase 4: Report Generation | 报告结构规范 | Pending |
 | REP-08 | Phase 4: Report Generation | 单一风格源 | Pending |
-| REP-09 | Phase 4: Report Generation | 图表类型匹配 | Pending |
+| REP-09 | Phase 4: Report Generation | 图表类型匹配 | Complete (04-04) |
 | REP-10 | Phase 4: Report Generation | PDF 导出提示 | Pending |
 | UX-01 | Phase 5: Integration | 触发关键词识别 | Pending |
 | UX-02 | Phase 5: Integration | 快速响应模式 | Pending |

@@ -160,7 +160,7 @@ Plans:
 7. Charts are automatically matched to data characteristics (no manual selection needed)
 8. User sees PDF export hint (Ctrl/Cmd + P) for printing
 
-**Plans:** 7 plans in 4 waves
+**Plans:** 4/7 plans executed
 **Pitfalls Addressed:** PITFALL-06 (insights buried), PITFALL-07 (chart type mismatch), PITFALL-08 (style drift), PITFALL-09 (output consistency)
 
 Plans:
@@ -170,9 +170,9 @@ Plans:
 
 **Wave 1** *(blocked on Wave 0 completion - parallel execution)*
 
-- [ ] 04-02-PLAN.md - Wave 1: Design styles (REP-03, REP-08: DesignStyle, 11 predefined styles)
-- [ ] 04-03-PLAN.md - Wave 1: Synthesis engine (REP-05, REP-06: parse experts, organize by theme, conclusion titles)
-- [ ] 04-04-PLAN.md - Wave 1: Chart selector (REP-09: auto chart type matching)
+- [x] 04-02-PLAN.md - Wave 1: Design styles (REP-03, REP-08: DesignStyle, 11 predefined styles) ✓
+- [x] 04-03-PLAN.md - Wave 1: Synthesis engine (REP-05, REP-06: parse experts, organize by theme, conclusion titles)
+- [x] 04-04-PLAN.md - Wave 1: Chart selector (REP-09: auto chart type matching) ✓
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
@@ -234,12 +234,12 @@ Plans:
 | EXPT-08 | Phase 3 | Analysis | Complete |
 | REP-01 | Phase 4 | Report | Pending |
 | REP-02 | Phase 4 | Report | Pending |
-| REP-03 | Phase 4 | Report | Pending |
+| REP-03 | Phase 4 | Report | Complete |
 | REP-04 | Phase 4 | Report | Pending |
 | REP-05 | Phase 4 | Report | Pending |
 | REP-06 | Phase 4 | Report | Pending |
 | REP-07 | Phase 4 | Report | Pending |
-| REP-08 | Phase 4 | Report | Pending |
+| REP-08 | Phase 4 | Report | Complete |
 | REP-09 | Phase 4 | Report | Pending |
 | REP-10 | Phase 4 | Report | Pending |
 | UX-01 | Phase 5 | Integration | Pending |
@@ -275,9 +275,9 @@ Plans:
 | 1. Infrastructure Foundation | 6/6 | Complete | OK |
 | 2. Data Processing Engine | 9/9 | Complete | OK |
 | 3. Analysis Engine | 8/8 | Complete | 2026-06-04 |
-| 4. Report Generation | 1/7 | In Progress | - | Wave 0 scaffold |
+| 4. Report Generation | 4/14 | In Progress | Wave 1 ongoing |
 | 5. Integration & UX Polish | 0/1 | Not started | - |
 
 ---
 
-*Last updated: 2026-06-04 after Phase 4 Wave 0 completion*
+*Last updated: 2026-06-04 after Phase 4 Wave 1 plan 04-02 completion*
