@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block conclusions %}
+<section class="conclusions">
+    <h2>综合结论与建议</h2>
+    <ul>
+    {% for item in conclusions %}
+        <li>{{ item }}</li>
+    {% endfor %}
+    </ul>
+</section>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block metrics_panel %}
+<section class="metrics-panel">
+    <h2>关键指标</h2>
+    {% for metric in metrics %}
+    <div class="metric-card">
+        <span class="metric-name">{{ metric.name }}</span>
+        <span class="metric-value">{{ metric.value }}</span>
+    </div>
+    {% endfor %}
+</section>
+{% endblock %}

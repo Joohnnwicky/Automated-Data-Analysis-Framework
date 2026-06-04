@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block thematic_analysis %}
+<section class="thematic-analysis">
+    <h2>主题分析</h2>
+    {% for theme, content in themes.items() %}
+    <div class="theme-section">
+        <h3>{{ theme }}</h3>
+        <div class="chart-container">{{ charts.get(theme, '') }}</div>
+        <p>{{ content }}</p>
+    </div>
+    {% endfor %}
+</section>
+{% endblock %}
