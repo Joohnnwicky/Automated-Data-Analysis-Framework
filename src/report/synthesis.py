@@ -66,6 +66,99 @@ def parse_expert_files(expert_outputs_dir: Path) -> List[Dict[str, Any]]:
     return findings
 
 
+# Theme classification keywords (REP-05)
+_THEME_KEYWORDS = {
+    '财务健康度': ['FCF', '现金流', '财务比率', 'CapEx', '负债', 'ROI', '利润', '营收', '财务'],
+    '增长趋势': ['增长', '趋势', '同比', '环比', '预测', 'growth', 'improved', 'increased', '上升'],
+    '风险指标': ['风险', '异常', '波动', '损失', '下降', 'risk', 'declined', 'decreased', '波动率'],
+    '运营效率': ['效率', '转化', '留存', 'ROI', '成本', '效率', 'efficiency', 'conversion', '成本'],
+    '市场表现': ['市场份额', '竞争', '行业', '对标', '定位', 'market', 'share', 'competitive', '市场']
+}
+
+
+def organize_by_theme(findings: List[Dict[str, Any]]) -> Dict[str, List[Dict[str, Any]]]:
+    """Group findings by business theme (not by expert).
+
+    REP-05: Organizes findings into 5 theme categories based on keyword
+    classification. Each finding can appear in multiple themes if it
+    contains keywords from multiple categories.
+
+    Args:
+        findings: List of finding dicts from parse_expert_files.
+
+    Returns:
+        Dict mapping theme name to list of findings.
+
+    Note:
+        Findings without matching keywords go to '综合分析' bucket.
+    """
+    themes = {
+        '财务健康度': [],
+        '增长趋势': [],
+        '风险指标': [],
+        '运营效率': [],
+        '市场表现': [],
+        '综合分析': []  # Fallback for unclassified findings
+    }
+
+    for finding in findings:
+        # Extract text content for classification
+        content_text = _get_finding_content(finding)
+
+        # Classify by keyword matches
+        matched_themes = set()
+        for theme, keywords in _THEME_KEYWORDS.items():
+            if theme == '综合分析':
+                continue
+            for keyword in keywords:
+                if keyword.lower() in content_text.lower():
+                    matched_themes.add(theme)
+                    break
+
+        # Add finding to matched themes (can be multiple)
+        if matched_themes:
+            for theme in matched_themes:
+                themes[theme].append(finding)
+        else:
+            themes['综合分析'].append(finding)
+
+    # Remove empty themes (except keep all 5 expected)
+    # Keep the 5 expected themes even if empty
+    final_themes = {}
+    for theme in ['财务健康度', '增长趋势', '风险指标', '运营效率', '市场表现']:
+        final_themes[theme] = themes[theme]
+
+    return final_themes
+
+
+def _get_finding_content(finding: Dict[str, Any]) -> str:
+    """Extract all text content from a finding dict.
+
+    Combines metric contexts and recommendations for classification.
+
+    Args:
+        finding: Finding dict with 'metrics' and 'recommendations'.
+
+    Returns:
+        Combined text string for keyword matching.
+    """
+    parts = []
+
+    # Add metric contexts
+    for metric in finding.get('metrics', []):
+        if 'context' in metric:
+            parts.append(metric['context'])
+
+    # Add recommendations
+    for rec in finding.get('recommendations', []):
+        parts.append(rec)
+
+    # Add source file name for classification hints
+    parts.append(finding.get('source_file', ''))
+
+    return ' '.join(parts)
+
+
 def _extract_metrics(soup: BeautifulSoup, raw_content: str) -> List[Dict[str, Any]]:
     """Extract numerical metrics from parsed content.
 
