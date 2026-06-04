@@ -153,3 +153,77 @@ def load_json_safe(filepath: Path) -> pd.DataFrame:
             message=f'JSON格式错误：{filepath.name}。请检查文件是否符合JSON规范',
             technical_detail=f'ValueError: {str(e)}'
         )
+
+
+def load_file(filepath: Path) -> pd.DataFrame:
+    """
+    Load data file with comprehensive security validation.
+
+    Performs security checks before loading:
+    1. File existence validation
+    2. Format whitelist validation (.xlsx, .xls, .csv, .json)
+    3. File size limit validation (500MB maximum)
+
+    Args:
+        filepath: Path to the data file to load
+
+    Returns:
+        pandas DataFrame with the loaded data
+
+    Raises:
+        DataLoadError: If file doesn't exist, format unsupported,
+                       file too large, or loading fails
+
+    Note:
+        Routes to format-specific loaders based on file extension.
+        User messages in Chinese (UX-04), technical details in English.
+    """
+    # Check file existence
+    if not filepath.exists():
+        raise DataLoadError(
+            message=f'文件不存在：{filepath.name}',
+            technical_detail=f'Path not found: {filepath.resolve()}'
+        )
+
+    # Check file format (whitelist)
+    suffix = filepath.suffix.lower()
+    supported_formats = ['.xlsx', '.xls', '.csv', '.json']
+
+    if suffix not in supported_formats:
+        raise DataLoadError(
+            message=f'不支持该文件格式：{suffix}。支持格式：Excel (.xlsx/.xls)、CSV、JSON',
+            technical_detail=f'Unsupported format: {suffix}'
+        )
+
+    # Check file size (500MB limit)
+    file_size_mb = filepath.stat().st_size / 1024 / 1024
+    if file_size_mb > 500:
+        raise DataLoadError(
+            message=f'文件过大（{file_size_mb:.1f}MB），建议使用采样模式或分块处理',
+            technical_detail=f'File size: {file_size_mb:.2f}MB exceeds 500MB limit'
+        )
+
+    # Route to format-specific loader
+    try:
+        if suffix in ['.xlsx', '.xls']:
+            return load_excel_safe(filepath)
+        elif suffix == '.csv':
+            return load_csv_safe(filepath)
+        elif suffix == '.json':
+            return load_json_safe(filepath)
+    except pd.errors.EmptyDataError as e:
+        raise DataLoadError(
+            message=f'文件为空或格式错误：{filepath.name}',
+            technical_detail=f'EmptyDataError: {str(e)}'
+        )
+    except UnicodeDecodeError as e:
+        raise DataLoadError(
+            message=f'文件编码错误：{filepath.name}。请检查是否为中文编码（GB2312/GBK）或 UTF-8',
+            technical_detail=f'UnicodeDecodeError: {str(e)}'
+        )
+    except Exception as e:
+        logger.exception(f'Unexpected error loading {filepath}')
+        raise DataLoadError(
+            message=f'文件读取失败：{filepath.name}。请检查文件是否损坏',
+            technical_detail=f'{type(e).__name__}: {str(e)}'
+        )
