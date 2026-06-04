@@ -12,7 +12,6 @@ from pathlib import Path
 class TestChartGenerator:
     """Tests for Plotly chart generation and Chinese font rendering."""
 
-    @pytest.mark.skip(reason="Wave 0 scaffold - src/report/chart_generator.py not implemented")
     def test_generate_line_chart(self):
         """REP-01: Verify Plotly line chart generation."""
         from src.report.chart_generator import generate_line_chart

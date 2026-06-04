@@ -51,8 +51,8 @@
 - [ ] **REP-02**: PPT 生成（用户明确要求时，HTML→PPTX 转换）
 - [ ] **REP-03**: 11 种设计风格选择（FT/McKinsey/Economist/Goldman/Swiss + 6 种设计风格）
 - [ ] **REP-04**: 中文优先输出（保留专业术语英文：ROI、CapEx、FCF、MA200 等）
-- [ ] **REP-05**: 结论式标题（「CapEx翻倍，净现金首次转负」而非「资本支出分析」）
-- [ ] **REP-06**: Manager-POV Synthesis（从管理型分析师视角整合，不出现专家名字）
+- [x] **REP-05**: 结论式标题（「CapEx翻倍，净现金首次转负」而非「资本支出分析」）
+- [x] **REP-06**: Manager-POV Synthesis（从管理型分析师视角整合，不出现专家名字）
 - [ ] **REP-07**: 报告结构：核心摘要 → 关键指标面板 → 分主题分析 → 综合结论与建议
 - [ ] **REP-08**: 单一设计风格源（防止样式漂移）
 - [x] **REP-09**: 图表类型自动匹配数据特征
@@ -154,8 +154,8 @@
 | REP-02 | Phase 4: Report Generation | PPT 生成 | Pending |
 | REP-03 | Phase 4: Report Generation | 设计风格选择 | Pending |
 | REP-04 | Phase 4: Report Generation | 中文优先输出 | Pending |
-| REP-05 | Phase 4: Report Generation | 结论式标题 | Pending |
-| REP-06 | Phase 4: Report Generation | Manager-POV Synthesis | Pending |
+| REP-05 | Phase 4: Report Generation | 结论式标题 | Complete (04-03) |
+| REP-06 | Phase 4: Report Generation | Manager-POV Synthesis | Complete (04-03) |
 | REP-07 | Phase 4: Report Generation | 报告结构规范 | Pending |
 | REP-08 | Phase 4: Report Generation | 单一风格源 | Pending |
 | REP-09 | Phase 4: Report Generation | 图表类型匹配 | Complete (04-04) |
@@ -166,4 +166,4 @@
 
 ---
 
-*Last updated: 2026-06-04 after 02-05 completion*
+*Last updated: 2026-06-04 after 04-03 completion*
