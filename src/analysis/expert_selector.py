@@ -92,10 +92,33 @@ def write_expert_definitions(selected: List['ExpertRole']) -> Path:
         Path to written definitions file
 
     Note:
-        Will be implemented in Task 2.
+        Creates output/experts directory if needed.
+        Uses UTF-8 encoding for Chinese content.
     """
-    # Stub for TDD - will implement in Task 2
-    raise NotImplementedError("write_expert_definitions not implemented")
+    # Create output directory
+    output_dir = Path(__file__).parent.parent.parent / 'output' / 'experts'
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    output_path = output_dir / 'roles.md'
+
+    # Build markdown content
+    content = "# 专家角色定义\n\n"
+
+    for role in selected:
+        content += f"## {role.name}\n\n"
+        content += f"**角色ID:** {role.id}\n"
+        content += f"**专业领域:** {role.domain}\n"
+        content += f"**分析框架:** {role.framework}\n"
+        content += "**分析任务:**\n"
+        for task in role.tasks:
+            content += f"- {task}\n"
+        content += f"**适用数据类型:** {', '.join(role.data_types)}\n\n"
+
+    # Write with UTF-8 encoding
+    output_path.write_text(content, encoding='utf-8')
+    logger.info(f'Role definitions written to {output_path}')
+
+    return output_path
 
 
 class ExpertSelector:
