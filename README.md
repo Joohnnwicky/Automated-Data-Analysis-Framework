@@ -98,7 +98,7 @@ dataanalyst/
 ### 一键安装（推荐）
 
 ```bash
-# macOS / Linux
+# macOS / Linux (Bash)
 curl -fsSL https://raw.githubusercontent.com/Joohnnwicky/Automated-Data-Analysis-Framework/main/install.sh | sh
 
 # 安装后添加到 PATH
@@ -106,6 +106,17 @@ export PATH="$PATH:$HOME/.automated-data-analysis/bin"
 
 # 现在可以直接使用
 analyze data/sales.xlsx
+```
+
+```powershell
+# Windows (PowerShell)
+iwr -useb https://raw.githubusercontent.com/Joohnnwicky/Automated-Data-Analysis-Framework/main/install.ps1 | iex
+
+# 安装后添加到 PATH
+$env:PATH += ";$env:USERPROFILE\.automated-data-analysis\bin"
+
+# 现在可以直接使用
+analyze.ps1 data\sales.xlsx
 ```
 
 ### 手动安装
@@ -151,11 +162,19 @@ pip install -r requirements.txt
 ### 卸载
 
 ```bash
-# 一键卸载
+# macOS / Linux
 curl -fsSL https://raw.githubusercontent.com/Joohnnwicky/Automated-Data-Analysis-Framework/main/uninstall.sh | sh
 
 # 或手动卸载
 rm -rf ~/.automated-data-analysis
+```
+
+```powershell
+# Windows
+iwr -useb https://raw.githubusercontent.com/Joohnnwicky/Automated-Data-Analysis-Framework/main/uninstall.ps1 | iex
+
+# 或手动卸载
+Remove-Item -Recurse -Force "$env:USERPROFILE\.automated-data-analysis"
 ```
 
 ## 使用方式
