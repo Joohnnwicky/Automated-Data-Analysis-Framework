@@ -14,6 +14,16 @@ Usage:
     }
 
     chart_type, rationale = select_chart_type(data_profile)
+
+Precedence Order:
+    1. datetime + numeric → line (time-series takes highest priority)
+    2. numeric + categorical → bar (most efficient comparison)
+    3. two numeric → scatter (relationship analysis)
+    4. single numeric → histogram (distribution)
+    5. fallback → table (no clear pattern)
+
+Reference:
+    https://www.data-to-viz.com — Chart type selection heuristics
 """
 
 from typing import Tuple, Dict, List
