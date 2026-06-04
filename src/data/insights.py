@@ -198,3 +198,27 @@ def generate_initial_insights(df: pd.DataFrame, data_type: str) -> List[Dict]:
 
     logger.info(f'Generated {len(insights)} initial insights')
     return insights[:2]  # Return max 2 insights
+
+
+class InsightGenerator:
+    """Insight generator for initial data insights.
+
+    Provides clean class interface for insight generation.
+    """
+
+    def __init__(self):
+        """Initialize InsightGenerator."""
+        pass
+
+    def generate(self, df: pd.DataFrame, data_type: str) -> List[Dict]:
+        """Generate initial insights from DataFrame.
+
+        Args:
+            df: Input DataFrame to analyze.
+            data_type: Type of data ('table', 'time_series', 'advertising').
+
+        Returns:
+            List of insight dicts (max 2).
+        """
+        logger.info(f'Generating initial insights for {data_type} data')
+        return generate_initial_insights(df, data_type)
