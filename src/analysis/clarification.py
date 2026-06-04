@@ -123,11 +123,20 @@ class BusinessClarifier:
     """Business intent clarifier for optional clarification flow.
 
     Provides clean class interface for business clarification.
+    Supports skip option for simple tasks (CLAR-04).
+
+    Attributes:
+        skip: Boolean flag to skip clarification flow
     """
 
-    def __init__(self):
-        """Initialize BusinessClarifier."""
-        pass
+    def __init__(self, skip: bool = False):
+        """Initialize BusinessClarifier.
+
+        Args:
+            skip: If True, clarification is disabled (CLAR-04)
+        """
+        self.skip = skip
+        logger.info(f'BusinessClarifier initialized with skip={skip}')
 
     def should_trigger(self, profile: Dict) -> bool:
         """CLAR-05: Intelligent trigger based on data complexity.
@@ -139,6 +148,12 @@ class BusinessClarifier:
             True if clarification should be triggered
         """
         logger.info('Checking clarification trigger...')
+
+        # CLAR-04: If skip is enabled, never trigger
+        if self.skip:
+            logger.info('Skip mode enabled - clarification disabled')
+            return False
+
         return should_trigger_clarification(profile)
 
     def ask_questions(self) -> Optional[Dict]:
@@ -148,6 +163,12 @@ class BusinessClarifier:
             Dict with answers or None if skipped
         """
         logger.info('Initiating clarification questions...')
+
+        # CLAR-04: If skip is enabled, return None
+        if self.skip:
+            logger.info('Skip mode enabled - returning None')
+            return None
+
         return ask_clarification_questions()
 
     def write_context(self, answers: Dict) -> Path:
