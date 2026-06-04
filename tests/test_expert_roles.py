@@ -44,8 +44,6 @@ class TestExpertRole:
 
     def test_expert_roles_list_defined(self):
         """EXPT-02: Verify EXPERT_ROLES list contains 6+ predefined roles."""
-        pytest.skip("Wave 0 scaffold - implementation pending")
-
         from src.analysis.expert_roles import EXPERT_ROLES
 
         # Verify EXPERT_ROLES is a list
