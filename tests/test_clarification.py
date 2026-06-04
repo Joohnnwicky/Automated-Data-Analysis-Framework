@@ -123,18 +123,15 @@ class TestBusinessClarifier:
 
     def test_skip_option_available(self):
         """CLAR-04: Verify skip option allows proceeding without clarification."""
-        pytest.skip("Wave 0 scaffold - implementation pending")
-
         from src.analysis.clarification import BusinessClarifier
 
         clarifier = BusinessClarifier()
 
         # Verify skip flag/option is available
-        # When skip is True, ask_questions should return None
-        # and should_trigger should return False
         assert hasattr(clarifier, 'skip') or hasattr(clarifier, 'enable_skip')
 
         # When skip is enabled, clarification should not trigger
         clarifier_skip = BusinessClarifier(skip=True)
-        result = clarifier_skip.should_trigger(pd.DataFrame({'a': [1, 2, 3]}))
-        assert result is False
+        profile = {'dimensions': {'rows': 1000, 'columns': 15}, 'data_type': 'advertising'}
+        result = clarifier_skip.should_trigger(profile)
+        assert result is False, "Skip option should prevent clarification trigger"
