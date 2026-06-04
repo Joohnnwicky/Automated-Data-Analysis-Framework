@@ -44,23 +44,26 @@ class TestSynthesis:
         assert 'metrics' in result[0]
         assert 'recommendations' in result[0]
 
-    @pytest.mark.skip(reason="Wave 0 scaffold - src/report/synthesis.py not implemented")
     def test_organize_by_theme(self):
         """REP-05: Verify theme organization from parsed expert outputs."""
         from src.report.synthesis import organize_by_theme
 
-        expert_outputs = [
-            {'expert_id': 'quant_analyst', 'content': 'ROI increased by 15%.'},
-            {'expert_id': 'growth_expert', 'content': 'User growth improved significantly.'},
-            {'expert_id': 'ad_optimizer', 'content': 'CTR improved by 20%.'}
+        # Findings from parse_expert_files
+        findings = [
+            {'source_file': 'quant_analyst.md', 'metrics': [{'value': '15', 'unit': 'percent', 'context': 'ROI increased by 15%'}], 'recommendations': ['Increase marketing spend']},
+            {'source_file': 'growth_expert.md', 'metrics': [{'value': '20', 'unit': 'percent', 'context': 'User growth improved significantly'}], 'recommendations': []},
+            {'source_file': 'risk_analyst.md', 'metrics': [{'value': '8', 'unit': 'percent', 'context': 'Risk volatility decreased by 8%'}], 'recommendations': []},
+            {'source_file': 'ops_expert.md', 'metrics': [{'value': '12', 'unit': 'percent', 'context': 'Operational efficiency improved by 12%'}], 'recommendations': []},
+            {'source_file': 'market_expert.md', 'metrics': [{'value': '5', 'unit': 'percent', 'context': 'Market share increased by 5%'}], 'recommendations': []}
         ]
 
-        themes = organize_by_theme(expert_outputs)
+        themes = organize_by_theme(findings)
 
-        # Verify themes are organized
+        # Verify themes are organized into 5 categories
         assert isinstance(themes, dict)
-        # Themes should have meaningful categories
-        assert len(themes) >= 1
+        expected_themes = ['财务健康度', '增长趋势', '风险指标', '运营效率', '市场表现']
+        for theme in expected_themes:
+            assert theme in themes
 
     @pytest.mark.skip(reason="Wave 0 scaffold - src/report/synthesis.py not implemented")
     def test_generate_conclusion_title(self):
