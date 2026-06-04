@@ -88,17 +88,18 @@ class TestChartGenerator:
                 # Font should be Noto Sans SC or similar Chinese-capable font
                 assert font_family is not None and ('Noto' in font_family or 'sans' in font_family.lower())
 
-    @pytest.mark.skip(reason="Wave 0 scaffold - src/report/chart_generator.py not implemented")
     def test_embed_chart_as_svg(self):
         """REP-01: Verify chart exports as SVG string for embedding."""
         from src.report.chart_generator import generate_line_chart, embed_chart_as_svg
+        from src.report.styles import get_design_style
 
         df = pd.DataFrame({
             'date': ['2023-01', '2023-02', '2023-03'],
             'value': [100, 150, 200]
         })
 
-        chart = generate_line_chart(df, x='date', y='value')
+        style = get_design_style('ft')
+        chart = generate_line_chart(df, x_col='date', y_col='value', title='Sales Trend', style=style)
         svg_string = embed_chart_as_svg(chart)
 
         # Verify SVG output
