@@ -11,31 +11,41 @@ from pathlib import Path
 class TestDesignStyles:
     """Tests for DesignStyle dataclass and design style definitions."""
 
-    @pytest.mark.skip(reason="Wave 0 scaffold - src/report/styles.py not implemented")
     def test_design_styles_dataclass(self):
         """REP-03: Verify DesignStyle dataclass has id, name, colors, fonts fields."""
         from src.report.styles import DesignStyle
 
-        # Create a design style instance
+        # Create a design style instance with PLAN-specified fields
         style = DesignStyle(
-            id='financial_times',
+            id='ft',
             name='Financial Times',
-            colors={
-                'primary': '#000000',
-                'secondary': '#333333',
-                'accent': '#E3120B'
-            },
-            fonts={
-                'heading': 'Georgia',
-                'body': 'Arial'
-            }
+            primary_color='#33302E',
+            secondary_color='#E3120B',
+            font_family='Noto Sans SC, serif',
+            font_family_en='Georgia, serif',
+            chart_colors=['#E3120B', '#33302E', '#9F8170']
         )
 
         # Verify all required fields exist
-        assert hasattr(style, 'id')
-        assert hasattr(style, 'name')
-        assert hasattr(style, 'colors')
-        assert hasattr(style, 'fonts')
+        assert style.id == 'ft'
+        assert style.name == 'Financial Times'
+        assert style.primary_color == '#33302E'
+        assert style.secondary_color == '#E3120B'
+        assert style.font_family == 'Noto Sans SC, serif'
+        assert style.font_family_en == 'Georgia, serif'
+        assert style.chart_colors == ['#E3120B', '#33302E', '#9F8170']
+
+        # Verify to_css_vars method exists and returns correct structure
+        css_vars = style.to_css_vars()
+        assert isinstance(css_vars, dict)
+        assert '--primary-color' in css_vars
+        assert '--secondary-color' in css_vars
+        assert '--font-family' in css_vars
+        assert '--font-family-en' in css_vars
+        assert '--chart-color-1' in css_vars
+
+        # Verify values match style fields
+        assert css_vars['--primary-color'] == '#33302E'
 
     @pytest.mark.skip(reason="Wave 0 scaffold - src/report/styles.py not implemented")
     def test_design_styles_length(self):
