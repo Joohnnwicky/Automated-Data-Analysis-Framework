@@ -74,6 +74,51 @@ def ask_clarification_questions() -> Optional[Dict]:
     return answers
 
 
+def write_business_context(answers: Dict) -> Path:
+    """CLAR-03: Write clarification answers to .planning/context.md.
+
+    Args:
+        answers: Dict with 'goal', 'audience', 'metrics' keys
+
+    Returns:
+        Path to created context file
+
+    Raises:
+        ValueError: If answers dict missing required keys
+
+    Note:
+        Threat mitigation T-3-01: validates answers dict has required keys.
+        Creates .planning directory if needed.
+        UTF-8 encoding for Chinese content.
+    """
+    # Threat T-3-01 mitigation: validate required keys
+    required_keys = ['goal', 'audience', 'metrics']
+    missing_keys = [k for k in required_keys if k not in answers]
+    if missing_keys:
+        logger.error(f'Missing required keys: {missing_keys}')
+        raise ValueError(f'Answers dict missing required keys: {missing_keys}')
+
+    logger.info('Writing business context to file...')
+
+    # Create .planning directory relative to project root
+    context_path = Path('.planning') / 'context.md'
+    context_path.parent.mkdir(parents=True, exist_ok=True)
+
+    # Format content with Chinese labels (UTF-8 encoding)
+    content = f"""# Business Intent Clarification
+
+**分析目标:** {answers['goal']}
+**报告受众:** {answers['audience']}
+**核心指标:** {answers['metrics']}
+"""
+
+    # Write UTF-8 encoded content
+    context_path.write_text(content, encoding='utf-8')
+    logger.info(f'Context written to {context_path}')
+
+    return context_path
+
+
 class BusinessClarifier:
     """Business intent clarifier for optional clarification flow.
 
@@ -104,3 +149,15 @@ class BusinessClarifier:
         """
         logger.info('Initiating clarification questions...')
         return ask_clarification_questions()
+
+    def write_context(self, answers: Dict) -> Path:
+        """CLAR-03: Write clarification to .planning/context.md.
+
+        Args:
+            answers: Dict with goal, audience, metrics
+
+        Returns:
+            Path to written context file
+        """
+        logger.info('Writing context file...')
+        return write_business_context(answers)
