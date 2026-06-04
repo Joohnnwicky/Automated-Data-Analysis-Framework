@@ -34,7 +34,7 @@ def detect_numerical_conflicts(expert_outputs: List[Dict]) -> List[Dict]:
             if metric in metrics:
                 existing = metrics[metric]
                 # Check if difference exceeds 10% threshold
-                if abs(existing['value'] - value) > 0.1 * max(existing['value'], value):
+                if abs(existing['value'] - value) > 0.1 * max(abs(existing['value']), abs(value)):
                     conflicts.append({
                         'type': 'numerical',
                         'metric': metric,
