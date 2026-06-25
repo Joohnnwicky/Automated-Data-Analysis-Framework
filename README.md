@@ -100,9 +100,7 @@ ft | mckinsey | economist | goldman | swiss | wsj | bloomberg | reuters | mornin
 
 这些规则来自实际使用反馈，后续使用 Skill 时默认遵守。
 
-### 1. 不默认写成求职报告
-
-默认使用中性的专业交付口径，例如：
+### 1. 默认使用中性的专业交付口径
 
 - 数据分析报告
 - 管理层摘要
