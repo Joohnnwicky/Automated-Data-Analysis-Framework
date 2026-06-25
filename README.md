@@ -102,15 +102,6 @@ ft | mckinsey | economist | goldman | swiss | wsj | bloomberg | reuters | mornin
 
 ### 1. 不默认写成求职报告
 
-除非用户明确要求，否则不要把报告写成：
-
-- 应聘材料
-- 面试展示
-- 简历项目
-- JD 匹配分析
-- 目标公司分析
-- 岗位相关性说明
-
 默认使用中性的专业交付口径，例如：
 
 - 数据分析报告
